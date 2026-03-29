@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduPlay - Sân chơi trí tuệ</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font-family:Tahoma,'Segoe UI',Arial,sans-serif;color:#2d3748;background:#e8f4fd;
+background-image:radial-gradient(circle at 20% 80%,rgba(255,183,77,.25) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(129,212,250,.3) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(186,104,200,.15) 0%,transparent 60%),radial-gradient(circle at 10% 10%,rgba(76,175,80,.15) 0%,transparent 40%),radial-gradient(circle at 90% 90%,rgba(255,138,101,.2) 0%,transparent 40%);background-attachment:fixed;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%234fc3f7' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+
+/* ===== RESPONSIVE LAYOUT ===== */
+.page{display:none;position:relative;z-index:1}.page.show{display:block}
+.page.show.mid{display:flex}
+.mid{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.wrap{padding:24px;max-width:960px;margin:0 auto}
+.card{background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:22px;border:1px solid rgba(255,255,255,.6);box-shadow:0 8px 32px rgba(0,0,0,.08)}
+
+/* Desktop: wider, centered */
+@media(min-width:768px){
+  .wrap{padding:36px 48px}
+  .login-card{max-width:580px!important;padding:52px 50px!important}
+  .login-card h1{font-size:38px!important}
+  .login-card .inp{font-size:18px!important;padding:16px 20px!important}
+  .login-card .go{font-size:20px!important;padding:18px!important}
+  .login-card .gb{width:58px!important;height:58px!important;font-size:20px!important}
+  .result-card{max-width:580px!important}
+  .quiz-wrap{max-width:880px!important}
+  .q-text{font-size:23px!important}
+  .ob{font-size:17px!important;padding:20px!important}
+  .ol{width:34px!important;height:34px!important;font-size:15px!important}
+}
+@media(min-width:1200px){
+  .wrap{max-width:1060px}
+  .login-card{max-width:800px!important}
+  .quiz-wrap{max-width:940px!important}
+}
+/* Mobile */
+@media(max-width:500px){
+  .wrap{padding:14px}
+  .og{grid-template-columns:1fr!important}
+  .q-text{font-size:17px!important}
+  .login-card{padding:32px 24px!important}
+}
+
+button{border:none;cursor:pointer;font-family:inherit;transition:all .25s}
+button:hover{transform:translateY(-2px)}
+input{font-family:inherit}
+.go{background:linear-gradient(135deg,#1D4ED8,#2563eb);color:#fff;font-weight:700;border-radius:14px;padding:16px;font-size:18px;width:100%;box-shadow:0 4px 15px rgba(29,78,216,.3)}
+.go:hover{box-shadow:0 8px 25px rgba(29,78,216,.4)}
+.gh{padding:8px 16px;border-radius:8px;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08);color:#666;font-size:13px}
+.nv{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);color:#333;font-size:15px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.nv:hover{box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.sc-btn{display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:16px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.75);width:100%;color:#333;text-align:left;font-family:inherit;box-shadow:0 4px 15px rgba(0,0,0,.06)}
+.sc-btn:hover{box-shadow:0 8px 25px rgba(0,0,0,.12);background:rgba(255,255,255,.95)}
+.si{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.gb{width:52px;height:52px;border-radius:14px;font-size:18px;font-weight:700;font-family:inherit}
+.gb.on{border:2px solid #FF9800;background:linear-gradient(135deg,#FFB74D,#FF9800);color:#fff;box-shadow:0 3px 10px rgba(255,152,0,.3)}
+.gb:not(.on){border:2px solid #ddd;background:#fff;color:#666}
+.gb:hover{transform:scale(1.08)}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.ob{padding:16px;border-radius:14px;border:2px solid #e0e0e0;background:#fff;color:#333;font-size:15px;font-weight:600;text-align:left;display:flex;align-items:center;gap:12px;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.ob:not(.dn):hover{border-color:#64b5f6;box-shadow:0 4px 15px rgba(100,181,246,.2);background:#f0f7ff}
+.ob.dn{cursor:default}.ob.dn:hover{transform:none}
+.ob.ok{background:#e8f5e9;border-color:#4CAF50;color:#2e7d32}
+.ob.no{background:#ffebee;border-color:#f44336;color:#c62828}
+.ol{width:30px;height:30px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#888}
+.ob.ok .ol{background:#4CAF50;color:#fff}.ob.no .ol{background:#f44336;color:#fff}
+.pt{height:8px;border-radius:4px;background:#e0e0e0;overflow:hidden}
+.pf{height:100%;border-radius:4px;background:linear-gradient(90deg,#FF9800,#F44336);transition:width .8s}
+.inp{width:100%;padding:14px 18px;border-radius:12px;border:2px solid #e0e0e0;background:#fff;color:#333;font-size:16px;outline:none}
+.inp:focus{border-color:#64b5f6;box-shadow:0 0 0 3px rgba(100,181,246,.25)}
+.inp::placeholder{color:#bbb}
+.tm{padding:8px 16px;border-radius:10px;font-size:17px;font-weight:700}
+.tm.dg{background:#ffebee;border:1px solid #ef9a9a;color:#c62828}
+.tm.nm{background:#fff3e0;border:1px solid #ffe0b2;color:#e65100}
+.gg{background:linear-gradient(135deg,#FF9800,#F44336);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sb{padding:16px 10px;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.06);text-align:center}
+.fb{text-align:center;padding:14px;border-radius:12px;margin-top:4px}
+.fb.fok{background:#e8f5e9;border:1px solid #a5d6a7}
+.fb.fno{background:#ffebee;border:1px solid #ef9a9a}
+.school-badge{display:inline-block;padding:7px 18px;border-radius:20px;background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;font-size:12px;font-weight:600;letter-spacing:.5px;box-shadow:0 2px 8px rgba(21,101,192,.3)}
+.deco{position:fixed;pointer-events:none;z-index:0;opacity:.12}
+.sound-toggle{position:fixed;top:12px;right:12px;z-index:99;padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);font-size:13px;color:#666;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+</style>
+</head>
+<body>
+<div class="deco" style="top:5%;left:3%;font-size:40px">📚</div>
+<div class="deco" style="top:15%;right:5%;font-size:35px;opacity:.1">🎓</div>
+<div class="deco" style="top:40%;left:2%;font-size:28px;opacity:.1">⭐</div>
+<div class="deco" style="top:60%;right:3%;font-size:32px">🏆</div>
+<div class="deco" style="top:80%;left:5%;font-size:36px;opacity:.1">🌈</div>
+<div class="deco" style="bottom:5%;right:8%;font-size:30px">✨</div>
+
+<!-- Controls -->
+<div style="position:fixed;top:12px;right:12px;z-index:99;display:flex;gap:8px">
+  <button class="sound-toggle" id="voiceBtn" onclick="toggleVoice()" style="display:none">🎤 Giọng đọc</button>
+  <button class="sound-toggle" id="soundBtn" onclick="toggleSound()" style="font-size:11px;padding:6px 10px">🔊</button>
+</div>
+
+<!-- LOGIN -->
+<div class="page show mid" id="pageLogin">
+<div class="card login-card" style="padding:44px 36px;max-width:540px;width:100%;text-align:center">
+  <!-- School header like image 2 -->
+  <div style="margin-bottom:20px">
+    <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#60a5fa,#3b82f6);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 12px rgba(59,130,246,.3)">🏫</div>
+    <div style="font-size:20px;font-weight:800;color:#1e3a5f;letter-spacing:1px">SÂN CHƠI TRÍ TUỆ TIỂU HỌC</div>
+    <div style="font-size:13px;color:#888;margin-top:4px">Dành cho học sinh lớp 1 đến lớp 5</div>
+  </div>
+  <div style="width:60px;height:2px;background:linear-gradient(90deg,#60a5fa,#3b82f6);margin:0 auto 20px;border-radius:2px"></div>
+  <div style="font-size:64px;margin-bottom:12px">🎓</div>
+  <h1 class="gg" style="font-size:34px;font-weight:800;margin-bottom:8px">EduPlay</h1>
+  <p style="color:#888;font-size:15px;margin-bottom:32px">Sân chơi trí tuệ dành cho học sinh tiểu học</p>
+  <div style="text-align:left;margin-bottom:20px">
+    <div style="font-size:15px;color:#888;margin-bottom:8px">👤 Họ và tên</div>
+    <input id="txtName" class="inp" placeholder="Nhập tên của con...">
+  </div>
+  <div style="text-align:left;margin-bottom:30px">
+    <div style="font-size:15px;color:#888;margin-bottom:10px">🎒 Chọn khối lớp</div>
+    <div style="display:flex;gap:12px;justify-content:center" id="gradeArea"></div>
+  </div>
+  <div style="text-align:left;margin-bottom:30px">
+    <div style="font-size:15px;color:#888;margin-bottom:8px">🏷️ Tên lớp <span style="font-size:12px;color:#bbb">(Ví dụ: 1A, 2C, 3B...)</span></div>
+    <input id="txtClass" class="inp" placeholder="Nhập tên lớp..." style="text-transform:uppercase">
+  </div>
+  <button class="go" style="background:linear-gradient(135deg,#1D4ED8,#2563eb)" onclick="doLogin()">🚀 Bắt Đầu Hành Trình</button>
+  <div style="margin-top:24px;font-size:12px;color:#bbb">© 2026 EduPlay. Thiết kế - Chung Trần</div>
+</div>
+</div>
+
+<!-- HOME -->
+<div class="page" id="pageHome"><div class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <div>
+      <div style="font-size:17px;font-weight:800" class="gg">EduPlay</div>
+      <div style="font-size:11px;color:#999">🏫 Sân chơi trí tuệ • Lớp 1 đến Lớp 5</div>
+    </div>
+  </div>
+  <div class="card" style="padding:24px;margin-bottom:24px">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+      <div id="homeIcon" style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#FF9800,#F44336);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 4px 15px rgba(244,67,54,.25)"></div>
+      <div style="flex:1">
+        <div id="homeName" style="font-size:20px;font-weight:800;color:#333;margin-bottom:3px"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span id="homeGrade" style="padding:3px 10px;border-radius:6px;background:#e3f2fd;font-size:12px;color:#1565c0;font-weight:600"></span>
+          <span id="homeRank" style="padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600"></span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div id="homeScore" style="font-size:26px;font-weight:800;color:#FF9800"></div>
+        <div style="font-size:11px;color:#aaa">điểm tích lũy</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:5px">
+      <span id="homeCurRk"></span><span id="homeNxtRk"></span>
+    </div>
+    <div class="pt"><div class="pf" id="homeBar" style="width:0%"></div></div>
+    <div id="homeNeed" style="font-size:11px;color:#aaa;margin-top:4px;text-align:right"></div>
+  </div>
+  <div style="font-size:12px;color:#999;font-weight:700;letter-spacing:2px;margin-bottom:14px">⚔️ CHỌN MÔN THI ĐẤU</div>
+  <div id="homeSubjects" style="display:flex;flex-direction:column;gap:12px;margin-bottom:26px"></div>
+  <div style="display:flex;gap:10px;margin-bottom:24px">
+    <button class="nv" onclick="goPage('ranks')">🏅 Học Vị</button>
+    <button class="nv" onclick="goPage('history')">📊 Lịch Sử</button>
+  </div>
+  <div id="homeRecent"></div>
+  <div style="text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid rgba(0,0,0,.06)">
+    <button class="gh" onclick="doLogout()" style="padding:10px 24px;font-size:13px">🔄 Đổi tài khoản</button>
+  </div>
+</div></div>
+
+<!-- QUIZ -->
+<div class="page" id="pageQuiz"><div class="wrap quiz-wrap" style="max-width:760px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+    <button class="gh" onclick="forceEnd()">✕ Kết thúc</button>
+    <div class="tm nm" id="qTimer">⏱️ 7:30</div>
+    <div style="padding:8px 16px;border-radius:10px;background:#fff3e0;border:1px solid #ffe0b2;font-size:15px;font-weight:700;color:#e65100">⭐ <span id="qScore">0</span></div>
+  </div>
+  <div id="qCombo" style="text-align:center;margin-bottom:10px"></div>
+  <div style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:#999;margin-bottom:6px">
+      <span id="qSubLabel"></span><span id="qProgress"></span>
+    </div>
+    <div class="pt"><div class="pf" id="qBar" style="width:0%"></div></div>
+  </div>
+  <div class="card" style="padding:28px 24px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span id="qNum" style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff"></span>
+      <span style="font-size:11px;color:#aaa;letter-spacing:1px">CÂU HỎI</span>
+    </div>
+    <div id="qText" class="q-text" style="font-size:20px;font-weight:700;line-height:1.6;color:#333"></div>
+    <button id="qReadBtn" onclick="readQuestion()" style="margin-top:12px;padding:8px 16px;border-radius:10px;background:#e3f2fd;border:1px solid #90caf9;color:#1565c0;font-size:13px;font-weight:600;display:none">🔊 Nghe đọc lại</button>
+  </div>
+  <div class="og" id="qOpts"></div>
+  <div id="qFeedback" style="display:none"></div>
+</div></div>
+
+<!-- RESULT -->
+<div class="page mid" id="pageResult">
+<div class="card result-card" style="padding:40px 32px;max-width:540px;width:100%;text-align:center">
+  <div id="resEmoji" style="font-size:64px;margin-bottom:10px"></div>
+  <h2 id="resTitle" class="gg" style="font-size:26px;font-weight:800;margin-bottom:6px"></h2>
+  <p id="resSub" style="color:#999;font-size:14px;margin-bottom:26px"></p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:26px">
+    <div class="sb"><div style="font-size:22px">⭐</div><div id="resSc" style="font-size:20px;font-weight:800;color:#FF9800"></div><div style="font-size:10px;color:#aaa">Điểm</div></div>
+    <div class="sb"><div style="font-size:22px">✅</div><div id="resOk" style="font-size:20px;font-weight:800;color:#4CAF50"></div><div style="font-size:10px;color:#aaa">Đúng</div></div>
+    <div class="sb"><div style="font-size:22px">🔥</div><div id="resCb" style="font-size:20px;font-weight:800;color:#F44336"></div><div style="font-size:10px;color:#aaa">Combo</div></div>
+  </div>
+  <div style="padding:14px;border-radius:12px;background:#fff8e1;border:1px solid #ffe082;margin-bottom:24px">
+    <div style="font-size:12px;color:#999;margin-bottom:3px">Học vị hiện tại</div>
+    <div id="resRk" style="font-size:18px;font-weight:700;color:#e65100"></div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="go" style="flex:1" onclick="doRetry()">🔄 Thi Lại</button>
+    <button class="nv" style="flex:1" onclick="goPage('home')">🏠 Trang Chủ</button>
+  </div>
+</div></div>
+
+<!-- RANKS -->
+<div class="page" id="pageRanks"><div class="wrap" style="max-width:800px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+    <button class="gh" onclick="goPage('home')" style="width:38px;height:38px;border-radius:10px;font-size:17px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
+    <h2 style="font-size:20px;font-weight:800;color:#333">🏅 Bảng Học Vị</h2>
+  </div>
+  <div id="ranksList"></div>
+</div></div>
+
+<!-- HISTORY -->
+<div class="page" id="pageHistory"><div class="wrap" style="max-width:800px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+    <button class="gh" onclick="goPage('home')" style="width:38px;height:38px;border-radius:10px;font-size:17px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
+    <h2 style="font-size:20px;font-weight:800;color:#333">📊 Lịch Sử Thi Đấu</h2>
+  </div>
+  <div id="histList"></div>
+</div></div>
+
+<script>
+// ===== SOUND EFFECTS (Web Audio API) =====
+var soundEnabled = true;
+var audioCtx = null;
+
+function getAudioCtx(){
+  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){soundEnabled=false}}
+  return audioCtx;
+}
+
+function playTone(freq, duration, type, vol){
+  if(!soundEnabled)return;
+  var ctx=getAudioCtx();if(!ctx)return;
+  var osc=ctx.createOscillator();var gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.type=type||'sine';osc.frequency.value=freq;
+  gain.gain.value=vol||0.15;
+  gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+duration);
+  osc.start(ctx.currentTime);osc.stop(ctx.currentTime+duration);
+}
+
+function playCorrectSound(){
+  if(!soundEnabled)return;
+  // Happy ascending C-E-G arpeggio
+  setTimeout(function(){playTone(523,0.15,'sine',0.12)},0);
+  setTimeout(function(){playTone(659,0.15,'sine',0.12)},100);
+  setTimeout(function(){playTone(784,0.25,'sine',0.15)},200);
+}
+
+function playWrongSound(){
+  if(!soundEnabled)return;
+  // Gentle descending tone
+  setTimeout(function(){playTone(350,0.2,'triangle',0.1)},0);
+  setTimeout(function(){playTone(280,0.3,'triangle',0.08)},150);
+}
+
+function playCompleteSound(){
+  if(!soundEnabled)return;
+  // Fanfare: C-E-G-C
+  setTimeout(function(){playTone(523,0.2,'sine',0.12)},0);
+  setTimeout(function(){playTone(659,0.2,'sine',0.12)},150);
+  setTimeout(function(){playTone(784,0.2,'sine',0.12)},300);
+  setTimeout(function(){playTone(1047,0.4,'sine',0.15)},450);
+}
+
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  document.getElementById('soundBtn').textContent=soundEnabled?'🔊':'🔇';
+}
+
+// ===== TEXT-TO-SPEECH (Google Translate - Giọng Việt chuẩn) =====
+var voiceEnabled = false;
+var ttsQueue = [];
+var ttsPlaying = false;
+var currentAudio = null;
+
+// Dùng Google Translate TTS - giọng nữ Việt Nam chuẩn, không cần cài đặt
+function gttsSpeak(text, lang, onEnd){
+  var maxLen = 180;
+  // Chia nhỏ text nếu quá dài
+  var chunks = [];
+  if(text.length <= maxLen){
+    chunks.push(text);
+  } else {
+    var sentences = text.split(/(?<=[.?!,;:])\s*/);
+    var buf = '';
+    for(var i=0;i<sentences.length;i++){
+      if((buf + ' ' + sentences[i]).length > maxLen && buf.length > 0){
+        chunks.push(buf.trim());
+        buf = sentences[i];
+      } else {
+        buf = buf ? buf + ' ' + sentences[i] : sentences[i];
+      }
+    }
+    if(buf.trim()) chunks.push(buf.trim());
+  }
+
+  var idx = 0;
+  function playNext(){
+    if(idx >= chunks.length){ if(onEnd) onEnd(); return; }
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='
+      + encodeURIComponent(lang) + '&q=' + encodeURIComponent(chunks[idx]);
+    var audio = new Audio(url);
+    currentAudio = audio;
+    // Tăng tốc độ phát nhẹ để giọng nghe cao hơn, trẻ hơn
+    audio.playbackRate = lang === 'vi' ? 1.08 : 1.05;
+    audio.onended = function(){ idx++; playNext(); };
+    audio.onerror = function(){
+      console.log('TTS error, trying Web Speech fallback');
+      webSpeechFallback(chunks.slice(idx).join('. '), lang, onEnd);
+    };
+    audio.play().catch(function(e){
+      console.log('Audio play blocked:', e);
+      webSpeechFallback(chunks.slice(idx).join('. '), lang, onEnd);
+    });
+  }
+  playNext();
+}
+
+// Fallback: dùng Web Speech API nếu Google TTS không được
+function webSpeechFallback(text, lang, onEnd){
+  var synth = window.speechSynthesis;
+  if(!synth){ if(onEnd) onEnd(); return; }
+  synth.cancel();
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.lang = lang === 'en' ? 'en-US' : 'vi-VN';
+  utter.rate = 0.85;
+  utter.pitch = 1.5;
+  // Tìm voice phù hợp
+  var voices = synth.getVoices();
+  for(var i=0;i<voices.length;i++){
+    var vl = (voices[i].lang||'').toLowerCase().replace('_','-');
+    if(lang==='en' && vl.indexOf('en')===0){ utter.voice=voices[i]; break; }
+    if(lang==='vi' && vl.indexOf('vi')===0){ utter.voice=voices[i]; break; }
+  }
+  utter.onend = onEnd;
+  synth.speak(utter);
+}
+
+function stopSpeaking(){
+  if(currentAudio){ currentAudio.pause(); currentAudio=null; }
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+function speakText(text, lang){
+  if(!voiceEnabled) return;
+  stopSpeaking();
+  gttsSpeak(text, lang || 'vi');
+}
+
+function getQuizLang(){ return (curSubject==='tienganh') ? 'en' : 'vi'; }
+
+function readQuestion(){
+  var q=curQuestions[curIndex], lang=getQuizLang();
+  var text='', labels=['A','B','C','D'];
+  if(lang==='en'){
+    text='Question '+(curIndex+1)+'. '+q.q;
+    for(var i=0;i<q.o.length;i++) text+='. '+labels[i]+': '+q.o[i];
+  } else {
+    text='Câu '+(curIndex+1)+'. '+q.q;
+    for(var i=0;i<q.o.length;i++) text+='. Đáp án '+labels[i]+': '+q.o[i];
+  }
+  var w=voiceEnabled; voiceEnabled=true;
+  speakText(text, lang);
+  voiceEnabled=w;
+}
+
+function toggleVoice(){
+  voiceEnabled = !voiceEnabled;
+  var btn = document.getElementById('voiceBtn');
+  btn.textContent = voiceEnabled ? '🎤 Đang đọc' : '🎤 Giọng đọc';
+  btn.style.background = voiceEnabled ? '#e3f2fd' : 'rgba(255,255,255,.8)';
+  btn.style.color = voiceEnabled ? '#1565c0' : '#666';
+  btn.style.borderColor = voiceEnabled ? '#90caf9' : 'rgba(0,0,0,.08)';
+  if(!voiceEnabled) stopSpeaking();
+  if(voiceEnabled){
+    speakText('Voice reading is on!', 'en');
+  }
+}
+// ===== NGÂN HÀNG CÂU HỎI (Đã kiểm tra nội dung phù hợp từng khối lớp) =====
+var QBANK={toan:{
+1:[
+// === DỄ: Cộng trừ trong phạm vi 10 ===
+{q:"Phép tính 2 + 3 bằng bao nhiêu?",o:["4","5","6","7"],a:1},
+{q:"Phép tính 1 + 4 bằng bao nhiêu?",o:["3","4","5","6"],a:2},
+{q:"Phép tính 5 + 3 bằng bao nhiêu?",o:["7","8","9","6"],a:1},
+{q:"Phép tính 4 + 4 bằng bao nhiêu?",o:["6","7","8","9"],a:2},
+{q:"Phép tính 6 + 2 bằng bao nhiêu?",o:["7","8","9","10"],a:1},
+{q:"Phép tính 7 + 2 bằng bao nhiêu?",o:["8","9","10","11"],a:1},
+{q:"Phép tính 5 - 2 bằng bao nhiêu?",o:["2","3","4","1"],a:1},
+{q:"Phép tính 8 - 5 bằng bao nhiêu?",o:["2","3","4","1"],a:1},
+{q:"Phép tính 9 - 4 bằng bao nhiêu?",o:["3","4","5","6"],a:2},
+{q:"Phép tính 10 - 7 bằng bao nhiêu?",o:["2","3","4","1"],a:1},
+// === TRUNG BÌNH: Số, đếm, so sánh ===
+{q:"Phép tính 10 - 3 bằng bao nhiêu?",o:["6","7","8","5"],a:1},
+{q:"Phép tính 0 + 7 bằng bao nhiêu?",o:["0","7","8","6"],a:1},
+{q:"Phép tính 5 + 0 bằng bao nhiêu?",o:["0","4","5","6"],a:2},
+{q:"Phép tính 10 - 10 bằng bao nhiêu?",o:["0","1","10","2"],a:0},
+{q:"Phép tính 9 - 9 bằng bao nhiêu?",o:["0","1","9","2"],a:0},
+{q:"Phép tính 6 + 4 bằng bao nhiêu?",o:["8","9","10","11"],a:2},
+{q:"Phép tính 1 + 9 bằng bao nhiêu?",o:["9","10","11","8"],a:1},
+{q:"Phép tính 3 + 5 bằng bao nhiêu?",o:["7","8","9","6"],a:1},
+{q:"Phép tính 8 - 2 bằng bao nhiêu?",o:["5","6","7","4"],a:1},
+{q:"Có 5 hình tròn ⚪⚪⚪⚪⚪. Hãy đếm số hình tròn.",o:["3","4","5","6"],a:2},
+// === KHÓ: Bài toán có lời văn, hình học, thời gian ===
+{q:"Trong các số 3, 7, 5, 2 số nào lớn nhất?",o:["3","7","5","2"],a:1},
+{q:"Trong các số 9, 4, 6, 1 số nào nhỏ nhất?",o:["9","4","6","1"],a:3},
+{q:"Số liền sau số 5 là số nào?",o:["4","6","7","3"],a:1},
+{q:"Số liền trước số 8 là số nào?",o:["6","7","9","5"],a:1},
+{q:"Số lẻ nhỏ nhất là số nào?",o:["0","1","2","3"],a:1},
+{q:"Hình tam giác có bao nhiêu cạnh?",o:["2","3","4","5"],a:1},
+{q:"Hình vuông có bao nhiêu cạnh?",o:["2","3","4","5"],a:2},
+{q:"Khi đồng hồ chỉ 3 giờ đúng, kim ngắn chỉ vào số mấy?",o:["12","3","6","9"],a:1},
+{q:"Một tuần lễ có bao nhiêu ngày?",o:["5","6","7","8"],a:2},
+{q:"Phép tính 3 + 4 + 2 bằng bao nhiêu?",o:["8","9","10","7"],a:1},
+{q:"Mẹ có 8 quả cam, cho em 3 quả. Hỏi mẹ còn mấy quả cam?",o:["4","5","6","3"],a:1},
+{q:"Lớp có 6 bạn nam và 4 bạn nữ. Hỏi lớp có tất cả bao nhiêu bạn?",o:["9","10","11","8"],a:1},
+{q:"An có 5 viên bi, Bình có 3 viên bi. Hỏi cả hai bạn có bao nhiêu viên bi?",o:["7","8","9","10"],a:1},
+{q:"Trong vườn có 9 con bướm, bay đi 4 con. Hỏi còn lại mấy con bướm?",o:["4","5","6","3"],a:1},
+{q:"Mẹ mua 7 quả trứng, em bé làm vỡ 2 quả. Hỏi còn lại mấy quả trứng?",o:["4","5","6","3"],a:1},
+{q:"Muốn tìm số liền trước một số, ta làm thế nào?",o:["Cộng thêm 1","Trừ đi 1","Nhân 2","Chia 2"],a:1},
+{q:"Số nào lớn hơn: 6 hay 9?",o:["6","9","Bằng nhau","Không biết"],a:1},
+{q:"Phép tính 2 + 5 + 1 bằng bao nhiêu?",o:["7","8","9","10"],a:1},
+{q:"Bạn Hoa có 4 bông hoa, bạn Mai cho thêm 3 bông. Hỏi Hoa có tất cả mấy bông hoa?",o:["5","6","7","8"],a:2},
+{q:"Trên cây có 10 con chim, bay đi 6 con. Hỏi trên cây còn mấy con chim?",o:["3","4","5","6"],a:1}
+],
+2:[
+// === DỄ: Cộng trừ, nhân trong phạm vi 100 ===
+{q:"Phép tính 15 + 23 bằng bao nhiêu?",o:["36","37","38","39"],a:2},
+{q:"Phép tính 40 - 18 bằng bao nhiêu?",o:["22","23","21","20"],a:0},
+{q:"Phép tính 6 × 3 bằng bao nhiêu?",o:["15","16","18","21"],a:2},
+{q:"Phép tính 27 + 15 bằng bao nhiêu?",o:["41","42","43","44"],a:1},
+{q:"Phép tính 50 - 26 bằng bao nhiêu?",o:["24","25","26","23"],a:0},
+{q:"Phép tính 4 × 5 bằng bao nhiêu?",o:["18","19","20","21"],a:2},
+{q:"Phép tính 38 + 17 bằng bao nhiêu?",o:["54","55","56","53"],a:1},
+{q:"Phép tính 7 × 2 bằng bao nhiêu?",o:["12","13","14","15"],a:2},
+{q:"Phép tính 3 × 8 bằng bao nhiêu?",o:["21","24","27","18"],a:1},
+{q:"Phép tính 2 × 9 bằng bao nhiêu?",o:["16","18","20","14"],a:1},
+// === TRUNG BÌNH: Phép tính khó hơn, đơn vị đo ===
+{q:"Phép tính 45 + 36 bằng bao nhiêu?",o:["71","81","91","61"],a:1},
+{q:"Phép tính 72 - 35 bằng bao nhiêu?",o:["37","47","27","43"],a:0},
+{q:"Phép tính 63 - 28 bằng bao nhiêu?",o:["33","34","35","36"],a:2},
+{q:"Phép tính 5 × 7 bằng bao nhiêu?",o:["30","35","40","25"],a:1},
+{q:"Phép tính 56 + 27 bằng bao nhiêu?",o:["73","83","93","63"],a:1},
+{q:"Phép tính 100 - 55 bằng bao nhiêu?",o:["45","55","35","65"],a:0},
+{q:"Phép tính 84 - 47 bằng bao nhiêu?",o:["37","47","27","43"],a:0},
+{q:"Phép tính 67 - 29 bằng bao nhiêu?",o:["36","38","42","48"],a:1},
+{q:"Phép tính 9 × 3 bằng bao nhiêu?",o:["24","27","30","21"],a:1},
+{q:"Phép tính 8 × 4 bằng bao nhiêu?",o:["28","32","36","24"],a:1},
+// === KHÓ: Bài toán có lời văn, đơn vị đo, so sánh ===
+{q:"1 mét bằng bao nhiêu xăng-ti-mét?",o:["10","100","1000","50"],a:1},
+{q:"1 giờ bằng bao nhiêu phút?",o:["30","45","60","100"],a:2},
+{q:"1 ngày có bao nhiêu giờ?",o:["12","20","24","48"],a:2},
+{q:"1 năm có bao nhiêu tháng?",o:["10","11","12","13"],a:2},
+{q:"Hình vuông có bao nhiêu cạnh bằng nhau?",o:["2","3","4","5"],a:2},
+{q:"Số chẵn lớn nhất có hai chữ số là số nào?",o:["99","98","100","96"],a:1},
+{q:"Số lẻ lớn nhất có hai chữ số là số nào?",o:["98","99","97","95"],a:1},
+{q:"Lan có 24 viên bi, cho bạn 8 viên. Hỏi Lan còn bao nhiêu viên bi?",o:["14","16","18","12"],a:1},
+{q:"Lớp 2A có 18 bạn nam và 17 bạn nữ. Hỏi lớp có bao nhiêu bạn?",o:["34","35","36","33"],a:1},
+{q:"Phép tính 3 × 6 + 2 bằng bao nhiêu?",o:["18","20","22","16"],a:1},
+{q:"Số gồm 9 chục và 7 đơn vị là số nào?",o:["79","97","90","907"],a:1},
+{q:"Số lớn nhất trong dãy số 46, 75, 52, 68 là số nào?",o:["46","75","52","68"],a:1},
+{q:"Tính tổng biết hai số hạng là 48 và 17. Tổng bằng bao nhiêu?",o:["31","65","41","55"],a:1},
+{q:"Trong dãy số 54, 47, 12, 85 số nào bé nhất?",o:["12","47","54","85"],a:0},
+{q:"Mẹ hái được 67 quả cam, chị hái được 33 quả. Hỏi cả hai hái được bao nhiêu quả?",o:["34 quả","100 quả","44 quả","90 quả"],a:1},
+{q:"Nam có 39 viên bi. Việt có nhiều hơn Nam 4 viên bi. Hỏi Việt có bao nhiêu viên bi?",o:["35 viên","42 viên","43 viên","44 viên"],a:2},
+{q:"Dấu thích hợp điền vào chỗ trống: 35 + 8 ... 33 là dấu nào?",o:["Dấu lớn hơn (>)","Dấu nhỏ hơn (<)","Dấu bằng (=)","Không xác định"],a:0},
+{q:"Em có 15 chiếc kẹo, ăn hết 6 chiếc, mẹ cho thêm 4 chiếc. Hỏi em có bao nhiêu chiếc kẹo?",o:["11 chiếc","12 chiếc","13 chiếc","14 chiếc"],a:2},
+{q:"Mỗi bàn có 2 học sinh. Hỏi 5 bàn có bao nhiêu học sinh?",o:["7 học sinh","8 học sinh","10 học sinh","12 học sinh"],a:2},
+{q:"Bạn Hoa cao 1 mét 15 xăng-ti-mét. Bạn Mai cao hơn Hoa 5 xăng-ti-mét. Hỏi bạn Mai cao bao nhiêu?",o:["1 mét 18 cm","1 mét 20 cm","1 mét 10 cm","1 mét 25 cm"],a:1}
+],
+3:[
+// === DỄ: Phép tính trong phạm vi 10000, nhân chia ===
+{q:"Phép tính 234 + 567 bằng bao nhiêu?",o:["791","801","811","781"],a:1},
+{q:"Phép tính 567 - 289 bằng bao nhiêu?",o:["278","288","268","298"],a:0},
+{q:"Phép tính 36 ÷ 6 bằng bao nhiêu?",o:["5","6","7","8"],a:1},
+{q:"Phép tính 48 ÷ 8 bằng bao nhiêu?",o:["5","6","7","8"],a:1},
+{q:"Phép tính 9 × 7 bằng bao nhiêu?",o:["56","63","72","81"],a:1},
+{q:"Phép tính 7 × 8 bằng bao nhiêu?",o:["54","56","58","64"],a:1},
+{q:"Phép tính 435 + 278 bằng bao nhiêu?",o:["703","713","613","723"],a:1},
+{q:"Phép tính 1000 - 456 bằng bao nhiêu?",o:["544","554","534","564"],a:0},
+{q:"Phép tính 63 ÷ 7 bằng bao nhiêu?",o:["7","8","9","10"],a:2},
+{q:"Phép tính 81 ÷ 9 bằng bao nhiêu?",o:["7","8","9","10"],a:2},
+// === TRUNG BÌNH: Hình học, đo lường ===
+{q:"Chu vi hình vuông có cạnh 5 xăng-ti-mét bằng bao nhiêu?",o:["15 cm","20 cm","25 cm","10 cm"],a:1},
+{q:"Diện tích hình chữ nhật có chiều dài 6 cm, chiều rộng 4 cm bằng bao nhiêu?",o:["20 cm²","24 cm²","10 cm²","28 cm²"],a:1},
+{q:"Chu vi hình chữ nhật có chiều dài 8 cm, chiều rộng 5 cm bằng bao nhiêu?",o:["26 cm","13 cm","40 cm","30 cm"],a:0},
+{q:"1 ki-lô-mét bằng bao nhiêu mét?",o:["10","100","1000","10000"],a:2},
+{q:"Số La Mã VII có giá trị bằng bao nhiêu?",o:["5","6","7","8"],a:2},
+{q:"Phép tính 125 × 4 bằng bao nhiêu?",o:["400","450","500","550"],a:2},
+{q:"Phép tính 356 × 2 bằng bao nhiêu?",o:["612","712","702","602"],a:1},
+{q:"Phép tính 999 + 1 bằng bao nhiêu?",o:["1000","9991","990","1001"],a:0},
+{q:"Số chẵn lớn nhất có ba chữ số là số nào?",o:["998","999","1000","990"],a:0},
+{q:"Hình tròn có bao nhiêu cạnh?",o:["0","1","2","Vô số"],a:0},
+// === KHÓ: Bài toán có lời văn, suy luận ===
+{q:"Phép tính 4 × 9 - 12 bằng bao nhiêu?",o:["24","36","20","28"],a:0},
+{q:"Phép tính 5 × 6 + 20 bằng bao nhiêu?",o:["40","50","60","45"],a:1},
+{q:"My học bài 40 phút, Lan học bài nhiều hơn My 15 phút. Hỏi cả hai bạn học bài bao nhiêu phút?",o:["85 phút","95 phút","100 phút","90 phút"],a:1},
+{q:"Ba lớp 3A, 3B, 3C mỗi lớp có 34 học sinh. Hỏi cả ba lớp có bao nhiêu học sinh?",o:["92","102","112","96"],a:1},
+{q:"Quãng đường từ A đến B dài 35 km, từ B đến C dài 32 km. Hỏi quãng đường từ A đến C dài bao nhiêu km?",o:["57 km","67 km","77 km","47 km"],a:1},
+{q:"Làm tròn số 456 đến hàng trăm được kết quả bao nhiêu?",o:["400","500","450","460"],a:1},
+{q:"1 năm có bao nhiêu tháng?",o:["10","11","12","13"],a:2},
+{q:"Một hình chữ nhật có chiều dài 12 cm, chiều rộng 8 cm. Hỏi chu vi bằng bao nhiêu?",o:["20 cm","40 cm","96 cm","30 cm"],a:1},
+{q:"Phép tính 72 ÷ 8 bằng bao nhiêu?",o:["7","8","9","10"],a:2},
+{q:"1 giờ 30 phút bằng bao nhiêu phút?",o:["70 phút","80 phút","90 phút","100 phút"],a:2},
+{q:"Phép tính 1000 - 1 bằng bao nhiêu?",o:["999","998","990","909"],a:0},
+{q:"Số lớn nhất có ba chữ số là số nào?",o:["990","999","1000","900"],a:1},
+{q:"Phép tính 246 × 3 bằng bao nhiêu?",o:["638","738","728","648"],a:1},
+{q:"Hương có 24 quyển vở. Trà có nhiều hơn Hương 6 quyển. Hỏi cả hai có bao nhiêu quyển?",o:["44 quyển","54 quyển","34 quyển","48 quyển"],a:1},
+{q:"Trung bình mỗi giờ có 3 chuyến xe buýt. Hỏi từ 9 giờ đến 12 giờ có bao nhiêu chuyến?",o:["8 chuyến","7 chuyến","9 chuyến","10 chuyến"],a:2},
+{q:"Một người đi xe máy giờ đầu đi 35 km, giờ sau đi thêm 32 km. Quãng đường AB dài 90 km. Hỏi còn cách B bao nhiêu km?",o:["23 km","22 km","25 km","24 km"],a:0},
+{q:"Diện tích hình vuông có cạnh 9 cm bằng bao nhiêu?",o:["36 cm²","72 cm²","81 cm²","18 cm²"],a:2},
+{q:"Thứ Năm tuần này là ngày 25 tháng 3. Hỏi thứ Năm tuần sau là ngày bao nhiêu?",o:["Ngày 1 tháng 4","Ngày 2 tháng 4","Ngày 30 tháng 3","Ngày 31 tháng 3"],a:0},
+{q:"Ba lớp 3A, 3B, 3C quyên góp vở. Lớp 3A góp 215 quyển, lớp 3B góp 415 quyển. Biết tổng là 999 quyển. Hỏi lớp 3C góp bao nhiêu?",o:["369 quyển","389 quyển","379 quyển","359 quyển"],a:0},
+{q:"Một mảnh vườn hình chữ nhật có chiều dài 15 mét, chiều rộng 10 mét. Diện tích mảnh vườn bằng bao nhiêu?",o:["50 m²","100 m²","150 m²","25 m²"],a:2}
+],
+4:[
+// === DỄ: Phép tính, phân số cơ bản ===
+{q:"Phân số 3/5 + 1/10 bằng bao nhiêu?",o:["4/15","7/10","4/10","1/2"],a:1},
+{q:"Phân số 5/8 - 1/4 bằng bao nhiêu?",o:["3/8","4/8","1/2","1/4"],a:0},
+{q:"Phân số 6/8 rút gọn bằng phân số nào?",o:["2/4","3/4","3/8","6/4"],a:1},
+{q:"Góc vuông có số đo bằng bao nhiêu độ?",o:["45°","60°","90°","180°"],a:2},
+{q:"Trung bình cộng của ba số 10, 20 và 30 bằng bao nhiêu?",o:["15","20","25","30"],a:1},
+{q:"1 yến bằng bao nhiêu ki-lô-gam?",o:["1","10","100","1000"],a:1},
+{q:"1 ki-lô-mét bằng bao nhiêu mét?",o:["100","1000","10000","10"],a:1},
+{q:"Phép tính 12345 ÷ 5 bằng bao nhiêu?",o:["2468","2469","2479","2459"],a:1},
+{q:"Số La Mã IX có giá trị bằng bao nhiêu?",o:["6","9","11","4"],a:1},
+{q:"Số tự nhiên liền sau số 9999 là số nào?",o:["9998","10000","10001","9000"],a:1},
+// === TRUNG BÌNH: Hình học, biểu thức chữ ===
+{q:"Diện tích hình bình hành có đáy 9 cm, chiều cao 5 cm bằng bao nhiêu?",o:["14 cm²","45 cm²","40 cm²","50 cm²"],a:1},
+{q:"Diện tích hình thoi có hai đường chéo dài 8 cm và 6 cm bằng bao nhiêu?",o:["24 cm²","48 cm²","14 cm²","28 cm²"],a:0},
+{q:"Chu vi hình tam giác đều có cạnh 6 cm bằng bao nhiêu?",o:["12 cm","18 cm","24 cm","36 cm"],a:1},
+{q:"Với a = 9, giá trị biểu thức 5 × a + 3 bằng bao nhiêu?",o:["45","48","53","42"],a:1},
+{q:"2/5 của 100 bằng bao nhiêu?",o:["20","40","50","25"],a:1},
+{q:"Phép tính 45 × 20 bằng bao nhiêu?",o:["800","900","1000","850"],a:1},
+{q:"Phép tính 3456 + 2789 bằng bao nhiêu?",o:["6245","6345","6145","6235"],a:0},
+{q:"Số 1000000 đọc là gì?",o:["Một trăm nghìn","Một triệu","Mười triệu","Một tỉ"],a:1},
+{q:"1 thế kỷ bằng bao nhiêu năm?",o:["10","50","100","1000"],a:2},
+{q:"Số nào chia hết cho cả 2 và 5?",o:["15","25","30","35"],a:2},
+// === KHÓ: Bài toán tư duy, dãy số ===
+{q:"Ba số tự nhiên liên tiếp có tổng bằng 99. Hỏi số lớn nhất trong ba số đó là bao nhiêu?",o:["32","33","34","35"],a:2},
+{q:"Cho dãy số 15, 19, 23, 27, ... Số tiếp theo trong dãy là bao nhiêu?",o:["29","30","31","33"],a:2},
+{q:"Phép tính 8 × 125 bằng bao nhiêu?",o:["800","900","1000","1100"],a:2},
+{q:"Phân số 12/18 rút gọn thành phân số tối giản nào?",o:["4/6","6/9","2/3","3/4"],a:2},
+{q:"Có 5 đội bóng đá thi đấu vòng tròn, mỗi đội gặp nhau đúng 1 lần. Hỏi có bao nhiêu trận đấu?",o:["5","10","15","20"],a:1},
+{q:"Trong hộp kín có 3 viên bi vàng và 4 viên bi đỏ. Phải lấy ra ít nhất bao nhiêu viên bi để chắc chắn có bi đỏ?",o:["2","3","4","5"],a:2},
+{q:"So sánh hai phân số 7/9 và 2/3. Phân số nào lớn hơn?",o:["7/9","2/3","Hai phân số bằng nhau","Không so sánh được"],a:0},
+{q:"Phân số 2/3 và 5/6, phân số nào lớn hơn?",o:["2/3","5/6","Bằng nhau","Không so sánh được"],a:1},
+{q:"Số tự nhiên nhỏ nhất có năm chữ số là số nào?",o:["99999","10000","10001","11111"],a:1},
+{q:"Diện tích hình vuông có cạnh 15 cm bằng bao nhiêu?",o:["60 cm²","225 cm²","150 cm²","30 cm²"],a:1},
+{q:"Hùng có 2 bút xanh và 4 bút đỏ để trong túi. Phải lấy ít nhất bao nhiêu bút để chắc chắn có bút đỏ?",o:["2 bút","3 bút","4 bút","5 bút"],a:1},
+{q:"Một hình bình hành có đáy 12 cm và chiều cao 7 cm. Diện tích bằng bao nhiêu?",o:["19 cm²","84 cm²","38 cm²","42 cm²"],a:1},
+{q:"Số La Mã XIV có giá trị bằng bao nhiêu?",o:["16","15","14","4"],a:2},
+{q:"Ba chị em có tổng số tiền là 360000 đồng. Sau khi chia đều, mỗi người có bao nhiêu tiền?",o:["100000 đồng","120000 đồng","130000 đồng","180000 đồng"],a:1},
+{q:"Một mảnh đất hình vuông có chu vi 80 mét. Hỏi cạnh mảnh đất dài bao nhiêu mét?",o:["10 mét","20 mét","40 mét","60 mét"],a:1},
+{q:"Một cửa hàng có 240 quyển sách. Đã bán 1/3 số sách. Hỏi cửa hàng đã bán bao nhiêu quyển?",o:["60 quyển","80 quyển","120 quyển","160 quyển"],a:1},
+{q:"Cho biểu thức a × 4 + 12. Khi a = 7 thì biểu thức có giá trị bằng bao nhiêu?",o:["36","40","44","48"],a:1},
+{q:"Lớp 4A có 36 học sinh, trong đó 1/4 số học sinh đạt học sinh giỏi. Hỏi lớp có bao nhiêu học sinh giỏi?",o:["8","9","10","12"],a:1},
+{q:"Trung bình cộng của bốn số 24, 36, 48 và 52 bằng bao nhiêu?",o:["36","38","40","42"],a:2},
+{q:"Diện tích hình chữ nhật có chiều dài 25 cm, chiều rộng 12 cm bằng bao nhiêu?",o:["74 cm²","250 cm²","300 cm²","37 cm²"],a:2}
+],
+5:[
+// === DỄ: Phần trăm, số thập phân cơ bản ===
+{q:"25% của 200 bằng bao nhiêu?",o:["25","40","50","75"],a:2},
+{q:"Số thập phân 0,75 bằng phân số nào?",o:["3/5","3/4","7/5","7/10"],a:1},
+{q:"75% viết dưới dạng phân số là bao nhiêu?",o:["7/5","3/4","7/10","3/5"],a:1},
+{q:"2/3 của 90 bằng bao nhiêu?",o:["30","45","60","75"],a:2},
+{q:"Phép tính 12,5 + 7,8 bằng bao nhiêu?",o:["19,3","20,3","21,3","19,8"],a:1},
+{q:"Phép tính 3,5 × 2,4 bằng bao nhiêu?",o:["7,4","8,4","8,0","7,8"],a:1},
+{q:"1 tấn bằng bao nhiêu ki-lô-gam?",o:["100","1000","10000","500"],a:1},
+{q:"1 héc-ta bằng bao nhiêu mét vuông?",o:["100","1000","10000","100000"],a:2},
+{q:"Nếu x + 35 = 100 thì x bằng bao nhiêu?",o:["55","65","75","45"],a:1},
+{q:"Phép tính 0,125 × 8 bằng bao nhiêu?",o:["0,5","1","1,5","10"],a:1},
+// === TRUNG BÌNH: Hình học, tỉ lệ bản đồ ===
+{q:"Thể tích hình hộp chữ nhật có chiều dài 5 cm, chiều rộng 4 cm, chiều cao 3 cm bằng bao nhiêu?",o:["40 cm³","50 cm³","60 cm³","70 cm³"],a:2},
+{q:"Diện tích hình tam giác có đáy 8 cm và chiều cao 5 cm bằng bao nhiêu?",o:["40 cm²","20 cm²","13 cm²","30 cm²"],a:1},
+{q:"Diện tích hình thang có đáy lớn 9 cm, đáy nhỏ 5 cm, chiều cao 4 cm bằng bao nhiêu?",o:["28 cm²","14 cm²","56 cm²","36 cm²"],a:0},
+{q:"Tổng ba góc trong một hình tam giác bằng bao nhiêu độ?",o:["90°","180°","270°","360°"],a:1},
+{q:"Một ô tô đi với vận tốc 60 km/giờ trong 2 giờ. Hỏi quãng đường đi được bằng bao nhiêu?",o:["30 km","62 km","120 km","58 km"],a:2},
+{q:"Tỉ số 3 : 5 bằng bao nhiêu phần trăm?",o:["35%","53%","60%","65%"],a:2},
+{q:"Trên bản đồ tỉ lệ 1 : 100000, đoạn thẳng dài 5 cm ứng với khoảng cách thực tế bao nhiêu?",o:["5 km","50 km","500 km","0,5 km"],a:0},
+{q:"Diện tích xung quanh hình hộp chữ nhật có chiều dài 4 cm, chiều rộng 3 cm, chiều cao 5 cm bằng bao nhiêu?",o:["70 cm²","94 cm²","60 cm²","120 cm²"],a:0},
+{q:"Phân số 3/4 - 1/3 bằng bao nhiêu?",o:["2/7","5/12","1/2","7/12"],a:1},
+{q:"Phép tính 4,2 ÷ 0,6 bằng bao nhiêu?",o:["6","7","8","0,7"],a:1},
+// === KHÓ: Bài toán thực tế, vận tốc, diện tích ===
+{q:"Trung bình cộng của bốn số 12, 18, 24 và 30 bằng bao nhiêu?",o:["18","20","21","24"],a:2},
+{q:"Mua 3 quyển vở, mỗi quyển giá 8500 đồng. Hỏi phải trả bao nhiêu tiền?",o:["24500 đồng","25500 đồng","26500 đồng","23500 đồng"],a:1},
+{q:"Hình lập phương có cạnh 6 cm. Hỏi diện tích toàn phần bằng bao nhiêu?",o:["36 cm²","216 cm²","144 cm²","72 cm²"],a:1},
+{q:"Diện tích hình tròn có bán kính 5 cm bằng bao nhiêu? (lấy π ≈ 3,14)",o:["31,4 cm²","78,5 cm²","15,7 cm²","157 cm²"],a:1},
+{q:"Chu vi hình tròn có bán kính 7 cm bằng bao nhiêu? (lấy π ≈ 3,14)",o:["43,96 cm","44 cm","21,98 cm","42 cm"],a:0},
+{q:"Số Pi (π) có giá trị xấp xỉ bằng bao nhiêu?",o:["2,14","3,14","4,14","3,41"],a:1},
+{q:"Phép tính 5,6 + 3,14 bằng bao nhiêu?",o:["8,7","8,74","8,64","9,74"],a:1},
+{q:"Hình lập phương có cạnh 5 cm. Thể tích bằng bao nhiêu?",o:["25 cm³","125 cm³","150 cm³","75 cm³"],a:1},
+{q:"40% của 250 bằng bao nhiêu?",o:["80","90","100","110"],a:2},
+{q:"Phép tính 7,2 ÷ 0,9 bằng bao nhiêu?",o:["7","8","9","0,8"],a:1},
+{q:"Một xe ô tô đi từ Hà Nội đến Vinh dài 300 km với vận tốc 60 km mỗi giờ. Hỏi xe đi hết bao lâu?",o:["4 giờ","5 giờ","6 giờ","3 giờ"],a:1},
+{q:"Diện tích hình thang có đáy lớn 12 cm, đáy nhỏ 8 cm, chiều cao 6 cm bằng bao nhiêu?",o:["60 cm²","120 cm²","48 cm²","72 cm²"],a:0},
+{q:"Số thập phân 0,625 bằng phân số nào?",o:["5/8","3/5","6/10","1/4"],a:0},
+{q:"Chu vi hình tròn có đường kính 10 cm bằng bao nhiêu? (lấy π ≈ 3,14)",o:["15,7 cm","31,4 cm","62,8 cm","78,5 cm"],a:1},
+{q:"Một lớp có 40 học sinh, trong đó 60% là nữ. Hỏi lớp có bao nhiêu học sinh nữ?",o:["20 học sinh","22 học sinh","24 học sinh","28 học sinh"],a:2},
+{q:"Diện tích hình chữ nhật dài 25 mét, rộng 18 mét bằng bao nhiêu?",o:["86 m²","350 m²","450 m²","43 m²"],a:2},
+{q:"Một bể nước hình hộp chữ nhật dài 2 mét, rộng 1,5 mét, cao 1 mét. Thể tích bể bằng bao nhiêu?",o:["3 m³","4,5 m³","3,5 m³","2 m³"],a:0},
+{q:"Quãng đường AB dài 180 km. Xe máy đi từ A với vận tốc 45 km/giờ. Hỏi sau bao lâu xe đến B?",o:["3 giờ","4 giờ","5 giờ","6 giờ"],a:1},
+{q:"Một hình tam giác có đáy 16 cm, chiều cao 9 cm. Diện tích bằng bao nhiêu?",o:["72 cm²","144 cm²","25 cm²","36 cm²"],a:0}
+]},
+tiengviet:{
+1:[
+{q:"Trong bảng chữ cái tiếng Việt, chữ cái nào đứng ngay sau chữ B?",o:["A","C","D","Đ"],a:1},
+{q:"Từ nào dưới đây chỉ con vật?",o:["Bàn","Mèo","Cây","Hoa"],a:1},
+{q:"Tiếng 'Mẹ' có mấy tiếng?",o:["1","2","3","4"],a:0},
+{q:"Trong bảng chữ cái tiếng Việt, chữ cái nào đứng ngay trước chữ E?",o:["Đ","G","C","F"],a:0},
+{q:"Từ nào dưới đây chỉ đồ vật?",o:["Chim","Bút","Cá","Thỏ"],a:1},
+{q:"Từ nào dưới đây viết đúng chính tả?",o:["Con trâu","Con châu","Con chrâu","Con ctrâu"],a:0},
+{q:"Từ 'bé' mang dấu thanh gì?",o:["Dấu sắc","Dấu huyền","Dấu hỏi","Dấu ngã"],a:0},
+{q:"Từ 'lan' có vần gì?",o:["an","am","ang","anh"],a:0},
+{q:"Từ nào dưới đây chỉ màu sắc?",o:["To","Đỏ","Ngọt","Nhanh"],a:1},
+{q:"Câu nào dưới đây viết đúng?",o:["em đi học","Em đi học.","em đi học.","Em Đi Học"],a:1},
+{q:"Từ nào dưới đây chỉ loài hoa?",o:["Hồng","Xanh","Tròn","Nhỏ"],a:0},
+{q:"Từ 'mẹ' mang dấu thanh gì?",o:["Dấu sắc","Dấu huyền","Dấu hỏi","Dấu nặng"],a:3},
+{q:"Chữ cái đầu tiên trong bảng chữ cái tiếng Việt là chữ gì?",o:["A","B","C","Ă"],a:0},
+{q:"Từ nào dưới đây chỉ người?",o:["Cây","Nhà","Bố","Sách"],a:2},
+{q:"Từ 'gà' có vần gì?",o:["a","ă","â","o"],a:0},
+{q:"Trong bảng chữ cái tiếng Việt, chữ cái nào đứng ngay sau chữ M?",o:["L","N","O","K"],a:1},
+{q:"Từ nào dưới đây chỉ thức ăn?",o:["Sách","Cơm","Bàn","Ghế"],a:1},
+{q:"Từ nào dưới đây có hai tiếng?",o:["Mẹ","Học sinh","Bé","Nhà"],a:1},
+{q:"Câu 'Bé đi học' có mấy từ?",o:["2","3","4","5"],a:1},
+{q:"Từ nào dưới đây chỉ loài cây?",o:["Bàn","Tre","Chó","Mưa"],a:1},
+{q:"Dấu chấm thường dùng ở cuối loại câu nào?",o:["Câu hỏi","Câu kể","Câu cảm thán","Câu khiến"],a:1},
+{q:"Từ nào dưới đây chỉ hiện tượng thời tiết?",o:["Mưa","Bàn","Sách","Cá"],a:0},
+{q:"Từ 'quê hương' gồm mấy tiếng?",o:["1","2","3","4"],a:1},
+{q:"Từ nào trái nghĩa với từ 'to'?",o:["Lớn","Nhỏ","Cao","Dài"],a:1},
+{q:"Ngày đầu tiên trong tuần là thứ mấy?",o:["Thứ Hai","Chủ Nhật","Thứ Bảy","Thứ Sáu"],a:0},
+{q:"Từ nào dưới đây chỉ âm thanh?",o:["Xanh","Ríu rít","Ngọt","Mềm"],a:1},
+{q:"Dấu phẩy dùng để làm gì trong câu?",o:["Kết thúc câu","Ngắt các bộ phận câu","Đặt câu hỏi","Thể hiện cảm xúc"],a:1},
+{q:"Khi viết câu, chữ cái đầu tiên phải viết thế nào?",o:["Viết hoa","Viết thường","Viết nghiêng","Không quy định"],a:0},
+{q:"Từ 'con ong' có vần gì?",o:["ong","oc","ech","a"],a:0},
+{q:"Từ nào trái nghĩa với từ 'buồn'?",o:["Giận","Vui","Sợ","Mệt"],a:1},
+{q:"Từ nào dưới đây chỉ hoạt động?",o:["Đẹp","Chạy","Nhà","Hoa"],a:1},
+{q:"Câu 'Mẹ đi chợ' có mấy tiếng?",o:["2","3","4","5"],a:1},
+{q:"Từ nào trái nghĩa với từ 'dài'?",o:["Cao","Rộng","Ngắn","Lớn"],a:2},
+{q:"Từ 'bà' mang dấu thanh gì?",o:["Dấu sắc","Dấu huyền","Dấu hỏi","Dấu nặng"],a:1},
+{q:"Từ nào dưới đây chỉ loài chim?",o:["Mèo","Sáo","Cá","Chó"],a:1},
+{q:"Vần của từ 'bạn' là gì?",o:["an","ăn","ân","anh"],a:0},
+{q:"Từ nào dưới đây chỉ đồ dùng học tập?",o:["Quả cam","Thước kẻ","Con gà","Bông hoa"],a:1},
+{q:"Câu 'Con mèo kêu meo meo' có mấy từ?",o:["3","4","5","6"],a:2},
+{q:"Từ nào dưới đây viết đúng chính tả?",o:["con chó","con jó","con chú","con giú"],a:0},
+{q:"Tháng 1 trong năm còn gọi là tháng gì?",o:["Tháng Giêng","Tháng Chạp","Tháng Hai","Tháng Ba"],a:0}
+],
+2:[
+{q:"Từ nào dưới đây là từ láy?",o:["Xinh đẹp","Lung linh","Hoa lá","Sách vở"],a:1},
+{q:"Câu 'Mẹ nấu cơm' có mấy từ?",o:["2","3","4","5"],a:1},
+{q:"Từ nào trái nghĩa với từ 'nóng'?",o:["Ấm","Lạnh","Mát","Nắng"],a:1},
+{q:"Dấu câu nào dùng ở cuối câu hỏi?",o:["Dấu chấm","Dấu chấm than","Dấu chấm hỏi","Dấu phẩy"],a:2},
+{q:"Từ nào dưới đây là danh từ?",o:["Chạy","Đẹp","Trường","Nhanh"],a:2},
+{q:"Điền từ thích hợp: 'Trời ... rất đẹp.'",o:["hôm nay","hôm qua","ngày mai","tuần sau"],a:0},
+{q:"Từ nào đồng nghĩa với từ 'vui'?",o:["Buồn","Phấn khởi","Giận","Sợ"],a:1},
+{q:"Bộ phận nào trong câu trả lời cho câu hỏi 'Ai?'",o:["Chủ ngữ","Vị ngữ","Trạng ngữ","Bổ ngữ"],a:0},
+{q:"Điền từ để hoàn thành thành ngữ: 'Chậm như ...'",o:["Rùa","Thỏ","Ngựa","Chim"],a:0},
+{q:"Từ nào dưới đây là từ ghép?",o:["Long lanh","Xe đạp","Lấp lánh","Rì rào"],a:1},
+{q:"Từ nào dưới đây viết sai chính tả?",o:["ngôi xao","xinh xắn","san sẻ","sâu sắc"],a:0},
+{q:"Từ nào dưới đây chỉ hoạt động?",o:["Xinh đẹp","Chạy nhảy","Ngôi nhà","Hoa hồng"],a:1},
+{q:"Điền từ để hoàn thành thành ngữ: 'Nhanh như ...'",o:["Rùa","Sên","Chớp","Ốc"],a:2},
+{q:"Câu nào dưới đây có hình ảnh so sánh?",o:["Búp măng non tựa mũi kiếm nhọn","Vầng trăng lên","Lũy tre đu đưa","Hoa nở khắp vườn"],a:0},
+{q:"Từ nào dưới đây chỉ tính cách?",o:["Cao","Ngoan","Tròn","Dài"],a:1},
+{q:"Bộ phận nào trong câu trả lời cho câu hỏi 'Làm gì?'",o:["Chủ ngữ","Vị ngữ","Trạng ngữ","Bổ ngữ"],a:1},
+{q:"Từ nào trái nghĩa với từ 'đẹp'?",o:["Xinh","Xấu","Duyên dáng","Lộng lẫy"],a:1},
+{q:"Dấu chấm than (!) dùng ở cuối loại câu nào?",o:["Câu kể","Câu hỏi","Câu cảm thán","Câu nghi vấn"],a:2},
+{q:"Điền từ để hoàn thành tục ngữ: 'Có công mài sắt, có ngày ...'",o:["nên kim","nên vàng","thành công","giỏi giang"],a:0},
+{q:"Loại quả nào dưới đây được gọi tên theo màu sắc?",o:["Xoài","Cam","Ổi","Chuối"],a:1},
+{q:"Câu nào thuộc kiểu câu 'Ai thế nào?'",o:["Con mèo mập ú, đôi mắt tròn xoe","Em đi học","Bé là học sinh","Mẹ nấu cơm"],a:0},
+{q:"Từ nào trái nghĩa với từ 'cao'?",o:["Dài","Rộng","Thấp","Lớn"],a:2},
+{q:"Từ nào đồng nghĩa với từ 'dũng cảm'?",o:["Nhút nhát","Gan dạ","Hiền lành","Lười biếng"],a:1},
+{q:"Thủ đô của Việt Nam là thành phố nào?",o:["Hà Nội","Huế","Đà Nẵng","Thành phố Hồ Chí Minh"],a:0},
+{q:"Từ nào dưới đây là từ láy có phụ âm đầu giống nhau?",o:["Học hành","Long lanh","Xe đạp","Hoa quả"],a:1},
+{q:"Câu nào dưới đây dùng dấu chấm hỏi ở cuối câu?",o:["Em đi đâu?","Em đi học!","Em học giỏi.","Ôi, đẹp quá!"],a:0},
+{q:"Từ nào dưới đây chỉ sự vật?",o:["Ăn","Uống","Sông","Chạy"],a:2},
+{q:"Câu nào thuộc kiểu câu 'Ai là gì?'",o:["Bé là học sinh lớp 2","Bé đi học","Bé rất ngoan","Bé ăn cơm"],a:0},
+{q:"Câu nào dưới đây là câu nêu đặc điểm?",o:["Con mèo mập ú, đôi mắt tròn xoe, long lanh","Em sắp xếp sách vở","Mọi người trang hoàng","Chú sẻ đậu xuống cành"],a:0},
+{q:"Từ nào dưới đây chỉ âm thanh?",o:["Xanh biếc","Ríu rít","Ngọt ngào","Mềm mại"],a:1},
+{q:"Từ nào đồng nghĩa với từ 'xinh đẹp'?",o:["Xấu xí","Mĩ lệ","Thô kệch","Xù xì"],a:1},
+{q:"Bộ phận nào trong câu trả lời cho câu hỏi 'Khi nào?'",o:["Chủ ngữ","Vị ngữ","Trạng ngữ chỉ thời gian","Bổ ngữ"],a:2},
+{q:"Điền từ thích hợp: 'Đèn nhà ai nhà ... nấy rạng'",o:["ấy","nào","đó","này"],a:0},
+{q:"Từ nào dưới đây là từ chỉ đặc điểm?",o:["Nhảy","Xinh xắn","Trường học","Chạy bộ"],a:1},
+{q:"Câu 'Mẹ em là giáo viên' thuộc kiểu câu nào?",o:["Ai làm gì?","Ai thế nào?","Ai là gì?","Ở đâu?"],a:2},
+{q:"Từ nào trái nghĩa với từ 'khỏe mạnh'?",o:["Cường tráng","Ốm yếu","Vạm vỡ","Tráng kiện"],a:1},
+{q:"Điền từ để hoàn thành thành ngữ: 'Đi một ngày đàng, học một sàng ...'",o:["chữ","khôn","vàng","sách"],a:1},
+{q:"Từ nào chỉ nghề nghiệp?",o:["Cao lớn","Bác sĩ","Ngôi nhà","Vui vẻ"],a:1},
+{q:"Câu nào dưới đây là câu hỏi?",o:["Mẹ đi chợ.","Hôm nay trời đẹp quá!","Bạn tên là gì?","Em ngoan lắm."],a:2},
+{q:"Từ 'lung linh' là từ gì?",o:["Từ ghép","Từ láy","Từ đơn","Từ phức"],a:1}
+],
+3:[
+{q:"Chủ ngữ trong câu 'Con mèo ngủ trên ghế' là gì?",o:["Con","Mèo","Con mèo","Ngủ"],a:2},
+{q:"Từ nào dưới đây không cùng nhóm với các từ còn lại?",o:["Táo","Cam","Cà rốt","Nho"],a:2},
+{q:"Câu kể thường kết thúc bằng dấu gì?",o:["Dấu chấm hỏi","Dấu chấm than","Dấu chấm","Dấu chấm lửng"],a:2},
+{q:"Điền từ để hoàn thành tục ngữ: 'Có công mài sắt, có ngày nên ...'",o:["kim","vàng","bạc","thép"],a:0},
+{q:"Từ 'xinh xắn' thuộc loại từ nào?",o:["Danh từ","Động từ","Tính từ","Đại từ"],a:2},
+{q:"Câu 'Trăng tròn như quả bóng' sử dụng biện pháp tu từ nào?",o:["Nhân hóa","So sánh","Ẩn dụ","Điệp ngữ"],a:1},
+{q:"Từ 'chân' là từ có mấy nghĩa?",o:["1 nghĩa","2 nghĩa","Nhiều nghĩa","Không có nghĩa"],a:2},
+{q:"Từ nào trái nghĩa với từ 'siêng năng'?",o:["Chăm chỉ","Lười biếng","Cần cù","Tích cực"],a:1},
+{q:"Từ nào dưới đây là đại từ?",o:["Cái","Tôi","Đẹp","Chạy"],a:1},
+{q:"Câu cảm thán thường kết thúc bằng dấu gì?",o:["Dấu chấm","Dấu chấm hỏi","Dấu chấm than","Dấu phẩy"],a:2},
+{q:"Từ nào dưới đây viết sai chính tả?",o:["ngiêm","ngắn","chẳng","dài"],a:0},
+{q:"Từ nào có nghĩa trái ngược với từ 'vội vàng'?",o:["An toàn","Nhẹ nhàng","Thong thả","Đông đúc"],a:2},
+{q:"Cặp từ nào dưới đây có nghĩa giống nhau, dùng để miêu tả làn da?",o:["Mịn màng - Thô ráp","Mũm mĩm - Bụ bẫm","Nhẵn nhụi - Sần sùi","Nõn nà - Nuột nà"],a:3},
+{q:"Câu tục ngữ nào dưới đây chứa cặp từ có nghĩa trái ngược nhau?",o:["Học thầy không tày học bạn","Bán anh em xa, mua láng giềng gần","Cây ngay không sợ chết đứng","Chim có tổ, người có tông"],a:1},
+{q:"Từ nào đồng nghĩa với từ 'nỗ lực'?",o:["Lạc quan","Nhân hậu","Dũng cảm","Cố gắng"],a:3},
+{q:"Từ nào đồng nghĩa với từ 'giữ gìn'?",o:["Phá hoại","Bảo vệ","Tấn công","Loại bỏ"],a:1},
+{q:"Cặp từ nào dưới đây có nghĩa trái ngược nhau?",o:["Nóng - Lạnh","Xa - Dài","Trắng - Sáng","Mềm - Mượt"],a:0},
+{q:"Câu nào dưới đây sử dụng biện pháp nhân hóa?",o:["Chị gió đang dạo nhạc trên những vòm lá xanh","Mặt hồ như một chiếc gương","Mây trắng tựa như con thuyền","Dải lụa trắng dài vô tận"],a:0},
+{q:"Từ nào dưới đây chỉ tính cách trẻ em?",o:["Sáng suốt","Hồn nhiên","Thâm trầm","Đĩnh đạc"],a:1},
+{q:"Tính từ nào dưới đây có thể dùng để miêu tả bộ lông của con mèo?",o:["Tim tím","Xanh xao","Đen tuyền","Xanh thẳm"],a:2},
+{q:"Trong dãy từ 'rắn rỏi, củ diềng, láng giềng', từ nào viết sai chính tả?",o:["rắn rỏi","củ diềng","láng giềng","Không có từ nào sai"],a:1},
+{q:"Câu nào dưới đây là câu nêu đặc điểm?",o:["Những cành phượng chi chít những bông hoa đỏ rực","Em sắp xếp sách vở","Mọi người trang hoàng sân khấu","Chú sẻ đậu xuống cành bằng lăng"],a:0},
+{q:"Loại quả nào dưới đây được gọi tên theo màu sắc của nó?",o:["Ổi","Cam","Xoài","Chuối"],a:1},
+{q:"Từ nào dưới đây không cùng nhóm nghĩa với các từ còn lại?",o:["Giữ gìn","Bảo vệ","Dạy bảo","Bảo đảm"],a:2},
+{q:"Câu 'Bán anh em xa, mua láng giềng gần' khuyên chúng ta điều gì?",o:["Giữ gìn tình làng nghĩa xóm","Phải biết buôn bán","Nên đi xa","Mua nhà mới"],a:0},
+{q:"Câu nào dưới đây sử dụng sai dấu câu?",o:["Bản nhạc du dương vang ra.","Bé đàn một bản nhạc cho bố.","Con muốn tham gia lớp vẽ hay lớp đàn.","Cô gái lướt nhanh trên phím đàn."],a:2},
+{q:"Câu nào thuộc kiểu câu 'Ai thế nào?'",o:["Con mèo mập ú, đôi mắt tròn xoe","Em đi chơi công viên","Bé là học sinh giỏi","Mẹ đang nấu cơm"],a:0},
+{q:"Từ nào đồng nghĩa với từ 'cố gắng'?",o:["Lạc quan","Nỗ lực","Nhân hậu","Dũng cảm"],a:1},
+{q:"Điền từ để hoàn thành tục ngữ: 'Giữa trăm nghề, làm nghề ...'",o:["nông","thợ","buôn","dạy học"],a:0},
+{q:"Câu 'Đại dương như ngôi nhà lớn của các loài sinh vật biển' sử dụng biện pháp nào?",o:["Nhân hóa","So sánh","Ẩn dụ","Hoán dụ"],a:1},
+{q:"Từ nào dưới đây viết sai chính tả?",o:["nghập ngừng","cầu nguyện","ngổn ngang","nghiêm nghị"],a:0},
+{q:"Câu 'Các cô bác nông dân đang gặt lúa trên đồng' có bộ phận trả lời câu hỏi 'Ai?' là gì?",o:["Các cô bác nông dân","Gặt lúa trên đồng","Bác nông dân","Cô nông dân"],a:0},
+{q:"Thành ngữ, tục ngữ nào dưới đây là đúng?",o:["Có công trồng rau, có ngày được hái","Có công mài sắt, có ngày nên kim","Có công cày cấy, có ngày thảnh thơi","Có công trồng cây, có ngày được mùa"],a:1},
+{q:"Câu 'Con mèo mập ú, đôi mắt tròn xoe, long lanh' thuộc kiểu câu gì?",o:["Ai làm gì?","Ai thế nào?","Ai là gì?","Vì sao?"],a:1},
+{q:"Điền từ còn thiếu vào chỗ trống: 'Đi hỏi ..., về nhà hỏi ...'",o:["già - trẻ","trước - sau","cha - mẹ","thầy - bạn"],a:0},
+{q:"Câu nào dưới đây là câu cảm?",o:["Chú mèo đáng yêu quá!","Cậu lại đây mau!","Lông mèo có ba màu.","Con mèo có đẹp không?"],a:0},
+{q:"Từ nào dưới đây không phải là từ chỉ tính cách?",o:["Dũng cảm","Chăm chỉ","Cao lớn","Nhân hậu"],a:2},
+{q:"Cặp từ nào dưới đây có nghĩa giống nhau?",o:["Khoan dung - Độ lượng","Nhanh nhẹn - Chậm chạp","Chắt chiu - Phung phí","Minh mẫn - Lú lẫn"],a:0},
+{q:"Điền từ thích hợp: 'Nhà sạch thì mát, bát sạch ... ngon cơm'",o:["thì","là","nên","mà"],a:0},
+{q:"Từ nào dưới đây viết đúng chính tả?",o:["ngôi xao","xinh sắn","sâu sắc","san xẻ"],a:2}
+],
+4:[
+{q:"Trạng ngữ trong câu 'Sáng nay, em đi học' là bộ phận nào?",o:["Em","Đi học","Sáng nay","Em đi"],a:2},
+{q:"Từ Hán Việt 'sơn hà' có nghĩa là gì?",o:["Núi sông","Biển hồ","Rừng núi","Sông biển"],a:0},
+{q:"Biện pháp nhân hóa là gì?",o:["So sánh hai sự vật với nhau","Gọi hoặc tả con vật, đồ vật bằng từ ngữ dùng cho người","Nói quá sự thật","Lặp đi lặp lại từ ngữ"],a:1},
+{q:"Câu ghép có bao nhiêu vế câu trở lên?",o:["1 vế","2 vế trở lên","3 vế","4 vế"],a:1},
+{q:"Cặp quan hệ từ 'Vì ... nên ...' biểu thị quan hệ gì?",o:["Tương phản","Nguyên nhân - Kết quả","Điều kiện","Nhượng bộ"],a:1},
+{q:"Từ 'đường' trong hai câu 'Đường đến trường' và 'Đường ngọt lắm' có quan hệ gì?",o:["Đồng âm","Nhiều nghĩa","Trái nghĩa","Đồng nghĩa"],a:0},
+{q:"Thể thơ lục bát gồm câu 6 tiếng và câu bao nhiêu tiếng?",o:["6 tiếng","7 tiếng","8 tiếng","10 tiếng"],a:2},
+{q:"Vị ngữ trong câu trả lời cho câu hỏi nào?",o:["Ai?","Làm gì? / Thế nào?","Ở đâu?","Khi nào?"],a:1},
+{q:"Từ 'học sinh' thuộc loại từ nào?",o:["Động từ","Tính từ","Danh từ","Phó từ"],a:2},
+{q:"Biện pháp ẩn dụ khác biện pháp so sánh ở điểm nào?",o:["Không sử dụng từ so sánh (như, tựa, giống...)","Sử dụng từ 'như'","Sử dụng từ 'là'","So sánh trực tiếp hai sự vật"],a:0},
+{q:"Trạng ngữ trong câu 'Vì Tổ quốc, thiếu niên luôn sẵn sàng' chỉ gì?",o:["Địa điểm","Nguyên nhân","Mục đích","Thời gian"],a:2},
+{q:"Từ nào dưới đây là danh từ riêng?",o:["Cánh đồng","Hà Nội","Con sông","Ngôi nhà"],a:1},
+{q:"Từ nào dưới đây miêu tả vẻ đẹp của cảnh thiên nhiên?",o:["Hùng vĩ","Yểu điệu","Da diết","Tha thiết"],a:0},
+{q:"Câu thơ 'Cây đào trước cửa lim dim mắt cười' sử dụng biện pháp tu từ nào?",o:["Nhân hóa","So sánh","Đảo ngữ","Điệp ngữ"],a:0},
+{q:"Đáp án nào dưới đây có từ viết sai chính tả?",o:["Kiều diễm, dạn dĩ","Chứng giám, giàn giụa","Rạng danh, dõng dạc","Phiêu du, trình diện"],a:1},
+{q:"Thành ngữ 'Tôn sư trọng đạo' có nghĩa là gì?",o:["Kính trọng thầy cô giáo","Chăm chỉ học tập","Vâng lời cha mẹ","Giúp đỡ bạn bè"],a:0},
+{q:"Từ Hán Việt 'quốc gia' có nghĩa là gì?",o:["Đất nước","Gia đình","Quê hương","Thành phố"],a:0},
+{q:"Trong câu thơ 'Tre xanh, xanh tự bao giờ', từ nào được lặp lại (điệp ngữ)?",o:["Tre","Xanh","Tự","Bao giờ"],a:1},
+{q:"Câu nào dưới đây có trạng ngữ chỉ thời gian?",o:["Mùa xuân, hoa ban nở trắng khắp núi rừng","Ở miền sông nước, chợ nổi là nét đặc sắc","Bằng sự nỗ lực, đoàn đã khám phá hang Sơn Đoòng","Để tìm hiểu văn hóa, chúng tôi đến bảo tàng"],a:0},
+{q:"Từ 'chân' trong 'chân trời' mang nghĩa gì?",o:["Bộ phận cơ thể người","Phần dưới cùng, chỗ tiếp giáp","Sự chân thật","Hoạt động đi bộ"],a:1},
+{q:"Câu nào dưới đây sử dụng dấu phẩy đúng?",o:["Sáng nay, em đi học.","Sáng nay em, đi học.","Sáng, nay em đi học.","Sáng nay em đi, học."],a:0},
+{q:"Thành ngữ 'Chết đứng còn hơn sống quỳ' nói về phẩm chất gì?",o:["Lòng tự trọng","Sự kiên nhẫn","Tình yêu thương","Sức khỏe"],a:0},
+{q:"Từ nào dưới đây là danh từ chung?",o:["Việt Nam","Hồ Chí Minh","Học sinh","Hà Nội"],a:2},
+{q:"Từ nào dưới đây là tính từ chỉ tính cách?",o:["Cao lớn","Dũng cảm","Tròn trịa","Gầy gò"],a:1},
+{q:"Câu 'Trời thu xanh thăm thẳm' có mấy từ láy?",o:["0","1","2","3"],a:1},
+{q:"Câu nào dưới đây sử dụng biện pháp nhân hóa?",o:["Chị gió đang dạo nhạc trên vòm lá xanh","Mặt hồ phẳng như gương","Đám mây trắng tựa con thuyền","Hồ nước sáng long lanh"],a:0},
+{q:"Từ 'vạt' trong hai câu 'Chú Tư lấy dao vạt nhọn đầu gậy' và 'Vạt áo chàm nhuộm xanh' có quan hệ gì?",o:["Đồng âm","Nhiều nghĩa","Trái nghĩa","Đồng nghĩa"],a:0},
+{q:"Từ nào không thể kết hợp với từ 'an ninh'?",o:["Rừng","Chiến sĩ","Tổ quốc","Lực lượng"],a:0},
+{q:"Câu ghép có thể sử dụng những cặp quan hệ từ nào?",o:["Chỉ Vì...nên","Chỉ Tuy...nhưng","Chỉ Nếu...thì","Tất cả các cặp trên đều đúng"],a:3},
+{q:"Vị ngữ phù hợp cho chủ ngữ 'Những chú ve sầu' trong kiểu câu 'Ai là gì?' là gì?",o:["Ẩn mình sau tán lá","Như ca sĩ của mùa hè","Là người bạn của mùa hè","Kêu râm ran trong vòm lá"],a:2},
+{q:"Trạng ngữ trong câu 'Ở miền sông nước, chợ nổi là nét văn hóa đặc sắc' chỉ gì?",o:["Thời gian","Nơi chốn","Mục đích","Nguyên nhân"],a:1},
+{q:"Từ nào dưới đây là động từ?",o:["Xinh đẹp","Ngôi trường","Học tập","Dũng cảm"],a:2},
+{q:"Câu 'Mặt trời vừa mọc, các bác nông dân đã ra đồng làm việc' có mấy vế câu?",o:["1 vế","2 vế","3 vế","4 vế"],a:1},
+{q:"Từ 'công dân' thuộc loại từ nào?",o:["Tính từ","Động từ","Danh từ","Phó từ"],a:2},
+{q:"Câu nào dưới đây sử dụng biện pháp so sánh?",o:["Dải mây mềm mại như một dải lụa trắng","Chị gió dạo nhạc","Cây đào lim dim mắt cười","Tre xanh, xanh tự bao giờ"],a:0},
+{q:"Cặp quan hệ từ 'Tuy ... nhưng ...' biểu thị quan hệ gì?",o:["Nguyên nhân - Kết quả","Tương phản","Điều kiện","Bổ sung"],a:1},
+{q:"Câu nào dưới đây dùng dấu hai chấm đúng?",o:["Mẹ bảo: con đi học đi","Mẹ bảo: 'Con đi học đi!'","Mẹ bảo con: đi học đi","Mẹ: bảo con đi học đi"],a:1},
+{q:"Từ Hán Việt 'thiên nhiên' có nghĩa là gì?",o:["Bầu trời","Tự nhiên","Nghìn năm","Ngày xanh"],a:1},
+{q:"Chủ ngữ trong câu 'Những chú chim đang hót líu lo trên cành' là gì?",o:["Những chú chim","Đang hót","Líu lo","Trên cành"],a:0},
+{q:"Câu ghép nào dưới đây dùng cặp quan hệ từ biểu thị quan hệ điều kiện?",o:["Vì trời mưa nên em ở nhà","Nếu chăm học thì em sẽ giỏi","Tuy khó nhưng em vẫn làm","Em vừa học vừa chơi"],a:1}
+],
+5:[
+{q:"Câu 'Dù trời mưa to, em vẫn đi học' sử dụng cặp quan hệ từ nào?",o:["Vì ... nên","Dù ... vẫn","Nếu ... thì","Tuy ... nhưng"],a:1},
+{q:"Biện pháp điệp ngữ có tác dụng gì?",o:["So sánh hai sự vật","Nhấn mạnh ý, tạo nhịp điệu","Giải thích rõ nghĩa","Liệt kê các sự vật"],a:1},
+{q:"Biện pháp hoán dụ là gì?",o:["Gọi tên sự vật bằng tên của sự vật khác có liên quan","So sánh ngầm không dùng từ so sánh","Nói quá sự thật để nhấn mạnh","Gán tính cách người cho vật"],a:0},
+{q:"Nghĩa gốc của từ 'mắt' là gì?",o:["Mắt bão","Mắt na","Mắt người","Mắt lưới"],a:2},
+{q:"Câu thơ 'Trẻ em như búp trên cành' sử dụng biện pháp tu từ nào?",o:["Nhân hóa","So sánh","Ẩn dụ","Hoán dụ"],a:1},
+{q:"Từ 'thật thà' thuộc trường từ vựng nào?",o:["Hình dáng bên ngoài","Tính cách con người","Màu sắc","Hành động"],a:1},
+{q:"Dấu gạch ngang trong câu văn thường dùng để làm gì?",o:["Đánh dấu lời nói trực tiếp","Kết thúc câu","Ngắt câu","Nối các từ"],a:0},
+{q:"Câu khiến (câu cầu khiến) dùng để làm gì?",o:["Hỏi về điều chưa biết","Kể lại sự việc","Yêu cầu, đề nghị, ra lệnh","Bộc lộ cảm xúc"],a:2},
+{q:"Điền từ để hoàn thành thành ngữ: 'Học một biết ...'",o:["Hai","Ba","Mười","Trăm"],a:2},
+{q:"Bài thơ 'Lượm' do nhà thơ nào sáng tác?",o:["Tố Hữu","Xuân Quỳnh","Trần Đăng Khoa","Phạm Tiến Duật"],a:0},
+{q:"Từ 'kinh nghiệm' có nghĩa là gì?",o:["Xét nghiệm y khoa","Thực nghiệm khoa học","Những hiểu biết có được từ thực tế cuộc sống","Chiêm nghiệm triết học"],a:2},
+{q:"Bài thơ 'Cao Bằng' do nhà thơ nào sáng tác?",o:["Trần Đăng Khoa","Trúc Thông","Tô Hoài","Vũ Tú Nam"],a:1},
+{q:"Từ 'trật tự' có nghĩa là gì?",o:["Hòa bình","Bình yên","Tình trạng ổn định, có tổ chức, có kỷ luật","Yên tĩnh"],a:2},
+{q:"Câu nào dưới đây có trạng ngữ chỉ mục đích?",o:["Để tìm hiểu văn hóa, chúng tôi đến tham quan bảo tàng","Ở miền sông nước, chợ nổi rất đặc sắc","Bằng sự nỗ lực, đoàn đã khám phá hang động","Mùa xuân, hoa ban nở trắng núi rừng"],a:0},
+{q:"Câu nào dưới đây có trạng ngữ chỉ phương tiện?",o:["Để tìm hiểu văn hóa...","Ở miền sông nước...","Bằng sự nỗ lực, kiên trì, đoàn đã khám phá...","Mùa xuân, hoa ban nở..."],a:2},
+{q:"Từ 'chân' trong 'chân bàn' mang nghĩa gì?",o:["Nghĩa gốc (bộ phận cơ thể)","Nghĩa chuyển (phần dưới cùng của đồ vật)","Đồng âm","Trái nghĩa"],a:1},
+{q:"Trong các từ 'dấu diếm' và 'rèn rũa', từ nào viết sai chính tả?",o:["Chỉ 'dấu diếm' sai","Chỉ 'rèn rũa' sai","Cả hai đều sai","Cả hai đều đúng"],a:2},
+{q:"Bài văn 'Quang cảnh làng mạc ngày mùa' do nhà văn nào viết?",o:["Tô Hoài","Nguyễn Du","Xuân Quỳnh","Trần Đăng Khoa"],a:0},
+{q:"Tục ngữ 'Cây ngay không sợ chết đứng' có nghĩa là gì?",o:["Người sống ngay thẳng thì không sợ bị vu oan","Cây mọc thẳng thì không bị đổ","Phải trồng cây cho thẳng","Sợ bị chết"],a:0},
+{q:"Từ 'đầu' trong 'đầu sông' mang nghĩa gì?",o:["Nghĩa gốc (bộ phận cơ thể)","Nghĩa chuyển (phần bắt đầu)","Đồng âm","Trái nghĩa"],a:1},
+{q:"Câu nào dưới đây có trạng ngữ chỉ nơi chốn?",o:["Ở miền sông nước, chợ nổi là nét văn hóa đặc sắc","Mùa xuân, hoa ban nở trắng","Để tìm hiểu văn hóa...","Bằng sự nỗ lực..."],a:0},
+{q:"Các từ 'lốc xoáy, sóng thần, bão' thuộc nhóm danh từ nào?",o:["Danh từ chỉ người","Danh từ chỉ vật","Danh từ chỉ hiện tượng tự nhiên","Danh từ riêng"],a:2},
+{q:"Khi viết một bức thư, em cần lưu ý điều gì?",o:["Dùng từ ngữ chân thành, súc tích","Viết càng dài càng tốt","Không cần đề tên người gửi","Dùng nhiều từ khó hiểu"],a:0},
+{q:"Tục ngữ 'Áo rách khéo vá hơn lành vụng may' có nghĩa là gì?",o:["Khéo tay thì hơn người giàu có","Biết cách làm thì quan trọng hơn điều kiện","Nên mua áo mới","Phải biết vá áo rách"],a:1},
+{q:"Câu 'Trời mưa to nhưng em vẫn đi học' sử dụng quan hệ từ biểu thị quan hệ gì?",o:["Nguyên nhân - Kết quả","Điều kiện","Tương phản","Bổ sung"],a:2},
+{q:"Câu thơ 'Trẻ em như búp trên cành / Biết ăn ngủ biết học hành là ngoan' thuộc thể thơ nào?",o:["Thơ tự do","Thơ lục bát","Thơ bốn chữ","Thơ năm chữ"],a:1},
+{q:"Từ 'xanh' trong các tổ hợp 'xanh biếc, xanh non, xanh thẳm' là từ gì?",o:["Từ đồng âm","Từ nhiều nghĩa","Từ cùng nghĩa","Từ trái nghĩa"],a:1},
+{q:"Tục ngữ 'Góp gió thành bão, góp cây nên rừng' nói về điều gì?",o:["Tinh thần đoàn kết","Việc trồng rừng","Hiện tượng thời tiết","Vẻ đẹp thiên nhiên"],a:0},
+{q:"Từ 'nào' trong câu nào dưới đây là từ nghi vấn?",o:["Sao ngày nào mẹ cũng về muộn thế ạ?","Cậu có muốn hôm nào đó qua nhà tớ chơi không?","Có phải lớp nào cũng chuẩn bị văn nghệ không?","Cả ba câu trên"],a:0},
+{q:"Bài thơ 'Tiếng đàn ba-la-lai-ca trên sông Đà' thuộc thể loại nào?",o:["Truyện ngắn","Thơ","Kịch","Ký sự"],a:1},
+{q:"Từ 'mắt' trong 'mắt na' mang nghĩa gì?",o:["Nghĩa gốc (bộ phận cơ thể)","Nghĩa chuyển (phần lồi trên bề mặt quả)","Đồng âm","Trái nghĩa"],a:1},
+{q:"Câu thơ 'Ngày ngày mặt trời đi qua trên lăng / Thấy một mặt trời trong lăng rất đỏ' sử dụng biện pháp nào?",o:["So sánh","Nhân hóa","Ẩn dụ","Hoán dụ"],a:2},
+{q:"Từ 'nào' trong câu 'Sao ngày nào mẹ cũng về muộn thế ạ?' là từ gì?",o:["Từ nghi vấn","Đại từ phiếm chỉ","Từ chỉ số lượng","Từ phủ định"],a:0},
+{q:"Câu nào dưới đây có trạng ngữ chỉ nguyên nhân?",o:["Vì trời mưa to, con đường bị ngập","Ở miền sông nước, chợ nổi rất đẹp","Mùa xuân, cây cối đâm chồi","Để rèn sức khỏe, em tập thể dục"],a:0},
+{q:"Bài thơ 'Bè xuôi sông La' do nhà thơ nào sáng tác?",o:["Vũ Duy Thông","Trần Đăng Khoa","Xuân Quỳnh","Tố Hữu"],a:0},
+{q:"Câu 'Ngoài đồng, lúa chín vàng' có trạng ngữ chỉ gì?",o:["Thời gian","Nơi chốn","Mục đích","Nguyên nhân"],a:1},
+{q:"Từ 'tay' trong 'tay ghế' mang nghĩa gì?",o:["Nghĩa gốc","Nghĩa chuyển","Đồng âm","Không có nghĩa"],a:1},
+{q:"Từ nào dưới đây là từ Hán Việt?",o:["Nhà cửa","Quê hương","Tổ quốc","Cha mẹ"],a:2},
+{q:"Câu 'Bạn ấy học giỏi mà lại khiêm tốn' sử dụng quan hệ từ biểu thị quan hệ gì?",o:["Nguyên nhân","Tương phản","Bổ sung","Điều kiện"],a:1},
+{q:"Tục ngữ 'Lá lành đùm lá rách' khuyên chúng ta điều gì?",o:["Phải biết tiết kiệm","Phải biết giúp đỡ người khó khăn","Phải biết bảo vệ cây xanh","Phải biết giữ gìn đồ dùng"],a:1}
+]},
+tienganh:{
+1:[
+{q:"What color is the sky?",o:["Red","Blue","Green","Yellow"],a:1},
+{q:"Từ 'cat' trong tiếng Anh nghĩa là gì?",o:["Con chó","Con mèo","Con chim","Con cá"],a:1},
+{q:"How many legs does a dog have?",o:["2","3","4","6"],a:2},
+{q:"Từ 'apple' trong tiếng Anh nghĩa là gì?",o:["Quả cam","Quả táo","Quả chuối","Quả nho"],a:1},
+{q:"Chọn từ đúng: My name ___ Mai.",o:["am","is","are","be"],a:1},
+{q:"Từ 'one' nghĩa là số mấy?",o:["2","1","3","0"],a:1},
+{q:"Which animal says 'Moo'?",o:["Cat","Dog","Cow","Duck"],a:2},
+{q:"Chọn từ đúng: This is ___ book.",o:["a","an","the","is"],a:0},
+{q:"Từ 'goodbye' trong tiếng Anh nghĩa là gì?",o:["Xin chào","Tạm biệt","Cảm ơn","Xin lỗi"],a:1},
+{q:"Chọn từ đúng: I ___ a student.",o:["is","am","are","be"],a:1},
+{q:"Từ 'red' nghĩa là màu gì?",o:["Xanh","Đỏ","Vàng","Trắng"],a:1},
+{q:"Trả lời câu hỏi: How are you? - I'm ___.",o:["fine","name","old","school"],a:0},
+{q:"Chọn từ để hỏi đúng: ___ is your name?",o:["How","What","Who","Where"],a:1},
+{q:"Từ 'thank you' trong tiếng Anh nghĩa là gì?",o:["Xin chào","Xin lỗi","Cảm ơn","Tạm biệt"],a:2},
+{q:"Fish (cá) sống ở đâu?",o:["On a tree","In the water","In the sky","In a house"],a:1},
+{q:"Từ 'sun' trong tiếng Anh nghĩa là gì?",o:["Mặt trăng","Mặt trời","Ngôi sao","Đám mây"],a:1},
+{q:"Từ 'school' trong tiếng Anh nghĩa là gì?",o:["Nhà","Trường học","Chợ","Công viên"],a:1},
+{q:"Từ 'pen' trong tiếng Anh nghĩa là gì?",o:["Bút chì","Bút mực","Thước kẻ","Cục tẩy"],a:1},
+{q:"Từ 'dog' trong tiếng Anh nghĩa là gì?",o:["Con mèo","Con chó","Con gà","Con vịt"],a:1},
+{q:"Chọn từ để hỏi đúng: ___ old are you?",o:["What","How","Who","Where"],a:1},
+{q:"Từ 'five' nghĩa là số mấy?",o:["3","4","5","6"],a:2},
+{q:"Từ 'mother' trong tiếng Anh nghĩa là gì?",o:["Bố","Mẹ","Chị","Em"],a:1},
+{q:"Từ 'happy' trong tiếng Anh nghĩa là gì?",o:["Buồn","Vui","Giận","Sợ"],a:1},
+{q:"Từ 'book' trong tiếng Anh nghĩa là gì?",o:["Quyển vở","Quyển sách","Cây bút","Cái bảng"],a:1},
+{q:"Từ 'good morning' trong tiếng Anh nghĩa là gì?",o:["Chào buổi sáng","Chào buổi tối","Tạm biệt","Xin lỗi"],a:0},
+{q:"Chọn từ đúng: This is ___ eraser.",o:["a","an","the","is"],a:1},
+{q:"Từ 'bird' trong tiếng Anh nghĩa là gì?",o:["Con cá","Con chim","Con mèo","Con chó"],a:1},
+{q:"Two + Three = ?",o:["Four","Five","Six","Seven"],a:1},
+{q:"What color is grass?",o:["Red","Blue","Green","Yellow"],a:2},
+{q:"Chọn từ đúng: I like ___.",o:["apple","apples","an apples","a apples"],a:1},
+{q:"Từ 'water' trong tiếng Anh nghĩa là gì?",o:["Lửa","Nước","Đất","Gió"],a:1},
+{q:"How many fingers do you have?",o:["Five","Eight","Ten","Two"],a:2},
+{q:"Từ 'family' trong tiếng Anh nghĩa là gì?",o:["Bạn bè","Trường học","Gia đình","Làng xóm"],a:2},
+{q:"What is this? It is ___ desk.",o:["a","an","the","is"],a:0},
+{q:"Từ 'banana' trong tiếng Anh nghĩa là gì?",o:["Quả táo","Quả chuối","Quả cam","Quả xoài"],a:1},
+{q:"Chọn từ đúng: ___ is a pencil.",o:["This","These","Those","They"],a:0},
+{q:"Từ 'teacher' trong tiếng Anh nghĩa là gì?",o:["Học sinh","Bác sĩ","Giáo viên","Nông dân"],a:2},
+{q:"Four + Six = ?",o:["Eight","Nine","Ten","Eleven"],a:2},
+{q:"Từ 'milk' trong tiếng Anh nghĩa là gì?",o:["Nước","Sữa","Trà","Cà phê"],a:1},
+{q:"Chọn lời chào đúng: Good ___! (buổi chiều)",o:["morning","afternoon","evening","night"],a:1}
+],
+2:[
+{q:"Chọn từ đúng: She ___ a teacher.",o:["am","is","are","be"],a:1},
+{q:"How many months are there in a year?",o:["10","11","12","13"],a:2},
+{q:"What day comes after Monday?",o:["Sunday","Tuesday","Wednesday","Friday"],a:1},
+{q:"Chọn từ đúng: ___ you like ice cream?",o:["Does","Do","Is","Are"],a:1},
+{q:"What is the plural form of 'child'?",o:["Childs","Children","Childes","Childern"],a:1},
+{q:"Chọn từ đúng: I ___ to school every day.",o:["goes","go","going","went"],a:1},
+{q:"What is the opposite of 'big'?",o:["Tall","Small","Long","Wide"],a:1},
+{q:"Chọn từ đúng: There ___ five apples on the table.",o:["is","am","are","be"],a:2},
+{q:"Which season is cold?",o:["Summer","Spring","Autumn","Winter"],a:3},
+{q:"Từ 'banana' trong tiếng Anh nghĩa là gì?",o:["Quả táo","Quả chuối","Quả cam","Quả nho"],a:1},
+{q:"Chọn từ đúng: He ___ a student.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ đúng: I have ___ orange.",o:["a","an","the","is"],a:1},
+{q:"Chọn từ đúng: They ___ playing in the park.",o:["am","is","are","be"],a:2},
+{q:"Từ 'rainy' trong tiếng Anh nghĩa là gì?",o:["Nắng","Mưa","Gió","Lạnh"],a:1},
+{q:"Chọn từ để hỏi đúng: ___ is the cat?",o:["What","Where","Who","How"],a:1},
+{q:"Chọn từ đúng: We ___ good friends.",o:["am","is","are","be"],a:2},
+{q:"An elephant is very ___.",o:["small","big","thin","short"],a:1},
+{q:"Chọn từ đúng: I ___ like milk.",o:["doesn't","don't","isn't","aren't"],a:1},
+{q:"Từ 'brother' trong tiếng Anh nghĩa là gì?",o:["Chị gái","Anh hoặc em trai","Mẹ","Bố"],a:1},
+{q:"Chọn từ đúng: ___ your hands before eating.",o:["Read","Wash","Open","Close"],a:1},
+{q:"Chọn từ đúng: I can ___.",o:["sings","singing","sing","sang"],a:2},
+{q:"Chọn từ để hỏi đúng: ___ many cats do you have?",o:["What","How","Who","Where"],a:1},
+{q:"Chọn từ đúng: ___ your book, please.",o:["Eat","Drink","Open","Sleep"],a:2},
+{q:"Từ 'Sunday' trong tiếng Anh nghĩa là gì?",o:["Thứ Hai","Thứ Bảy","Chủ Nhật","Thứ Sáu"],a:2},
+{q:"Từ 'teacher' trong tiếng Anh nghĩa là gì?",o:["Bác sĩ","Giáo viên","Kỹ sư","Nông dân"],a:1},
+{q:"Chọn từ đúng: It ___ sunny today.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ đúng: I go to school ___ bus.",o:["in","on","by","at"],a:2},
+{q:"Chọn lời chào đúng: ___ morning, teacher!",o:["Good","Nice","Fine","Well"],a:0},
+{q:"Từ 'nose' trong tiếng Anh nghĩa là gì?",o:["Mắt","Tai","Mũi","Miệng"],a:2},
+{q:"Chọn từ đúng: Her name ___ Lan.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ đúng: My father ___ a doctor.",o:["am","is","are","be"],a:1},
+{q:"What is the opposite of 'hot'?",o:["Warm","Cold","Cool","Dry"],a:1},
+{q:"Chọn từ đúng: ___ are three cats in the garden.",o:["This","That","There","These"],a:2},
+{q:"Từ 'hospital' trong tiếng Anh nghĩa là gì?",o:["Trường học","Bệnh viện","Siêu thị","Thư viện"],a:1},
+{q:"Chọn từ đúng: She ___ breakfast at 6:30 AM.",o:["have","has","having","had"],a:1},
+{q:"How many seasons are there in a year?",o:["Two","Three","Four","Five"],a:2},
+{q:"Từ 'homework' trong tiếng Anh nghĩa là gì?",o:["Bài tập về nhà","Công việc nhà","Sách giáo khoa","Bài kiểm tra"],a:0},
+{q:"Chọn từ đúng: I like ___ to music.",o:["listen","listening","listens","listened"],a:1},
+{q:"Từ 'playground' trong tiếng Anh nghĩa là gì?",o:["Phòng học","Thư viện","Sân chơi","Nhà ăn"],a:2},
+{q:"Chọn từ đúng: ___ do you go to school? - By bus.",o:["What","Where","How","When"],a:2}
+],
+3:[
+{q:"Chọn từ đúng: She ___ playing the piano right now.",o:["is","am","are","was"],a:0},
+{q:"Chọn từ đúng: I ___ breakfast at 7 o'clock every morning.",o:["has","have","having","had"],a:1},
+{q:"Which one is NOT a fruit?",o:["Apple","Carrot","Orange","Grape"],a:1},
+{q:"Chọn từ đúng: My mother ___ cooking dinner.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ đúng: How ___ books do you have?",o:["much","many","more","most"],a:1},
+{q:"Chọn từ đúng: I like ___ football after school.",o:["play","playing","plays","played"],a:1},
+{q:"Chọn từ đúng: The cat is ___ the table.",o:["in","on","at","under"],a:3},
+{q:"Chọn từ để hỏi đúng: ___ is the weather today?",o:["What","How","When","Where"],a:1},
+{q:"Chọn từ đúng: He ___ to school yesterday.",o:["go","goes","went","going"],a:2},
+{q:"Chọn từ đúng: Can you ___ English?",o:["speaks","speak","speaking","spoke"],a:1},
+{q:"Chọn từ đúng: She ___ long black hair.",o:["have","has","having","had"],a:1},
+{q:"Chọn từ đúng: I ___ born in 2016.",o:["am","was","were","is"],a:1},
+{q:"Chọn từ đúng: They ___ to school right now.",o:["walk","walks","walking","are walking"],a:3},
+{q:"Chọn từ đúng: ___ you swim?",o:["Do","Does","Can","Are"],a:2},
+{q:"Chọn từ đúng: This pen is not yours. It is ___.",o:["my","me","I","mine"],a:3},
+{q:"Chọn từ đúng: What ___ she doing now?",o:["am","is","are","does"],a:1},
+{q:"Chọn từ đúng: I like ___ books in the library.",o:["read","reads","reading","to reads"],a:2},
+{q:"Chọn từ đúng: There are ___ birds in the tree.",o:["much","a","many","an"],a:2},
+{q:"Chọn từ đúng: He is ___ good teacher.",o:["a","an","the","is"],a:0},
+{q:"Chọn từ đúng: We ___ in Vietnam.",o:["live","lives","living","lived"],a:0},
+{q:"Chọn từ đúng: My father ___ very tall.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ để hỏi đúng: ___ is that woman? - She is my mother.",o:["What","Where","Who","How"],a:2},
+{q:"Chọn từ đúng: I don't ___ a pet at home.",o:["has","have","having","had"],a:1},
+{q:"Chọn từ đúng: This is ___ umbrella.",o:["a","an","the","is"],a:1},
+{q:"Chọn từ đúng: She can ___ very well.",o:["sings","singing","sing","sang"],a:2},
+{q:"Chọn từ đúng: We go to school ___ 7 o'clock.",o:["in","on","at","to"],a:2},
+{q:"Chọn từ đúng: The book is ___ the bag.",o:["on","in","at","to"],a:1},
+{q:"Chọn từ đúng: My sister ___ 10 years old.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ đúng: I ___ English every day.",o:["study","studies","studying","studied"],a:0},
+{q:"Chọn từ đúng: At 7 AM, I usually ___ breakfast.",o:["eat","eats","eating","am eating"],a:0},
+{q:"Chọn từ đúng: My brother ___ football every Sunday.",o:["play","plays","playing","played"],a:1},
+{q:"What is the past tense of 'go'?",o:["Goes","Going","Went","Gone"],a:2},
+{q:"Chọn từ đúng: She is ___ than her sister.",o:["tall","taller","tallest","more tall"],a:1},
+{q:"Từ 'dentist' trong tiếng Anh nghĩa là gì?",o:["Bác sĩ","Nha sĩ","Giáo viên","Kỹ sư"],a:1},
+{q:"Chọn từ đúng: There ___ a lot of water in the bottle.",o:["am","is","are","be"],a:1},
+{q:"Chọn từ đúng: What ___ you do yesterday?",o:["do","does","did","doing"],a:2},
+{q:"Từ 'season' trong tiếng Anh nghĩa là gì?",o:["Thời gian","Mùa","Năm","Tháng"],a:1},
+{q:"Chọn từ đúng: I ___ born in Nghe An province.",o:["am","was","were","is"],a:1},
+{q:"Chọn từ đúng: How ___ is this ruler? - It is 20 centimeters.",o:["tall","long","high","big"],a:1},
+{q:"Chọn từ đúng: My school is ___ the park and the hospital.",o:["in","on","between","under"],a:2}
+],
+4:[
+{q:"Chọn từ đúng: If it rains, I ___ stay at home.",o:["will","would","am","was"],a:0},
+{q:"Chọn từ đúng: She has ___ finished her homework.",o:["yet","already","still","never"],a:1},
+{q:"Chọn từ đúng: The book ___ written by Mark Twain.",o:["is","was","were","are"],a:1},
+{q:"Chọn từ đúng: I ___ English for 3 years.",o:["learn","learned","have learned","learning"],a:2},
+{q:"Chọn từ đúng: He is ___ than his brother.",o:["tall","taller","tallest","more tall"],a:1},
+{q:"Chọn từ đúng: We should ___ the environment.",o:["protect","protecting","protected","protects"],a:0},
+{q:"Chọn từ đúng: This is the ___ movie I have ever seen.",o:["good","better","best","most good"],a:2},
+{q:"Chọn từ đúng: She asked me ___ I was.",o:["what","how","who","which"],a:1},
+{q:"Chọn từ đúng: I wish I ___ fly like a bird.",o:["can","could","will","would"],a:1},
+{q:"Chọn từ đúng: They ___ to Paris last summer.",o:["go","goes","went","gone"],a:2},
+{q:"Chọn từ đúng: She ___ English since 2020.",o:["learns","learned","has learned","learning"],a:2},
+{q:"Chọn từ đúng: This cake is very ___.",o:["deliciously","delicious","more delicious","deliciousness"],a:1},
+{q:"Chọn từ đúng: I haven't ___ my homework yet.",o:["finish","finishing","finished","finishes"],a:2},
+{q:"Chọn từ đúng: ___ I borrow your pen, please?",o:["Do","Am","Can","Are"],a:2},
+{q:"Chọn từ đúng: She is the ___ girl in our class.",o:["tall","taller","tallest","the tallest"],a:3},
+{q:"Chọn từ đúng: We must ___ the school rules.",o:["follow","following","followed","follows"],a:0},
+{q:"Chọn từ đúng: I ___ to music every night.",o:["listen","listens","listening","listened"],a:0},
+{q:"Chọn từ đúng: She doesn't ___ meat.",o:["eat","eats","eating","ate"],a:0},
+{q:"Chọn từ để hỏi đúng: ___ does the class start?",o:["What","When","Who","How"],a:1},
+{q:"Chọn từ đúng: There is ___ milk in the fridge.",o:["many","a","some","an"],a:2},
+{q:"Chọn từ đúng: My mother is ___ than my father.",o:["young","younger","youngest","more young"],a:1},
+{q:"Chọn từ đúng: I ___ play the piano when I was 5 years old.",o:["can","could","will","would"],a:1},
+{q:"Chọn từ đúng: ___ you ever been to London?",o:["Do","Did","Have","Are"],a:2},
+{q:"Chọn từ đúng: She ___ TV right now.",o:["watch","watches","is watching","watched"],a:2},
+{q:"Chọn từ đúng: The children ___ in the park at the moment.",o:["play","plays","are playing","played"],a:2},
+{q:"Chọn từ đúng: I have ___ friends at school.",o:["much","a lot of","a","an"],a:1},
+{q:"Chọn từ đúng: He ___ go to school today because he is sick.",o:["doesn't","don't","isn't","aren't"],a:0},
+{q:"Chọn từ để hỏi đúng: ___ is your favorite subject?",o:["Who","What","Where","When"],a:1},
+{q:"Chọn từ đúng: We ___ to the zoo last weekend.",o:["go","goes","went","gone"],a:2},
+{q:"Chọn từ đúng: This is the ___ building in the city.",o:["tall","taller","tallest","most tall"],a:2},
+{q:"Chọn từ đúng: She has studied English ___ she was seven.",o:["for","since","from","during"],a:1},
+{q:"Chọn từ đúng: This is the ___ interesting book I have ever read.",o:["more","most","much","many"],a:1},
+{q:"Chọn từ đúng: We ___ visit our grandparents next Sunday.",o:["will","would","are","were"],a:0},
+{q:"Từ 'environment' trong tiếng Anh nghĩa là gì?",o:["Sức khỏe","Giáo dục","Môi trường","Xã hội"],a:2},
+{q:"Chọn từ đúng: If it ___ tomorrow, we will stay at home.",o:["rain","rains","rained","raining"],a:1},
+{q:"Chọn từ đúng: She ___ her homework when I came.",o:["do","does","was doing","did"],a:2},
+{q:"Chọn từ đúng: He is good ___ playing the guitar.",o:["in","on","at","for"],a:2},
+{q:"Chọn từ đúng: You ___ eat more vegetables to be healthy.",o:["should","can","may","will"],a:0},
+{q:"Chọn từ đúng: This dress is ___ expensive than that one.",o:["much","more","most","very"],a:1},
+{q:"Chọn từ đúng: We have ___ been to Da Nang before.",o:["ever","never","yet","already"],a:1}
+],
+5:[
+{q:"Chọn từ đúng: Neither Tom ___ Jerry came to the party.",o:["or","and","nor","but"],a:2},
+{q:"Chọn từ đúng: The homework ___ be submitted by Friday.",o:["can","must","might","could"],a:1},
+{q:"Chọn từ đúng: I wish I ___ there yesterday.",o:["am","was","were","had been"],a:3},
+{q:"Chọn từ đúng: She is used to ___ early in the morning.",o:["wake","waking","woke","woken"],a:1},
+{q:"Chọn từ đúng: ___ having lunch, he went out for a walk.",o:["Before","After","While","During"],a:1},
+{q:"Chọn từ đúng: The more you practice, the ___ you will become.",o:["good","better","best","well"],a:1},
+{q:"Chọn từ đúng: If I ___ you, I would study harder.",o:["am","was","were","be"],a:2},
+{q:"Chọn từ đúng: She suggested ___ to the museum on Sunday.",o:["go","going","to go","went"],a:1},
+{q:"Chọn từ đúng: By next year, I will ___ graduated from school.",o:["will","have","would","had"],a:1},
+{q:"Chọn từ đúng: He asked me where she ___.",o:["live","lives","lived","living"],a:2},
+{q:"Chọn từ đúng: By 2030, I will ___ graduated from university.",o:["will","have","would","had"],a:1},
+{q:"Chọn từ đúng: She ___ here since 2019.",o:["is","was","has been","had been"],a:2},
+{q:"Chọn từ đúng: The letter ___ written by John yesterday.",o:["write","wrote","was written","has written"],a:2},
+{q:"Chọn từ đúng: I wish I ___ study harder last year.",o:["can","could","will","would"],a:1},
+{q:"Chọn từ đúng: ___ it rains heavily, we should stay inside.",o:["If","Unless","Although","Despite"],a:0},
+{q:"Chọn từ đúng: He asked me ___ I lived.",o:["that","where","what","which"],a:1},
+{q:"Chọn cấu trúc đúng: Not only does she sing, ___ she also dances.",o:["and","or","but","so"],a:2},
+{q:"Chọn từ đúng: The more I study, the ___ I learn.",o:["much","more","most","many"],a:1},
+{q:"Chọn từ đúng: She is interested ___ learning music.",o:["on","in","at","to"],a:1},
+{q:"Chọn từ đúng: I look forward to ___ you again soon.",o:["see","seeing","seen","saw"],a:1},
+{q:"Chọn từ đúng: This is ___ expensive car.",o:["a","an","the","is"],a:1},
+{q:"Chọn từ đúng: He ___ working when I called him.",o:["is","was","were","has been"],a:1},
+{q:"Chọn từ đúng: If I had enough money, I ___ buy a new car.",o:["buy","bought","would buy","will buy"],a:2},
+{q:"Chọn từ đúng: She told me ___ quiet during the exam.",o:["be","to be","being","been"],a:1},
+{q:"Chọn từ đúng: ___ of the students passed the exam.",o:["All","Every","Much","Each"],a:0},
+{q:"Chọn từ đúng: I haven't seen her ___ 2020.",o:["for","since","from","at"],a:1},
+{q:"Chọn từ đúng: The film was ___ boring that I fell asleep.",o:["real","really","reality","so"],a:3},
+{q:"Chọn từ đúng: He runs ___ fast.",o:["much","very","many","a lot"],a:1},
+{q:"Chọn từ đúng: We arrived ___ the airport early in the morning.",o:["in","on","at","to"],a:2},
+{q:"Chọn từ đúng: ___ you mind opening the window?",o:["Do","Would","Are","Can"],a:1},
+{q:"Chọn từ đúng: She is ___ enough to carry this box.",o:["strength","strongly","strong","strengthen"],a:2},
+{q:"Chọn từ đúng: We should ___ trees to protect the environment.",o:["plant","planting","planted","plants"],a:0},
+{q:"Chọn từ đúng: This book is ___ than that one.",o:["interesting","more interesting","most interesting","interestingly"],a:1},
+{q:"Chọn từ đúng: He ___ his homework before he went to bed.",o:["finish","finishes","finished","has finished"],a:2},
+{q:"Chọn từ đúng: My brother enjoys ___ cartoons on TV.",o:["watch","watches","watching","watched"],a:2},
+{q:"Chọn từ đúng: We have lived here ___ five years.",o:["for","since","from","during"],a:0},
+{q:"Chọn từ đúng: She asked me ___ I wanted to eat.",o:["that","what","who","which"],a:1},
+{q:"Chọn từ đúng: If she ___ hard, she will pass the exam.",o:["study","studies","studied","studying"],a:1},
+{q:"Chọn từ đúng: The Mekong River is one of the ___ rivers in the world.",o:["long","longer","longest","most long"],a:2}
+]}};
+var SUBS=[{id:"toan",n:"Toán học",ic:"🔢",cl:"#FF6B35",gd:"linear-gradient(135deg,#FF6B35,#F7931E)"},{id:"tiengviet",n:"Tiếng Việt",ic:"📖",cl:"#E91E63",gd:"linear-gradient(135deg,#E91E63,#FF5252)"},{id:"tienganh",n:"Tiếng Anh",ic:"🌍",cl:"#2196F3",gd:"linear-gradient(135deg,#2196F3,#00BCD4)"}];
+var RANKS=[{n:"Sĩ Tử",m:0,i:"📜",c:"#8D6E63"},{n:"Tú Tài",m:500,i:"🎓",c:"#7B1FA2"},{n:"Cử Nhân",m:1500,i:"⭐",c:"#1565C0"},{n:"Tiến Sĩ",m:3000,i:"🏅",c:"#2E7D32"},{n:"Hoàng Giáp",m:5000,i:"👑",c:"#E65100"},{n:"Thám Hoa",m:8000,i:"🌸",c:"#D81B60"},{n:"Bảng Nhãn",m:12000,i:"🏆",c:"#F57F17"},{n:"Trạng Nguyên",m:20000,i:"🐉",c:"#B71C1C"}];
+var YAYS=["Tuyệt vời! 🎉","Giỏi lắm! ⭐","Xuất sắc! 🏆","Chính xác! ✅","Đúng rồi! 🎯","Siêu giỏi! 💪","Thông minh quá! 🧠"];
+var NAYS=["Cố gắng lên nhé! 💪","Sai rồi, thử lại nào! 🔄","Đừng nản nhé! ⭐","Lần sau sẽ đúng! 🌟","Suy nghĩ kỹ hơn nhé! 🤔"];
+
+var playerName="",playerGrade=1,playerClass="",totalScore=0,historyList=[],gradeInput=1;
+var curQuestions=[],curIndex=0,curScore=0,curSelected=-1,curTimeLeft=0,curCombo=0,curMaxCombo=0,curCorrect=0,curSubject="",timerId=0;
+
+function getRank(s){var r=RANKS[0];for(var i=0;i<RANKS.length;i++)if(s>=RANKS[i].m)r=RANKS[i];return r}
+function getNext(s){for(var i=0;i<RANKS.length;i++)if(RANKS[i].m>s)return RANKS[i];return RANKS[RANKS.length-1]}
+function getSub(id){for(var i=0;i<SUBS.length;i++)if(SUBS[i].id===id)return SUBS[i];return null}
+function fmtTime(s){return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60)}
+function pickRandom(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+function goPage(name){
+  var p=document.getElementsByClassName('page');for(var i=0;i<p.length;i++)p[i].className='page';
+  var t={login:'pageLogin',home:'pageHome',quiz:'pageQuiz',result:'pageResult',ranks:'pageRanks',history:'pageHistory'};
+  document.getElementById(t[name]).className=(name==='login'||name==='result')?'page show mid':'page show';
+  if(name==='home')buildHome();if(name==='ranks')buildRanks();if(name==='history')buildHistory();
+  // Ẩn nút giọng đọc khi không ở trang quiz
+  if(name!=='quiz'){
+    document.getElementById('voiceBtn').style.display='none';
+    voiceEnabled=false; stopSpeaking();
+  }
+  window.scrollTo(0,0);
+}
+
+function buildGrades(){
+  var c=document.getElementById('gradeArea');c.innerHTML='';
+  for(var g=1;g<=5;g++){var b=document.createElement('button');b.className='gb'+(gradeInput===g?' on':'');b.textContent=g;b.setAttribute('data-g',g);
+    b.onclick=function(){gradeInput=parseInt(this.getAttribute('data-g'));buildGrades()};c.appendChild(b)}
+}
+
+function doLogin(){
+  var n=document.getElementById('txtName').value.trim();
+  if(!n){alert('Vui lòng nhập tên của con!');return}
+  var c=document.getElementById('txtClass').value.trim().toUpperCase();
+  playerName=n;playerGrade=gradeInput;playerClass=c;goPage('home');
+}
+function doLogout(){playerName='';playerClass='';totalScore=0;historyList=[];document.getElementById('txtName').value='';document.getElementById('txtClass').value='';goPage('login');buildGrades()}
+
+function buildHome(){
+  var r=getRank(totalScore),n=getNext(totalScore),p=n.m>r.m?((totalScore-r.m)/(n.m-r.m))*100:100;
+  document.getElementById('homeIcon').textContent=r.i;document.getElementById('homeName').textContent=playerName;
+  document.getElementById('homeGrade').textContent='Lớp '+playerGrade+(playerClass?' • Lớp '+playerClass:'');
+  var rk=document.getElementById('homeRank');rk.textContent=r.i+' '+r.n;rk.style.background=r.c+'20';rk.style.color=r.c;
+  document.getElementById('homeScore').textContent=totalScore.toLocaleString();
+  document.getElementById('homeCurRk').textContent=r.i+' '+r.n;document.getElementById('homeNxtRk').textContent=n.i+' '+n.n;
+  document.getElementById('homeBar').style.width=Math.min(p,100)+'%';
+  document.getElementById('homeNeed').textContent='Còn '+(n.m-totalScore).toLocaleString()+' điểm nữa để lên cấp';
+  var sl=document.getElementById('homeSubjects');sl.innerHTML='';
+  for(var i=0;i<SUBS.length;i++){var s=SUBS[i];var b=document.createElement('button');b.className='sc-btn';
+    b.setAttribute('data-sub',s.id);var qc=QBANK[s.id][playerGrade].length;
+    b.innerHTML='<div class="si" style="background:'+s.gd+'">'+s.ic+'</div><div style="flex:1"><div style="font-size:17px;font-weight:700;margin-bottom:3px;color:#333">'+s.n+'</div><div style="font-size:13px;color:#999">Lớp '+playerGrade+' • Ngân hàng '+qc+' câu hỏi • Mỗi lượt thi 15 câu</div></div><div style="font-size:22px;color:'+s.cl+';font-weight:800">→</div>';
+    b.onclick=function(){startQuiz(this.getAttribute('data-sub'))};sl.appendChild(b)}
+  var rh=document.getElementById('homeRecent');
+  if(!historyList.length){rh.innerHTML='';return}
+  var h='<div style="font-size:12px;color:#999;font-weight:700;letter-spacing:2px;margin-bottom:10px">📋 KẾT QUẢ GẦN ĐÂY</div>';
+  for(var j=0;j<Math.min(3,historyList.length);j++){var x=historyList[j],s2=getSub(x.sub);
+    h+='<div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.05);margin-bottom:8px"><span style="font-size:20px">'+(s2?s2.ic:'')+'</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#333">'+(s2?s2.n:'')+' • Lớp '+x.gr+'</div><div style="font-size:11px;color:#999">'+x.ok+'/'+x.tot+' đúng • Combo x'+x.mc+' • '+x.dt+'</div></div><div style="font-size:16px;font-weight:800;color:#FF9800">+'+x.sc+'</div></div>'}
+  rh.innerHTML=h
+}
+
+function startQuiz(subId){
+  curSubject=subId;curQuestions=shuffle(QBANK[subId][playerGrade]).slice(0,15);
+  curIndex=0;curScore=0;curSelected=-1;curTimeLeft=450;curCombo=0;curMaxCombo=0;curCorrect=0;
+  // Chỉ hiện nút giọng đọc khi thi môn Tiếng Anh
+  var vb=document.getElementById('voiceBtn');
+  if(subId==='tienganh'){
+    vb.style.display='inline-block';
+  } else {
+    vb.style.display='none';
+    voiceEnabled=false; stopSpeaking();
+  }
+  goPage('quiz');showQuestion();clearInterval(timerId);
+  timerId=setInterval(function(){curTimeLeft--;var el=document.getElementById('qTimer');el.textContent='⏱️ '+fmtTime(curTimeLeft);
+    el.className='tm '+(curTimeLeft<60?'dg':'nm');if(curTimeLeft<=0){clearInterval(timerId);finishQuiz()}},1000)
+}
+function doRetry(){startQuiz(curSubject)}
+
+function showQuestion(){
+  var s=getSub(curSubject),q=curQuestions[curIndex],L=['A','B','C','D'];
+  document.getElementById('qScore').textContent=curScore;document.getElementById('qSubLabel').textContent=s.ic+' '+s.n;
+  document.getElementById('qProgress').textContent='Câu '+(curIndex+1)+' / '+curQuestions.length;
+  document.getElementById('qBar').style.width=((curIndex+1)/curQuestions.length*100)+'%';
+  document.getElementById('qNum').textContent=curIndex+1;document.getElementById('qNum').style.background=s.gd;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qCombo').innerHTML=curCombo>=2?'<span style="display:inline-block;padding:5px 18px;border-radius:18px;background:linear-gradient(135deg,#FF9800,#F44336);font-size:13px;font-weight:700;color:#fff">🔥 COMBO x'+curCombo+'!</span>':'';
+  var g=document.getElementById('qOpts');g.innerHTML='';
+  for(var i=0;i<q.o.length;i++){var b=document.createElement('button');b.className='ob';b.setAttribute('data-idx',i);
+    b.innerHTML='<span class="ol">'+L[i]+'</span><span style="flex:1">'+q.o[i]+'</span>';
+    b.onclick=function(){pickAnswer(parseInt(this.getAttribute('data-idx')))};g.appendChild(b)}
+  document.getElementById('qFeedback').style.display='none';
+  document.getElementById('qReadBtn').style.display=voiceEnabled?'inline-block':'none';
+  // Auto-read question when voice is enabled
+  if(voiceEnabled){
+    var lang = getQuizLang();
+    var readText = '';
+    var lbls = ['A','B','C','D'];
+    if(lang === 'en'){
+      readText = 'Question '+(curIndex+1)+'. '+q.q;
+      for(var k=0;k<q.o.length;k++) readText += '. '+lbls[k]+': '+q.o[k];
+    } else {
+      readText = 'Câu '+(curIndex+1)+'. '+q.q;
+      for(var k=0;k<q.o.length;k++) readText += '. Đáp án '+lbls[k]+': '+q.o[k];
+    }
+    setTimeout(function(){speakText(readText, lang)},300);
+  }
+  window.scrollTo(0,0);
+}
+
+function pickAnswer(idx){
+  if(curSelected>=0)return;curSelected=idx;
+  var q=curQuestions[curIndex],ok=(q.a===idx),pts=0;
+  if(ok){
+    curCombo++;curCorrect++;pts=(10+Math.floor(curTimeLeft/30))*Math.min(curCombo,5);curScore+=pts;
+    if(curCombo>curMaxCombo)curMaxCombo=curCombo;
+    playCorrectSound();
+    if(voiceEnabled){
+      var fl = getQuizLang();
+      setTimeout(function(){speakText(fl==='en'?'Correct! Well done!':'Đúng rồi! Giỏi lắm!', fl)},200);
+    }
+  }else{
+    curCombo=0;
+    playWrongSound();
+    if(voiceEnabled){
+      var fl2 = getQuizLang();
+      var correctAns = q.o[q.a];
+      setTimeout(function(){speakText(fl2==='en'?'Wrong! The correct answer is '+correctAns:'Sai rồi! Đáp án đúng là '+correctAns, fl2)},200);
+    }
+  }
+  document.getElementById('qScore').textContent=curScore;
+  var bs=document.getElementById('qOpts').children;
+  for(var i=0;i<bs.length;i++){bs[i].style.cursor='default';bs[i].onclick=null;
+    if(i===q.a){bs[i].className='ob dn ok';bs[i].children[0].textContent='✓'}
+    else if(i===idx&&!ok){bs[i].className='ob dn no';bs[i].children[0].textContent='✕'}
+    else bs[i].className='ob dn'}
+  var fb=document.getElementById('qFeedback');fb.style.display='block';fb.className='fb '+(ok?'fok':'fno');
+  fb.innerHTML='<span style="font-size:15px;font-weight:700;color:'+(ok?'#2e7d32':'#c62828')+'">'+pickRandom(ok?YAYS:NAYS)+(pts>0?' (+'+pts+' điểm)':'')+'</span>';
+  setTimeout(function(){curSelected=-1;stopSpeaking();if(curIndex<curQuestions.length-1){curIndex++;showQuestion()}else finishQuiz()},voiceEnabled?2500:1500)
+}
+
+function forceEnd(){clearInterval(timerId);stopSpeaking();finishQuiz()}
+function finishQuiz(){
+  clearInterval(timerId);totalScore+=curScore;
+  playCompleteSound();
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:curScore,ok:curCorrect,tot:curQuestions.length,mc:curMaxCombo,dt:new Date().toLocaleDateString('vi-VN')});
+  if(historyList.length>20)historyList.length=20;
+  var r=getRank(totalScore),s=getSub(curSubject);
+  document.getElementById('resEmoji').textContent=curCorrect>=12?'🏆':curCorrect>=8?'⭐':'💪';
+  document.getElementById('resTitle').textContent=curCorrect>=12?'Xuất sắc!':curCorrect>=8?'Tốt lắm!':'Cố gắng hơn nhé!';
+  document.getElementById('resSub').textContent=(s?s.n:'')+' • Lớp '+playerGrade+(playerClass?' '+playerClass:'');
+  document.getElementById('resSc').textContent=curScore;document.getElementById('resOk').textContent=curCorrect+'/'+curQuestions.length;
+  document.getElementById('resCb').textContent='x'+curMaxCombo;
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';
+  if(voiceEnabled && curSubject==='tienganh') setTimeout(function(){speakText('Result: You got '+curCorrect+' out of '+curQuestions.length+' correct! Score: '+curScore+' points.', 'en')},500);
+  goPage('result')
+}
+
+function buildRanks(){
+  var cur=getRank(totalScore),el=document.getElementById('ranksList');el.innerHTML='';
+  for(var i=0;i<RANKS.length;i++){var r=RANKS[i],ic=(r.n===cur.n),gt=(totalScore>=r.m);
+    el.innerHTML+='<div style="display:flex;align-items:center;gap:14px;padding:18px;border-radius:14px;border:'+(ic?'2px solid '+r.c:'1px solid rgba(0,0,0,.06)')+';background:'+(ic?r.c+'15':'rgba(255,255,255,.6)')+';margin-bottom:10px;opacity:'+(gt?'1':'.4')+';box-shadow:0 2px 8px rgba(0,0,0,.04)"><div style="width:48px;height:48px;border-radius:12px;background:'+(gt?r.c+'20':'#f5f5f5')+';display:flex;align-items:center;justify-content:center;font-size:26px">'+(gt?r.i:'🔒')+'</div><div style="flex:1"><div style="font-size:16px;font-weight:700;color:'+(gt?'#333':'#999')+'">'+r.n+(ic?' <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:'+r.c+';color:#fff;font-weight:700">HIỆN TẠI</span>':'')+'</div><div style="font-size:12px;color:#999;margin-top:2px">Cần '+r.m.toLocaleString()+' điểm</div></div>'+(gt?'<span style="font-size:18px;color:#4CAF50">✓</span>':'')+'</div>'}
+}
+
+function buildHistory(){
+  var el=document.getElementById('histList');
+  if(!historyList.length){el.innerHTML='<div style="text-align:center;padding:60px 20px;color:#999"><div style="font-size:44px;margin-bottom:14px">📝</div><p style="font-size:15px">Chưa có lịch sử thi đấu nào.</p><p style="font-size:13px;margin-top:6px">Hãy bắt đầu thi đấu ngay!</p></div>';return}
+  el.innerHTML='';
+  for(var i=0;i<historyList.length;i++){var h=historyList[i],s=getSub(h.sub),pc=Math.round(h.ok/h.tot*100);
+    el.innerHTML+='<div style="display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.05);margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.03)"><div style="width:44px;height:44px;border-radius:11px;background:'+(s?s.gd:'#eee')+';display:flex;align-items:center;justify-content:center;font-size:20px">'+(s?s.ic:'')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#333">'+(s?s.n:'')+' • Lớp '+h.gr+'</div><div style="font-size:11px;color:#999;margin-top:2px">'+h.ok+'/'+h.tot+' đúng ('+pc+'%) • 🔥 Combo x'+h.mc+' • '+h.dt+'</div></div><div style="font-size:16px;font-weight:800;color:'+(pc>=80?'#4CAF50':pc>=50?'#FF9800':'#f44336')+'">+'+h.sc+'</div></div>'}
+}
+
+buildGrades();
+</script>
+</body>
+</html>
