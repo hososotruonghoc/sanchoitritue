@@ -1196,9 +1196,28 @@ tienganh:{
 {q:"Chọn từ đúng: Ha Noi is the ___ of Viet Nam.",o:["city","country","capital","town"],a:2},
 {q:"Chọn từ đúng: She ___ a letter to her friend yesterday.",o:["write","writes","wrote","written"],a:2},
 {q:"Chọn từ đúng: My father is ___ than my mother.",o:["tall","taller","tallest","more tall"],a:1}
-]}};// ===== SOUND =====
-var soundEnabled=true,audioCtx=null;
-function getAudioCtx(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}return audioCtx}
+]}};// ===== SOUND (iOS compatible) =====
+var soundEnabled=true,audioCtx=null,iosAudioUnlocked=false;
+function getAudioCtx(){
+  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+  // iOS: resume suspended AudioContext
+  if(audioCtx&&audioCtx.state==='suspended'){audioCtx.resume()}
+  return audioCtx;
+}
+// iOS requires user gesture to unlock audio - do it on first touch/click anywhere
+function unlockIOSAudio(){
+  if(iosAudioUnlocked)return;
+  var ctx=getAudioCtx();
+  if(ctx){
+    var buf=ctx.createBuffer(1,1,22050);var src=ctx.createBufferSource();
+    src.buffer=buf;src.connect(ctx.destination);src.start(0);
+    if(ctx.state==='suspended')ctx.resume();
+    iosAudioUnlocked=true;
+  }
+}
+document.addEventListener('touchstart',unlockIOSAudio,{once:true});
+document.addEventListener('touchend',unlockIOSAudio,{once:true});
+document.addEventListener('click',unlockIOSAudio,{once:true});
 function playTone(f,d,t,v){if(!soundEnabled)return;var c=getAudioCtx();if(!c)return;var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t||'sine';o.frequency.value=f;g.gain.value=v||.12;g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start(c.currentTime);o.stop(c.currentTime+d)}
 function playCorrectSound(){if(!soundEnabled)return;setTimeout(function(){playTone(523,.15,'sine',.1)},0);setTimeout(function(){playTone(659,.15,'sine',.1)},100);setTimeout(function(){playTone(784,.25,'sine',.12)},200)}
 function playWrongSound(){if(!soundEnabled)return;setTimeout(function(){playTone(350,.2,'triangle',.08)},0);setTimeout(function(){playTone(280,.3,'triangle',.06)},150)}
@@ -1566,30 +1585,54 @@ function buildHistory(){var el=document.getElementById('histList');
     el.innerHTML+='<div style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);margin-bottom:6px"><div style="width:38px;height:38px;border-radius:10px;background:'+(s?s.gd:'#333')+';display:flex;align-items:center;justify-content:center;font-size:16px">'+(s?s.ic:'')+'</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#475569">'+(h.gm||'Quiz')+' • '+(s?s.n:'')+'</div><div style="font-size:10px;color:#94a3b8">'+h.ok+'/'+h.tot+' • '+h.dt+'</div></div><div style="font-size:14px;font-weight:800;color:'+(pc>=80?'#16a34a':pc>=50?'#d97706':'#ef4444')+'">+'+h.sc+'</div></div>'}}
 
 
-// ===== TILT GAME (Nghiêng chọn đáp án) =====
-var tiltQs=[],tiltIdx=0,tiltSc=0,tiltCorrect=0,tiltTime=8,tiltTid=0,tiltPicked=false,tiltSide='',tiltDeviceHandler=null;
+// ===== TILT GAME (Nghiêng chọn đáp án - iOS compatible) =====
+var tiltQs=[],tiltIdx=0,tiltSc=0,tiltCorrect=0,tiltTime=8,tiltTid=0,tiltPicked=false,tiltSide='',tiltDeviceHandler=null,tiltOrientGranted=false;
+
+function requestTiltPermission(callback){
+  // iOS 13+ requires permission request for DeviceOrientation
+  if(typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function'){
+    DeviceOrientationEvent.requestPermission().then(function(state){
+      if(state==='granted'){tiltOrientGranted=true;callback(true)}
+      else{callback(false)}
+    }).catch(function(){callback(false)});
+  } else if(window.DeviceOrientationEvent){
+    // Android & older iOS: no permission needed
+    tiltOrientGranted=true;callback(true);
+  } else {
+    // No sensor: desktop
+    callback(false);
+  }
+}
+
 function startTiltGame(){
   tiltQs=shuffle(QBANK[curSubject][playerGrade]).slice(0,15);tiltIdx=0;tiltSc=0;tiltCorrect=0;tiltPicked=false;
   goPage('tilt');showTiltQ();
-  // Keyboard support
+  // Keyboard support (PC)
   document.onkeydown=function(e){if(e.key==='ArrowLeft')tiltPick('left');if(e.key==='ArrowRight')tiltPick('right')};
-  // Device tilt support (mobile)
-  if(window.DeviceOrientationEvent){
-    tiltDeviceHandler=function(e){
-      if(tiltPicked)return;
-      var gamma=e.gamma||0; // left-right tilt
-      var ch=document.getElementById('tiltChar');
-      if(ch){
-        // Lean character visually
-        var lean=Math.max(-25,Math.min(25,gamma));
-        ch.style.transform='translate(-50%,-50%) rotate('+lean+'deg)';
-      }
-      // Auto-pick when tilted far enough
-      if(gamma<-22)tiltPick('left');
-      else if(gamma>22)tiltPick('right');
-    };
-    window.addEventListener('deviceorientation',tiltDeviceHandler);
+  // Device tilt support (mobile) — request permission on iOS
+  if(!tiltOrientGranted){
+    requestTiltPermission(function(granted){
+      if(granted) attachTiltListener();
+    });
+  } else {
+    attachTiltListener();
   }
+}
+
+function attachTiltListener(){
+  if(tiltDeviceHandler) window.removeEventListener('deviceorientation',tiltDeviceHandler);
+  tiltDeviceHandler=function(e){
+    if(tiltPicked)return;
+    var gamma=e.gamma||0;
+    var ch=document.getElementById('tiltChar');
+    if(ch){
+      var lean=Math.max(-25,Math.min(25,gamma));
+      ch.style.transform='translate(-50%,-50%) rotate('+lean+'deg)';
+    }
+    if(gamma<-22)tiltPick('left');
+    else if(gamma>22)tiltPick('right');
+  };
+  window.addEventListener('deviceorientation',tiltDeviceHandler);
 }
 function showTiltQ(){
   tiltPicked=false;clearInterval(tiltTid);
