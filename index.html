@@ -118,7 +118,7 @@ background:linear-gradient(135deg,#e0f2fe 0%,#c7d2fe 40%,#fce7f3 100%);transitio
 .splash-feat:nth-child(5){animation-delay:1.1s}
 @keyframes featIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .splash-bar{width:200px;height:4px;border-radius:3px;background:#e2e8f0;margin:0 auto;overflow:hidden}
-.splash-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#ec4899);animation:barFill 5s linear forwards}
+.splash-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#ec4899);animation:barFill 3s linear forwards}
 @keyframes barFill{from{width:0}to{width:100%}}
 </style>
 </head>
@@ -1198,12 +1198,62 @@ tienganh:{
 {q:"Chọn từ đúng: My father is ___ than my mother.",o:["tall","taller","tallest","more tall"],a:1}
 ]}};// ===== SOUND =====
 var soundEnabled=true,audioCtx=null;
-function getAudioCtx(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();return audioCtx}
-function playTone(f,d,t,v){if(!soundEnabled)return;var c=getAudioCtx();if(!c)return;try{var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t||'sine';o.frequency.value=f;g.gain.setValueAtTime(v||.12,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start(c.currentTime);o.stop(c.currentTime+d)}catch(e){}}
-function playCorrectSound(){if(!soundEnabled)return;playTone(523,.15,'sine',.1);setTimeout(function(){playTone(659,.15,'sine',.1)},100);setTimeout(function(){playTone(784,.25,'sine',.12)},200)}
-function playWrongSound(){if(!soundEnabled)return;playTone(350,.2,'triangle',.08);setTimeout(function(){playTone(280,.3,'triangle',.06)},150)}
-function playCompleteSound(){if(!soundEnabled)return;playTone(523,.2,'sine',.1);setTimeout(function(){playTone(659,.2,'sine',.1)},150);setTimeout(function(){playTone(784,.2,'sine',.1)},300);setTimeout(function(){playTone(1047,.4,'sine',.12)},450)}
-function toggleSound(){soundEnabled=!soundEnabled;document.getElementById('soundBtn').textContent=soundEnabled?'🔊':'🔇'}
+function getAudioCtx(){
+  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+  return audioCtx;
+}
+function playTone(freq,duration,type,vol){
+  if(!soundEnabled)return;
+  var ctx=getAudioCtx();if(!ctx)return;
+  if(ctx.state==='suspended')ctx.resume();
+  var osc=ctx.createOscillator();var gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.type=type||'sine';osc.frequency.value=freq;
+  gain.gain.value=vol||0.15;
+  gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+duration);
+  osc.start(ctx.currentTime);osc.stop(ctx.currentTime+duration);
+}
+function playCorrectSound(){
+  if(!soundEnabled)return;
+  setTimeout(function(){playTone(523,0.15,'sine',0.12)},0);
+  setTimeout(function(){playTone(659,0.15,'sine',0.12)},100);
+  setTimeout(function(){playTone(784,0.25,'sine',0.15)},200);
+}
+function playWrongSound(){
+  if(!soundEnabled)return;
+  setTimeout(function(){playTone(350,0.2,'triangle',0.1)},0);
+  setTimeout(function(){playTone(280,0.3,'triangle',0.08)},150);
+}
+function playCompleteSound(){
+  if(!soundEnabled)return;
+  setTimeout(function(){playTone(523,0.2,'sine',0.12)},0);
+  setTimeout(function(){playTone(659,0.2,'sine',0.12)},150);
+  setTimeout(function(){playTone(784,0.2,'sine',0.12)},300);
+  setTimeout(function(){playTone(1047,0.4,'sine',0.15)},450);
+}
+// Âm thanh vòng quay - tick tick tick tăng dần
+function playSpinSound(duration){
+  if(!soundEnabled)return;
+  var count=Math.floor(duration/1000*12);
+  for(var i=0;i<count;i++){
+    (function(idx){
+      setTimeout(function(){
+        var freq=300+idx*15;
+        playTone(freq,0.06,'sine',0.08);
+      },idx*(duration/count));
+    })(i);
+  }
+}
+// Âm thanh vòng quay dừng
+function playSpinStopSound(){
+  if(!soundEnabled)return;
+  setTimeout(function(){playTone(880,0.15,'sine',0.12)},0);
+  setTimeout(function(){playTone(1100,0.2,'sine',0.15)},150);
+}
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  document.getElementById('soundBtn').textContent=soundEnabled?'🔊':'🔇';
+}
 
 // ===== TTS (English only) =====
 var voiceEnabled=false,currentAudio=null;
@@ -1524,10 +1574,11 @@ function doSpin(){
   if(spinSpinning||spinIndex>=spinQuestions.length)return;spinSpinning=true;
   document.getElementById('spinBtn').style.display='none';
   var target=1440+Math.random()*1080,start=spinAngle,dur=3000,st=Date.now();
+  playSpinSound(dur);
   function animSpin(){var el=Math.min((Date.now()-st)/dur,1),ease=1-Math.pow(1-el,3);
     spinAngle=start+target*ease;drawWheel();
     if(el<1)requestAnimationFrame(animSpin);
-    else{spinSpinning=false;showSpinQuestion()}}animSpin()
+    else{spinSpinning=false;playSpinStopSound();showSpinQuestion()}}animSpin()
 }
 function showSpinQuestion(){
   if(spinIndex>=spinQuestions.length){endSpinGame();return}
@@ -1718,7 +1769,7 @@ function endTiltGame(){
 setTimeout(function(){
   var sp=document.getElementById('splashScreen');
   if(sp){sp.classList.add('hide');setTimeout(function(){sp.style.display='none'},600)}
-},5000);
+},3000);
 // Bấm vào splash để bỏ qua sớm
 document.getElementById('splashScreen').onclick=function(){
   this.classList.add('hide');var self=this;setTimeout(function(){self.style.display='none'},600)
