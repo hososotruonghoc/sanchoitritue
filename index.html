@@ -132,11 +132,11 @@ background:linear-gradient(135deg,#e0f2fe 0%,#c7d2fe 40%,#fce7f3 100%);transitio
   <p style="color:#64748b;font-size:15px;margin-bottom:4px">Sân chơi trí tuệ dành cho học sinh tiểu học</p>
   <p style="color:#94a3b8;font-size:12px;margin-bottom:18px">Phiên bản 2.0 — Cập nhật mới!</p>
   <div class="splash-features">
-    <div class="splash-feat">🏆 5 trò chơi hấp dẫn</div>
+    <div class="splash-feat">🏆 6 trò chơi hấp dẫn</div>
     <div class="splash-feat">📚 736 câu hỏi theo SGK</div>
-    <div class="splash-feat">🎈 Bắn Bóng Bay</div>
-    <div class="splash-feat">🧩 Ghép Đôi • ⚡ Nhanh Như Chớp</div>
-    <div class="splash-feat">🎯 Vòng Quay May Mắn</div>
+    <div class="splash-feat">🎈 Bắn Bóng Bay • ⚡ Nhanh Như Chớp</div>
+    <div class="splash-feat">🧩 Ghép Đôi • 🎯 Vòng Quay May Mắn</div>
+    <div class="splash-feat">📱 Nghiêng Chọn Đáp Án — MỚI!</div>
   </div>
   <p style="color:#94a3b8;font-size:11px;margin-bottom:12px">Toán • Tiếng Việt • Tiếng Anh — Lớp 1 đến Lớp 5</p>
   <div class="splash-bar"><div class="splash-bar-fill"></div></div>
@@ -228,6 +228,7 @@ background:linear-gradient(135deg,#e0f2fe 0%,#c7d2fe 40%,#fce7f3 100%);transitio
     <div class="game-card" onclick="startGame('tf')"><span class="gicon">⚡</span><div class="gname">Nhanh Như Chớp</div><div class="gdesc">Đúng hay Sai trong 5 giây</div></div>
     <div class="game-card" onclick="startGame('match')"><span class="gicon">🧩</span><div class="gname">Ghép Đôi</div><div class="gdesc">Lật thẻ tìm cặp đúng</div></div>
     <div class="game-card" onclick="startGame('spin')"><span class="gicon">🎯</span><div class="gname">Vòng Quay May Mắn</div><div class="gdesc">Quay và trả lời</div></div>
+    <div class="game-card" onclick="startGame('tilt')"><span class="gicon">📱</span><div class="gname">Nghiêng Chọn Đáp Án</div><div class="gdesc">Nghiêng trái hoặc phải</div></div>
   </div>
 </div></div>
 
@@ -329,6 +330,47 @@ background:linear-gradient(135deg,#e0f2fe 0%,#c7d2fe 40%,#fce7f3 100%);transitio
     <div id="spinOpts" class="og"></div>
     <div id="spinFeedback" style="display:none"></div>
   </div>
+</div></div>
+
+<!-- ====== TILT GAME ====== -->
+<div class="page" id="pageTilt"><div class="wrap" style="max-width:800px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <button class="gh" onclick="endTiltGame()">✕ Kết thúc</button>
+    <div style="font-size:17px;font-weight:800;color:#1e293b">📱 Nghiêng Chọn</div>
+    <div style="padding:8px 14px;border-radius:10px;background:#fef3c7;border:1px solid #fde68a;color:#d97706;font-weight:700">⭐ <span id="tiltScore">0</span></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:#64748b;margin-bottom:8px">
+    <span id="tiltProgress">Câu 1/15</span>
+    <span id="tiltTimer" style="color:#d97706;font-weight:700">⏱️ 8</span>
+  </div>
+  <div class="pt" style="margin-bottom:14px"><div class="pf" id="tiltTimeBar" style="width:100%;background:linear-gradient(90deg,#22c55e,#4ade80)"></div></div>
+  <!-- Question -->
+  <div class="card" style="padding:20px;margin-bottom:16px;text-align:center">
+    <div id="tiltQuestion" style="font-size:20px;font-weight:700;color:#1e293b;line-height:1.5"></div>
+  </div>
+  <!-- Character + Answers -->
+  <div style="position:relative;height:220px;background:linear-gradient(180deg,#f0fdf4,#dcfce7);border-radius:22px;border:2px solid #86efac;overflow:hidden;margin-bottom:12px">
+    <!-- Left answer -->
+    <div id="tiltLeft" onclick="tiltPick('left')" style="position:absolute;left:0;top:0;width:48%;height:100%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;border-radius:20px 0 0 20px">
+      <div style="text-align:center;padding:12px">
+        <div style="font-size:14px;color:#94a3b8;font-weight:700;margin-bottom:6px">◄ TRÁI</div>
+        <div id="tiltLeftText" style="font-size:20px;font-weight:800;color:#1e293b;background:#fff;padding:14px 20px;border-radius:14px;border:2px solid #e2e8f0;box-shadow:0 3px 12px rgba(0,0,0,.06);min-width:80px"></div>
+      </div>
+    </div>
+    <!-- Character in middle -->
+    <div id="tiltChar" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:64px;z-index:2;transition:transform .3s;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1))">🧑‍🎓</div>
+    <!-- Divider -->
+    <div style="position:absolute;left:50%;top:15%;height:70%;width:2px;background:#bbf7d0;transform:translateX(-50%);z-index:1"></div>
+    <!-- Right answer -->
+    <div id="tiltRight" onclick="tiltPick('right')" style="position:absolute;right:0;top:0;width:48%;height:100%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;border-radius:0 20px 20px 0">
+      <div style="text-align:center;padding:12px">
+        <div style="font-size:14px;color:#94a3b8;font-weight:700;margin-bottom:6px">PHẢI ►</div>
+        <div id="tiltRightText" style="font-size:20px;font-weight:800;color:#1e293b;background:#fff;padding:14px 20px;border-radius:14px;border:2px solid #e2e8f0;box-shadow:0 3px 12px rgba(0,0,0,.06);min-width:80px"></div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font-size:12px;color:#94a3b8;margin-bottom:8px">📱 Nghiêng máy hoặc bấm ← → hoặc chạm trái/phải</div>
+  <div id="tiltFeedback" style="display:none"></div>
 </div></div>
 
 <!-- ====== RESULT ====== -->
@@ -1193,7 +1235,7 @@ function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math
 // ===== NAVIGATION =====
 function goPage(name){
   var p=document.getElementsByClassName('page');for(var i=0;i<p.length;i++)p[i].className='page';
-  var t={login:'pageLogin',home:'pageHome',gameselect:'pageGameSelect',quiz:'pageQuiz',result:'pageResult',ranks:'pageRanks',history:'pageHistory',balloon:'pageBalloon',tf:'pageTF',match:'pageMatch',spin:'pageSpin'};
+  var t={login:'pageLogin',home:'pageHome',gameselect:'pageGameSelect',quiz:'pageQuiz',result:'pageResult',ranks:'pageRanks',history:'pageHistory',balloon:'pageBalloon',tf:'pageTF',match:'pageMatch',spin:'pageSpin',tilt:'pageTilt'};
   if(!t[name])return;
   document.getElementById(t[name]).className=(name==='login'||name==='result')?'page show mid':'page show';
   if(name==='home')buildHome();if(name==='ranks')buildRanks();if(name==='history')buildHistory();
@@ -1242,6 +1284,7 @@ function startGame(mode){
   else if(mode==='tf')startTFGame();
   else if(mode==='match')startMatchGame();
   else if(mode==='spin')startSpinGame();
+  else if(mode==='tilt')startTiltGame();
 }
 
 // ===== QUIZ (Trạng Nguyên) =====
@@ -1522,6 +1565,118 @@ function buildHistory(){var el=document.getElementById('histList');
   el.innerHTML='';for(var i=0;i<historyList.length;i++){var h=historyList[i],s=getSub(h.sub),pc=Math.round(h.ok/h.tot*100);
     el.innerHTML+='<div style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);margin-bottom:6px"><div style="width:38px;height:38px;border-radius:10px;background:'+(s?s.gd:'#333')+';display:flex;align-items:center;justify-content:center;font-size:16px">'+(s?s.ic:'')+'</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#475569">'+(h.gm||'Quiz')+' • '+(s?s.n:'')+'</div><div style="font-size:10px;color:#94a3b8">'+h.ok+'/'+h.tot+' • '+h.dt+'</div></div><div style="font-size:14px;font-weight:800;color:'+(pc>=80?'#16a34a':pc>=50?'#d97706':'#ef4444')+'">+'+h.sc+'</div></div>'}}
 
+
+// ===== TILT GAME (Nghiêng chọn đáp án) =====
+var tiltQs=[],tiltIdx=0,tiltSc=0,tiltCorrect=0,tiltTime=8,tiltTid=0,tiltPicked=false,tiltSide='',tiltDeviceHandler=null;
+function startTiltGame(){
+  tiltQs=shuffle(QBANK[curSubject][playerGrade]).slice(0,15);tiltIdx=0;tiltSc=0;tiltCorrect=0;tiltPicked=false;
+  goPage('tilt');showTiltQ();
+  // Keyboard support
+  document.onkeydown=function(e){if(e.key==='ArrowLeft')tiltPick('left');if(e.key==='ArrowRight')tiltPick('right')};
+  // Device tilt support (mobile)
+  if(window.DeviceOrientationEvent){
+    tiltDeviceHandler=function(e){
+      if(tiltPicked)return;
+      var gamma=e.gamma||0; // left-right tilt
+      var ch=document.getElementById('tiltChar');
+      if(ch){
+        // Lean character visually
+        var lean=Math.max(-25,Math.min(25,gamma));
+        ch.style.transform='translate(-50%,-50%) rotate('+lean+'deg)';
+      }
+      // Auto-pick when tilted far enough
+      if(gamma<-22)tiltPick('left');
+      else if(gamma>22)tiltPick('right');
+    };
+    window.addEventListener('deviceorientation',tiltDeviceHandler);
+  }
+}
+function showTiltQ(){
+  tiltPicked=false;clearInterval(tiltTid);
+  if(tiltIdx>=tiltQs.length){endTiltGame();return}
+  var q=tiltQs[tiltIdx];
+  document.getElementById('tiltQuestion').textContent=q.q;
+  document.getElementById('tiltScore').textContent=tiltSc;
+  document.getElementById('tiltProgress').textContent='Câu '+(tiltIdx+1)+'/'+tiltQs.length;
+  document.getElementById('tiltFeedback').style.display='none';
+  // Reset character
+  var ch=document.getElementById('tiltChar');if(ch)ch.style.transform='translate(-50%,-50%)';
+  // Reset side colors
+  document.getElementById('tiltLeft').style.background='transparent';
+  document.getElementById('tiltRight').style.background='transparent';
+  // Pick 2 random options: correct + 1 wrong
+  var correctAns=q.o[q.a];
+  var wrongOpts=[];for(var i=0;i<q.o.length;i++){if(i!==q.a)wrongOpts.push(q.o[i])}
+  var wrongAns=wrongOpts[Math.floor(Math.random()*wrongOpts.length)];
+  // Randomly assign left/right
+  if(Math.random()>0.5){
+    tiltSide='left';
+    document.getElementById('tiltLeftText').textContent=correctAns;
+    document.getElementById('tiltRightText').textContent=wrongAns;
+  }else{
+    tiltSide='right';
+    document.getElementById('tiltLeftText').textContent=wrongAns;
+    document.getElementById('tiltRightText').textContent=correctAns;
+  }
+  // Timer
+  tiltTime=8;
+  document.getElementById('tiltTimer').textContent='⏱️ 8';
+  document.getElementById('tiltTimeBar').style.width='100%';
+  document.getElementById('tiltTimeBar').style.background='linear-gradient(90deg,#22c55e,#4ade80)';
+  tiltTid=setInterval(function(){
+    tiltTime-=0.1;var pc=(tiltTime/8)*100;
+    document.getElementById('tiltTimeBar').style.width=pc+'%';
+    document.getElementById('tiltTimeBar').style.background=pc>50?'linear-gradient(90deg,#22c55e,#4ade80)':pc>25?'linear-gradient(90deg,#f59e0b,#fbbf24)':'linear-gradient(90deg,#ef4444,#f97316)';
+    document.getElementById('tiltTimer').textContent='⏱️ '+Math.ceil(tiltTime);
+    if(tiltTime<=0){clearInterval(tiltTid);if(!tiltPicked)tiltTimeout()}
+  },100);
+}
+function tiltPick(side){
+  if(tiltPicked)return;tiltPicked=true;clearInterval(tiltTid);
+  var ok=(side===tiltSide);
+  var ch=document.getElementById('tiltChar');
+  var fb=document.getElementById('tiltFeedback');fb.style.display='block';
+  // Animate character leaning
+  if(ch)ch.style.transform='translate(-50%,-50%) rotate('+(side==='left'?'-30':'30')+'deg) scale(1.1)';
+  // Highlight chosen side
+  if(ok){
+    document.getElementById('tilt'+cap(side)).style.background='rgba(34,197,94,.15)';
+    document.getElementById('tilt'+cap(side==='left'?'right':'left')).style.background='rgba(239,68,68,.08)';
+    var bonus=Math.round(tiltTime*2);tiltSc+=10+bonus;tiltCorrect++;
+    playCorrectSound();
+    fb.className='fb fok';fb.innerHTML='<span style="font-size:16px;font-weight:700;color:#16a34a">✅ Đúng rồi! +'+(10+bonus)+' điểm</span>';
+  }else{
+    document.getElementById('tilt'+cap(side)).style.background='rgba(239,68,68,.15)';
+    document.getElementById('tilt'+cap(side==='left'?'right':'left')).style.background='rgba(34,197,94,.12)';
+    playWrongSound();
+    var correctText=tiltSide==='left'?document.getElementById('tiltLeftText').textContent:document.getElementById('tiltRightText').textContent;
+    fb.className='fb fno';fb.innerHTML='<span style="font-size:16px;font-weight:700;color:#dc2626">❌ Sai! Đáp án: '+correctText+'</span>';
+  }
+  document.getElementById('tiltScore').textContent=tiltSc;
+  setTimeout(function(){tiltIdx++;showTiltQ()},1500);
+}
+function tiltTimeout(){
+  tiltPicked=true;
+  var fb=document.getElementById('tiltFeedback');fb.style.display='block';
+  fb.className='fb fno';
+  var correctText=tiltSide==='left'?document.getElementById('tiltLeftText').textContent:document.getElementById('tiltRightText').textContent;
+  fb.innerHTML='<span style="font-size:16px;font-weight:700;color:#dc2626">⏰ Hết giờ! Đáp án: '+correctText+'</span>';
+  document.getElementById('tilt'+cap(tiltSide)).style.background='rgba(34,197,94,.15)';
+  playWrongSound();
+  setTimeout(function(){tiltIdx++;showTiltQ()},1500);
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function endTiltGame(){
+  clearInterval(tiltTid);document.onkeydown=null;
+  if(tiltDeviceHandler){window.removeEventListener('deviceorientation',tiltDeviceHandler);tiltDeviceHandler=null}
+  totalScore+=tiltSc;
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:tiltSc,ok:tiltCorrect,tot:tiltQs.length,mc:0,dt:new Date().toLocaleDateString('vi-VN'),gm:'Nghiêng Chọn'});
+  var r=getRank(totalScore);
+  document.getElementById('resEmoji').textContent='📱';document.getElementById('resTitle').textContent='Nghiêng Chọn Đáp Án';
+  document.getElementById('resSub').textContent=getSub(curSubject).n;document.getElementById('resSc').textContent=tiltSc;
+  document.getElementById('resOk').textContent=tiltCorrect+'/'+tiltQs.length;document.getElementById('resCb').textContent='—';
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';playCompleteSound();goPage('result')
+}
 
 // ===== SPLASH SCREEN =====
 setTimeout(function(){
