@@ -3,399 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduPlay - Sân chơi trí tuệ</title>
+<title>EduPlay - Vương Quốc Tri Thức</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;font-family:Tahoma,'Segoe UI',Arial,sans-serif;color:#2d3748;background:#e8f4fd;
-background-image:radial-gradient(circle at 20% 80%,rgba(255,183,77,.25) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(129,212,250,.3) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(186,104,200,.15) 0%,transparent 60%),radial-gradient(circle at 10% 10%,rgba(76,175,80,.15) 0%,transparent 40%),radial-gradient(circle at 90% 90%,rgba(255,138,101,.2) 0%,transparent 40%);background-attachment:fixed;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%234fc3f7' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-
-/* ===== RESPONSIVE LAYOUT ===== */
-.page{display:none!important;position:relative;z-index:1}.page.show{display:block!important}
-.page.show.mid{display:flex!important}
-.mid{min-height:100vh;align-items:center;justify-content:center;padding:20px}
-.wrap{padding:24px;max-width:960px;margin:0 auto}
-.card{background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:22px;border:1px solid rgba(255,255,255,.6);box-shadow:0 8px 32px rgba(0,0,0,.08)}
-
-/* Desktop: wider, centered */
-@media(min-width:768px){
-  .wrap{padding:36px 48px}
-  .login-card{max-width:580px!important;padding:52px 50px!important}
-  .login-card h1{font-size:38px!important}
-  .login-card .inp{font-size:18px!important;padding:16px 20px!important}
-  .login-card .go{font-size:20px!important;padding:18px!important}
-  .login-card .gb{width:58px!important;height:58px!important;font-size:20px!important}
-  .result-card{max-width:580px!important}
-  .quiz-wrap{max-width:880px!important}
-  .q-text{font-size:23px!important}
-  .ob{font-size:17px!important;padding:20px!important}
-  .ol{width:34px!important;height:34px!important;font-size:15px!important}
-}
-@media(min-width:1200px){
-  .wrap{max-width:1060px}
-  .login-card{max-width:800px!important}
-  .quiz-wrap{max-width:940px!important}
-}
-/* Mobile */
-@media(max-width:500px){
-  .wrap{padding:14px}
-  .og{grid-template-columns:1fr!important}
-  .q-text{font-size:17px!important}
-  .login-card{padding:32px 24px!important}
-}
-
-button{border:none;cursor:pointer;font-family:inherit;transition:all .25s}
-button:hover{transform:translateY(-2px)}
+body{min-height:100vh;font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:#1e293b;overflow-x:hidden;
+background:#e0f2fe;background-image:linear-gradient(135deg,#e0f2fe 0%,#ede9fe 50%,#fce7f3 100%);background-attachment:fixed}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
+background-image:url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23818cf8' fill-opacity='0.08'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.page{display:none!important;position:relative;z-index:1}.page.show{display:block!important}.page.show.mid{display:flex!important}
+.mid{min-height:100vh;align-items:center;justify-content:center;padding:16px}
+.wrap{padding:20px;max-width:960px;margin:0 auto}
+.card{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-radius:22px;border:1px solid rgba(255,255,255,.8);box-shadow:0 4px 24px rgba(0,0,0,.06)}
+button{border:none;cursor:pointer;font-family:inherit;transition:all .2s}
+button:active{transform:scale(.97)!important}
 input{font-family:inherit}
-.go{background:linear-gradient(135deg,#1D4ED8,#2563eb);color:#fff;font-weight:700;border-radius:14px;padding:16px;font-size:18px;width:100%;box-shadow:0 4px 15px rgba(29,78,216,.3)}
-.go:hover{box-shadow:0 8px 25px rgba(29,78,216,.4)}
-.gh{padding:8px 16px;border-radius:8px;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08);color:#666;font-size:13px}
-.nv{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);color:#333;font-size:15px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.nv:hover{box-shadow:0 4px 15px rgba(0,0,0,.1)}
-.sc-btn{display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:16px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.75);width:100%;color:#333;text-align:left;font-family:inherit;box-shadow:0 4px 15px rgba(0,0,0,.06)}
-.sc-btn:hover{box-shadow:0 8px 25px rgba(0,0,0,.12);background:rgba(255,255,255,.95)}
-.si{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.gb{width:52px;height:52px;border-radius:14px;font-size:18px;font-weight:700;font-family:inherit}
-.gb.on{border:2px solid #FF9800;background:linear-gradient(135deg,#FFB74D,#FF9800);color:#fff;box-shadow:0 3px 10px rgba(255,152,0,.3)}
-.gb:not(.on){border:2px solid #ddd;background:#fff;color:#666}
-.gb:hover{transform:scale(1.08)}
-.og{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
-.ob{padding:16px;border-radius:14px;border:2px solid #e0e0e0;background:#fff;color:#333;font-size:15px;font-weight:600;text-align:left;display:flex;align-items:center;gap:12px;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.ob:not(.dn):hover{border-color:#64b5f6;box-shadow:0 4px 15px rgba(100,181,246,.2);background:#f0f7ff}
+.gg{background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.gb{width:52px;height:52px;border-radius:14px;font-size:19px;font-weight:700;font-family:inherit}
+.gb.on{border:3px solid #f59e0b;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;box-shadow:0 4px 16px rgba(245,158,11,.35)}
+.gb:not(.on){border:2px solid #e2e8f0;background:#fff;color:#94a3b8}
+.gb:hover{transform:scale(1.1)}
+.inp{width:100%;padding:15px 18px;border-radius:14px;border:2px solid #e2e8f0;background:#fff;color:#1e293b;font-size:16px;outline:none}
+.inp:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.2)}
+.inp::placeholder{color:#cbd5e1}
+.go{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;border-radius:16px;padding:17px;font-size:18px;width:100%;box-shadow:0 6px 24px rgba(99,102,241,.3)}
+.go:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(99,102,241,.4)}
+.gh{padding:9px 18px;border-radius:12px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.12);color:#6366f1;font-size:13px;font-weight:600}
+.gh:hover{background:rgba(99,102,241,.12)}
+.pt{height:8px;border-radius:4px;background:#e2e8f0;overflow:hidden}
+.pf{height:100%;border-radius:4px;transition:width .6s}
+.fb{text-align:center;padding:14px;border-radius:14px;margin-top:8px}
+.fb.fok{background:#dcfce7;border:1px solid #86efac}
+.fb.fno{background:#fee2e2;border:1px solid #fca5a5}
+.sound-toggle{position:fixed;top:12px;right:12px;z-index:99;padding:7px 14px;border-radius:12px;background:rgba(255,255,255,.85);border:1px solid #e2e8f0;font-size:13px;color:#64748b;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+
+/* === ISLANDS === */
+.island{border-radius:24px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .3s;border:3px solid transparent;position:relative;overflow:hidden}
+.island:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(0,0,0,.12)}
+.island-toan{background:linear-gradient(160deg,#fb923c,#f97316);border-color:rgba(249,115,22,.2);box-shadow:0 8px 24px rgba(249,115,22,.2)}
+.island-tv{background:linear-gradient(160deg,#f472b6,#ec4899);border-color:rgba(236,72,153,.2);box-shadow:0 8px 24px rgba(236,72,153,.2)}
+.island-ta{background:linear-gradient(160deg,#60a5fa,#3b82f6);border-color:rgba(59,130,246,.2);box-shadow:0 8px 24px rgba(59,130,246,.2)}
+.island-icon{font-size:56px;margin-bottom:8px;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15))}
+.island-name{font-size:22px;font-weight:800;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.island-sub{font-size:13px;color:rgba(255,255,255,.85);margin-top:4px}
+
+/* === GAME CARDS === */
+.game-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.game-card{background:#fff;border:2px solid #e2e8f0;border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.game-card:hover{border-color:#818cf8;transform:translateY(-4px);box-shadow:0 12px 28px rgba(99,102,241,.12)}
+.game-card .gicon{font-size:44px;margin-bottom:10px;display:block}
+.game-card .gname{font-size:16px;font-weight:800;color:#1e293b;margin-bottom:4px}
+.game-card .gdesc{font-size:12px;color:#94a3b8;line-height:1.4}
+
+/* === QUIZ === */
+.og{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ob{padding:17px;border-radius:14px;border:2px solid #e2e8f0;background:#fff;color:#1e293b;font-size:15px;font-weight:600;text-align:left;display:flex;align-items:center;gap:12px;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.ob:not(.dn):hover{border-color:#818cf8;background:#eef2ff;box-shadow:0 4px 16px rgba(99,102,241,.1)}
 .ob.dn{cursor:default}.ob.dn:hover{transform:none}
-.ob.ok{background:#e8f5e9;border-color:#4CAF50;color:#2e7d32}
-.ob.no{background:#ffebee;border-color:#f44336;color:#c62828}
-.ol{width:30px;height:30px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#888}
-.ob.ok .ol{background:#4CAF50;color:#fff}.ob.no .ol{background:#f44336;color:#fff}
-.pt{height:8px;border-radius:4px;background:#e0e0e0;overflow:hidden}
-.pf{height:100%;border-radius:4px;background:linear-gradient(90deg,#FF9800,#F44336);transition:width .8s}
-.inp{width:100%;padding:14px 18px;border-radius:12px;border:2px solid #e0e0e0;background:#fff;color:#333;font-size:16px;outline:none}
-.inp:focus{border-color:#64b5f6;box-shadow:0 0 0 3px rgba(100,181,246,.25)}
-.inp::placeholder{color:#bbb}
-.tm{padding:8px 16px;border-radius:10px;font-size:17px;font-weight:700}
-.tm.dg{background:#ffebee;border:1px solid #ef9a9a;color:#c62828}
-.tm.nm{background:#fff3e0;border:1px solid #ffe0b2;color:#e65100}
-.gg{background:linear-gradient(135deg,#FF9800,#F44336);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sb{padding:16px 10px;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.06);text-align:center}
-.fb{text-align:center;padding:14px;border-radius:12px;margin-top:4px}
-.fb.fok{background:#e8f5e9;border:1px solid #a5d6a7}
-.fb.fno{background:#ffebee;border:1px solid #ef9a9a}
-.school-badge{display:inline-block;padding:7px 18px;border-radius:20px;background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;font-size:12px;font-weight:600;letter-spacing:.5px;box-shadow:0 2px 8px rgba(21,101,192,.3)}
-.deco{position:fixed;pointer-events:none;z-index:0;opacity:.12}
-.sound-toggle{position:fixed;top:12px;right:12px;z-index:99;padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);font-size:13px;color:#666;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.ob.ok{background:#dcfce7;border-color:#22c55e;color:#166534}
+.ob.no{background:#fee2e2;border-color:#ef4444;color:#991b1b}
+.ol{width:32px;height:32px;border-radius:9px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;color:#94a3b8}
+.ob.ok .ol{background:#22c55e;color:#fff}.ob.no .ol{background:#ef4444;color:#fff}
+
+/* === MATCH === */
+.match-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.match-card{aspect-ratio:1;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;font-weight:600;padding:8px;text-align:center;transition:all .3s;line-height:1.3;word-break:break-word}
+.match-card.face-down{background:linear-gradient(135deg,#818cf8,#6366f1);border:2px solid rgba(99,102,241,.3);color:transparent;box-shadow:0 4px 16px rgba(99,102,241,.15)}
+.match-card.face-down::after{content:'❓';font-size:30px}
+.match-card.face-up{background:#fff;border:2px solid #818cf8;color:#1e293b}
+.match-card.matched{background:#dcfce7;border-color:#22c55e;color:#166534;cursor:default}
+.match-card.wrong{background:#fee2e2;border-color:#ef4444;animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* === SPIN === */
+.wheel-container{position:relative;width:280px;height:280px;margin:0 auto}
+.wheel-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:32px;z-index:5;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+
+/* === RESPONSIVE === */
+@media(min-width:768px){
+  .wrap{padding:28px 40px}
+  .login-card{max-width:540px!important;padding:48px 44px!important}
+  .login-card h1{font-size:36px!important}
+  .island-icon{font-size:72px!important}
+  .island-name{font-size:26px!important}
+  .island{padding:36px 28px!important}
+  .game-grid{grid-template-columns:repeat(3,1fr)}
+  .game-card .gicon{font-size:52px!important}
+  .game-card .gname{font-size:18px!important}
+  .match-grid{gap:12px}
+  .wheel-container{width:320px;height:320px}
+  .q-text{font-size:22px!important}
+  .ob{font-size:16px!important;padding:18px!important}
+  .result-card{max-width:520px!important}
+}
+@media(max-width:500px){
+  .wrap{padding:12px}
+  .og{grid-template-columns:1fr!important}
+  .game-grid{grid-template-columns:1fr 1fr}
+  .match-grid{grid-template-columns:repeat(3,1fr)}
+  .island-grid{grid-template-columns:1fr!important}
+  .island{padding:22px 18px!important}
+  .wheel-container{width:240px;height:240px}
+}
 </style>
 </head>
 <body>
-<div class="deco" style="top:5%;left:3%;font-size:40px">📚</div>
-<div class="deco" style="top:15%;right:5%;font-size:35px;opacity:.1">🎓</div>
-<div class="deco" style="top:40%;left:2%;font-size:28px;opacity:.1">⭐</div>
-<div class="deco" style="top:60%;right:3%;font-size:32px">🏆</div>
-<div class="deco" style="top:80%;left:5%;font-size:36px;opacity:.1">🌈</div>
-<div class="deco" style="bottom:5%;right:8%;font-size:30px">✨</div>
-
-<!-- Controls -->
-<div style="position:fixed;top:12px;right:12px;z-index:99;display:flex;gap:8px">
+<div style="position:fixed;top:12px;right:12px;z-index:99;display:flex;gap:6px">
   <button class="sound-toggle" id="voiceBtn" onclick="toggleVoice()" style="display:none">🎤 Giọng đọc</button>
-  <button class="sound-toggle" id="soundBtn" onclick="toggleSound()" style="font-size:11px;padding:6px 10px">🔊</button>
+  <button class="sound-toggle" id="soundBtn" onclick="toggleSound()">🔊</button>
 </div>
 
-<!-- LOGIN -->
+<!-- ====== LOGIN ====== -->
 <div class="page show mid" id="pageLogin">
-<div class="card login-card" style="padding:44px 36px;max-width:540px;width:100%;text-align:center">
-  <!-- School header like image 2 -->
-  <div style="margin-bottom:20px">
-    <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#60a5fa,#3b82f6);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 12px rgba(59,130,246,.3)">🏫</div>
-    <div style="font-size:20px;font-weight:800;color:#1e3a5f;letter-spacing:1px">SÂN CHƠI TRÍ TUỆ TIỂU HỌC</div>
-    <div style="font-size:13px;color:#888;margin-top:4px">Dành cho học sinh lớp 1 đến lớp 5</div>
+<div class="card login-card" style="padding:44px 36px;max-width:500px;width:100%;text-align:center">
+  <div style="margin-bottom:16px">
+    <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#818cf8,#6366f1);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 6px 20px rgba(99,102,241,.25)">🏫</div>
+    <div style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:.5px">SÂN CHƠI TRÍ TUỆ TIỂU HỌC</div>
+    <div style="font-size:13px;color:#94a3b8;margin-top:3px">Dành cho học sinh lớp 1 đến lớp 5</div>
   </div>
-  <div style="width:60px;height:2px;background:linear-gradient(90deg,#60a5fa,#3b82f6);margin:0 auto 20px;border-radius:2px"></div>
-  <div style="font-size:64px;margin-bottom:12px">🎓</div>
-  <h1 class="gg" style="font-size:34px;font-weight:800;margin-bottom:8px">EduPlay</h1>
-  <p style="color:#888;font-size:15px;margin-bottom:32px">Sân chơi trí tuệ dành cho học sinh tiểu học</p>
-  <div style="text-align:left;margin-bottom:20px">
-    <div style="font-size:15px;color:#888;margin-bottom:8px">👤 Họ và tên</div>
+  <div style="width:50px;height:3px;background:linear-gradient(90deg,#818cf8,#ec4899);margin:0 auto 18px;border-radius:3px"></div>
+  <div style="font-size:52px;margin-bottom:6px">🏰</div>
+  <h1 class="gg" style="font-size:34px;font-weight:800;margin-bottom:4px">Vương Quốc Tri Thức</h1>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:28px">Khám phá • Học hỏi • Chinh phục</p>
+  <div style="text-align:left;margin-bottom:16px">
+    <div style="font-size:14px;color:#64748b;margin-bottom:6px;font-weight:600">👤 Họ và tên</div>
     <input id="txtName" class="inp" placeholder="Nhập tên của con...">
   </div>
-  <div style="text-align:left;margin-bottom:30px">
-    <div style="font-size:15px;color:#888;margin-bottom:10px">🎒 Chọn khối lớp</div>
-    <div style="display:flex;gap:12px;justify-content:center" id="gradeArea"></div>
+  <div style="text-align:left;margin-bottom:16px">
+    <div style="font-size:14px;color:#64748b;margin-bottom:8px;font-weight:600">🎒 Chọn khối lớp</div>
+    <div style="display:flex;gap:10px;justify-content:center" id="gradeArea"></div>
   </div>
-  <div style="text-align:left;margin-bottom:30px">
-    <div style="font-size:15px;color:#888;margin-bottom:8px">🏷️ Tên lớp <span style="font-size:12px;color:#bbb">(Ví dụ: 1A, 2C, 3B...)</span></div>
+  <div style="text-align:left;margin-bottom:28px">
+    <div style="font-size:14px;color:#64748b;margin-bottom:6px;font-weight:600">🏷️ Tên lớp <span style="font-size:12px;color:#cbd5e1;font-weight:400">(Ví dụ: 1A, 2C...)</span></div>
     <input id="txtClass" class="inp" placeholder="Nhập tên lớp..." style="text-transform:uppercase">
   </div>
-  <button class="go" style="background:linear-gradient(135deg,#1D4ED8,#2563eb)" onclick="doLogin()">🚀 Bắt Đầu Hành Trình</button>
-  <div style="margin-top:24px;font-size:12px;color:#bbb">© 2026 EduPlay. Thiết kế - Chung Trần</div>
-</div>
-</div>
+  <button class="go" onclick="doLogin()">🚀 Bắt Đầu Hành Trình</button>
+  <div style="margin-top:20px;font-size:11px;color:#cbd5e1">© 2026 EduPlay. Thiết kế - Chung Trần</div>
+</div></div>
 
-<!-- HOME -->
+<!-- ====== HOME ====== -->
 <div class="page" id="pageHome"><div class="wrap">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-    <div>
-      <div style="font-size:17px;font-weight:800" class="gg">EduPlay</div>
-      <div style="font-size:11px;color:#999">🏫 Sân chơi trí tuệ • Lớp 1 đến Lớp 5</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div style="font-size:18px;font-weight:800" class="gg">Vương Quốc Tri Thức</div>
+    <div style="text-align:right">
+      <div id="homeScore" style="font-size:24px;font-weight:800;color:#f59e0b"></div>
+      <div style="font-size:10px;color:#94a3b8">điểm tích lũy</div>
     </div>
   </div>
-  <div class="card" style="padding:24px;margin-bottom:24px">
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
-      <div id="homeIcon" style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#FF9800,#F44336);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 4px 15px rgba(244,67,54,.25)"></div>
+  <div class="card" style="padding:18px;margin-bottom:22px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div id="homeIcon" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 12px rgba(245,158,11,.2)"></div>
       <div style="flex:1">
-        <div id="homeName" style="font-size:20px;font-weight:800;color:#333;margin-bottom:3px"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <span id="homeGrade" style="padding:3px 10px;border-radius:6px;background:#e3f2fd;font-size:12px;color:#1565c0;font-weight:600"></span>
-          <span id="homeRank" style="padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600"></span>
+        <div id="homeName" style="font-size:18px;font-weight:800;color:#1e293b"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:3px">
+          <span id="homeGrade" style="padding:3px 10px;border-radius:6px;background:#eef2ff;font-size:11px;color:#6366f1;font-weight:600"></span>
+          <span id="homeRank" style="padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600"></span>
         </div>
       </div>
-      <div style="text-align:right">
-        <div id="homeScore" style="font-size:26px;font-weight:800;color:#FF9800"></div>
-        <div style="font-size:11px;color:#aaa">điểm tích lũy</div>
-      </div>
     </div>
-    <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:5px">
-      <span id="homeCurRk"></span><span id="homeNxtRk"></span>
-    </div>
-    <div class="pt"><div class="pf" id="homeBar" style="width:0%"></div></div>
-    <div id="homeNeed" style="font-size:11px;color:#aaa;margin-top:4px;text-align:right"></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin:12px 0 4px"><span id="homeCurRk"></span><span id="homeNxtRk"></span></div>
+    <div class="pt"><div class="pf" id="homeBar" style="width:0%;background:linear-gradient(90deg,#fbbf24,#f59e0b)"></div></div>
+    <div id="homeNeed" style="font-size:10px;color:#94a3b8;margin-top:3px;text-align:right"></div>
   </div>
-  <div style="font-size:12px;color:#999;font-weight:700;letter-spacing:2px;margin-bottom:14px">⚔️ CHỌN MÔN THI ĐẤU</div>
-  <div id="homeSubjects" style="display:flex;flex-direction:column;gap:12px;margin-bottom:26px"></div>
-  <div style="display:flex;gap:10px;margin-bottom:24px">
-    <button class="nv" onclick="goPage('ranks')">🏅 Học Vị</button>
-    <button class="nv" onclick="goPage('history')">📊 Lịch Sử</button>
+  <div style="font-size:12px;color:#94a3b8;font-weight:700;letter-spacing:2px;margin-bottom:14px">🏝️ CHỌN HÒN ĐẢO</div>
+  <div class="island-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+    <div class="island island-toan" onclick="selectIsland('toan')"><span class="island-icon">🔢</span><div class="island-name">Đảo Toán Học</div><div class="island-sub" id="islandToanCount"></div></div>
+    <div class="island island-tv" onclick="selectIsland('tiengviet')"><span class="island-icon">📖</span><div class="island-name">Đảo Tiếng Việt</div><div class="island-sub" id="islandTVCount"></div></div>
+    <div class="island island-ta" onclick="selectIsland('tienganh')"><span class="island-icon">🌍</span><div class="island-name">Đảo Tiếng Anh</div><div class="island-sub" id="islandTACount"></div></div>
+  </div>
+  <div style="display:flex;gap:10px;margin-bottom:22px">
+    <button class="gh" style="flex:1;padding:14px;font-size:14px" onclick="goPage('ranks')">🏅 Học Vị</button>
+    <button class="gh" style="flex:1;padding:14px;font-size:14px" onclick="goPage('history')">📊 Lịch Sử</button>
   </div>
   <div id="homeRecent"></div>
-  <div style="text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid rgba(0,0,0,.06)">
-    <button class="gh" onclick="doLogout()" style="padding:10px 24px;font-size:13px">🔄 Đổi tài khoản</button>
+  <div style="text-align:center;margin-top:22px;padding-top:14px;border-top:1px solid #e2e8f0">
+    <button class="gh" onclick="doLogout()" style="font-size:12px">🔄 Đổi tài khoản</button>
   </div>
 </div></div>
 
-<!-- QUIZ -->
-<div class="page" id="pageQuiz"><div class="wrap quiz-wrap" style="max-width:760px">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+<!-- ====== GAME SELECT ====== -->
+<div class="page" id="pageGameSelect"><div class="wrap" style="max-width:700px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+    <button class="gh" onclick="goPage('home')" style="width:40px;height:40px;border-radius:12px;font-size:18px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
+    <div style="flex:1"><div id="gsTitle" style="font-size:22px;font-weight:800;color:#1e293b"></div><div id="gsSub" style="font-size:13px;color:#94a3b8"></div></div>
+  </div>
+  <div class="game-grid" id="gameGrid">
+    <div class="game-card" onclick="startGame('quiz')"><span class="gicon">🏆</span><div class="gname">Trạng Nguyên</div><div class="gdesc">Chinh phục 15 câu hỏi</div></div>
+    <div class="game-card" onclick="startGame('balloon')"><span class="gicon">🎈</span><div class="gname">Bắn Bóng Bay</div><div class="gdesc">Bắn bóng đáp án đúng</div></div>
+    <div class="game-card" onclick="startGame('tf')"><span class="gicon">⚡</span><div class="gname">Nhanh Như Chớp</div><div class="gdesc">Đúng hay Sai trong 5 giây</div></div>
+    <div class="game-card" onclick="startGame('match')"><span class="gicon">🧩</span><div class="gname">Ghép Đôi</div><div class="gdesc">Lật thẻ tìm cặp đúng</div></div>
+    <div class="game-card" onclick="startGame('spin')"><span class="gicon">🎯</span><div class="gname">Vòng Quay May Mắn</div><div class="gdesc">Quay và trả lời</div></div>
+  </div>
+</div></div>
+
+<!-- ====== QUIZ ====== -->
+<div class="page" id="pageQuiz"><div class="wrap" style="max-width:800px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
     <button class="gh" onclick="forceEnd()">✕ Kết thúc</button>
-    <div class="tm nm" id="qTimer">⏱️ 7:30</div>
-    <div style="padding:8px 16px;border-radius:10px;background:#fff3e0;border:1px solid #ffe0b2;font-size:15px;font-weight:700;color:#e65100">⭐ <span id="qScore">0</span></div>
+    <div id="qTimer" style="padding:8px 16px;border-radius:12px;background:#fef3c7;border:1px solid #fde68a;color:#d97706;font-size:16px;font-weight:700">⏱️ 7:30</div>
+    <div style="padding:8px 16px;border-radius:12px;background:#fef3c7;border:1px solid #fde68a;font-size:15px;font-weight:700;color:#d97706">⭐ <span id="qScore">0</span></div>
   </div>
-  <div id="qCombo" style="text-align:center;margin-bottom:10px"></div>
-  <div style="margin-bottom:20px">
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:#999;margin-bottom:6px">
-      <span id="qSubLabel"></span><span id="qProgress"></span>
-    </div>
-    <div class="pt"><div class="pf" id="qBar" style="width:0%"></div></div>
+  <div id="qCombo" style="text-align:center;margin-bottom:8px"></div>
+  <div style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-bottom:5px"><span id="qSubLabel"></span><span id="qProgress"></span></div>
+    <div class="pt"><div class="pf" id="qBar" style="width:0%;background:linear-gradient(90deg,#fbbf24,#f59e0b)"></div></div>
   </div>
-  <div class="card" style="padding:28px 24px;margin-bottom:20px">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-      <span id="qNum" style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff"></span>
-      <span style="font-size:11px;color:#aaa;letter-spacing:1px">CÂU HỎI</span>
+  <div class="card" style="padding:28px 24px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <span id="qNum" style="width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff"></span>
+      <span style="font-size:11px;color:#94a3b8;letter-spacing:1px;font-weight:600">CÂU HỎI</span>
     </div>
-    <div id="qText" class="q-text" style="font-size:20px;font-weight:700;line-height:1.6;color:#333"></div>
-    <button id="qReadBtn" onclick="readQuestion()" style="margin-top:12px;padding:8px 16px;border-radius:10px;background:#e3f2fd;border:1px solid #90caf9;color:#1565c0;font-size:13px;font-weight:600;display:none">🔊 Nghe đọc lại</button>
+    <div id="qText" class="q-text" style="font-size:20px;font-weight:700;line-height:1.6;color:#1e293b"></div>
+    <button id="qReadBtn" onclick="readQuestion()" style="margin-top:10px;padding:8px 16px;border-radius:10px;background:#eef2ff;border:1px solid #c7d2fe;color:#6366f1;font-size:13px;font-weight:600;display:none">🔊 Nghe đọc lại</button>
   </div>
   <div class="og" id="qOpts"></div>
   <div id="qFeedback" style="display:none"></div>
 </div></div>
 
-<!-- RESULT -->
-<div class="page mid" id="pageResult">
-<div class="card result-card" style="padding:40px 32px;max-width:540px;width:100%;text-align:center">
-  <div id="resEmoji" style="font-size:64px;margin-bottom:10px"></div>
-  <h2 id="resTitle" class="gg" style="font-size:26px;font-weight:800;margin-bottom:6px"></h2>
-  <p id="resSub" style="color:#999;font-size:14px;margin-bottom:26px"></p>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:26px">
-    <div class="sb"><div style="font-size:22px">⭐</div><div id="resSc" style="font-size:20px;font-weight:800;color:#FF9800"></div><div style="font-size:10px;color:#aaa">Điểm</div></div>
-    <div class="sb"><div style="font-size:22px">✅</div><div id="resOk" style="font-size:20px;font-weight:800;color:#4CAF50"></div><div style="font-size:10px;color:#aaa">Đúng</div></div>
-    <div class="sb"><div style="font-size:22px">🔥</div><div id="resCb" style="font-size:20px;font-weight:800;color:#F44336"></div><div style="font-size:10px;color:#aaa">Combo</div></div>
+<!-- ====== BALLOON ====== -->
+<div class="page" id="pageBalloon"><div class="wrap" style="max-width:800px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <button class="gh" onclick="endBalloonGame()">✕ Kết thúc</button>
+    <div style="font-size:17px;font-weight:800;color:#1e293b">🎈 Bắn Bóng Bay</div>
+    <div style="padding:8px 14px;border-radius:10px;background:#fef3c7;border:1px solid #fde68a;color:#d97706;font-weight:700">⭐ <span id="blnScore">0</span></div>
   </div>
-  <div style="padding:14px;border-radius:12px;background:#fff8e1;border:1px solid #ffe082;margin-bottom:24px">
-    <div style="font-size:12px;color:#999;margin-bottom:3px">Học vị hiện tại</div>
-    <div id="resRk" style="font-size:18px;font-weight:700;color:#e65100"></div>
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:#64748b;margin-bottom:8px">
+    <span id="blnProgress"></span><span id="blnLives" style="font-size:16px"></span>
   </div>
-  <div style="display:flex;gap:10px">
-    <button class="go" style="flex:1" onclick="doRetry()">🔄 Thi Lại</button>
-    <button class="nv" style="flex:1" onclick="goPage('home')">🏠 Trang Chủ</button>
+  <div class="card" style="padding:20px;margin-bottom:14px;min-height:70px;display:flex;align-items:center;justify-content:center">
+    <div id="blnQuestion" style="font-size:18px;font-weight:700;text-align:center;color:#1e293b;line-height:1.5"></div>
+  </div>
+  <div id="blnArea" style="position:relative;height:380px;background:linear-gradient(180deg,#e0f2fe 0%,#bae6fd 50%,#7dd3fc 100%);border-radius:20px;overflow:hidden;border:2px solid #93c5fd">
+    <div style="position:absolute;top:15px;left:10%;width:60px;height:24px;background:#fff;border-radius:20px;opacity:.6;box-shadow:18px -8px 0 6px #fff,-12px -4px 0 4px #fff"></div>
+    <div style="position:absolute;top:40px;right:15%;width:50px;height:20px;background:#fff;border-radius:16px;opacity:.5;box-shadow:14px -6px 0 5px #fff,-10px -3px 0 3px #fff"></div>
+    <div style="position:absolute;top:25px;left:50%;width:45px;height:18px;background:#fff;border-radius:14px;opacity:.4;box-shadow:12px -5px 0 4px #fff"></div>
+    <div id="blnBalloons" style="position:absolute;inset:0"></div>
+  </div>
+  <div id="blnFeedback" style="display:none"></div>
+</div></div>
+
+<!-- ====== TRUE/FALSE ====== -->
+<div class="page" id="pageTF"><div class="wrap" style="max-width:800px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <button class="gh" onclick="endTFGame()">✕ Kết thúc</button>
+    <div style="font-size:17px;font-weight:800;color:#1e293b">⚡ Nhanh Như Chớp</div>
+    <div style="padding:8px 14px;border-radius:10px;background:#fef3c7;border:1px solid #fde68a;color:#d97706;font-weight:700">⭐ <span id="tfScore">0</span></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:#64748b;margin-bottom:6px">
+    <span id="tfProgress"></span><span id="tfTimer" style="color:#d97706;font-weight:700"></span>
+  </div>
+  <div class="pt" style="margin-bottom:16px"><div class="pf" id="tfTimeBar" style="width:100%;background:linear-gradient(90deg,#22c55e,#4ade80)"></div></div>
+  <div class="card" style="padding:32px 24px;margin-bottom:18px;min-height:110px;display:flex;align-items:center;justify-content:center">
+    <div id="tfStatement" style="font-size:20px;font-weight:700;text-align:center;color:#1e293b;line-height:1.6"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <button id="tfBtnTrue" onclick="tfAnswer(true)" style="padding:24px;border-radius:18px;background:#dcfce7;border:3px solid #86efac;font-size:20px;font-weight:800;color:#166534;font-family:inherit">✅ ĐÚNG</button>
+    <button id="tfBtnFalse" onclick="tfAnswer(false)" style="padding:24px;border-radius:18px;background:#fee2e2;border:3px solid #fca5a5;font-size:20px;font-weight:800;color:#991b1b;font-family:inherit">❌ SAI</button>
+  </div>
+  <div id="tfFeedback" style="display:none"></div>
+</div></div>
+
+<!-- ====== MATCH ====== -->
+<div class="page" id="pageMatch"><div class="wrap" style="max-width:640px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <button class="gh" onclick="endMatchGame()">✕ Kết thúc</button>
+    <div style="font-size:17px;font-weight:800;color:#1e293b">🧩 Ghép Đôi</div>
+    <div style="color:#6366f1;font-weight:700;font-size:14px">Lượt: <span id="matchMoves">0</span></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:#64748b;margin-bottom:12px">
+    <span id="matchPairs">Đã ghép: 0/6</span><span id="matchTimer">⏱️ 0:00</span>
+  </div>
+  <div class="match-grid" id="matchGrid"></div>
+</div></div>
+
+<!-- ====== SPIN ====== -->
+<div class="page" id="pageSpin"><div class="wrap" style="max-width:640px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <button class="gh" onclick="endSpinGame()">✕ Kết thúc</button>
+    <div style="font-size:17px;font-weight:800;color:#1e293b">🎯 Vòng Quay May Mắn</div>
+    <div style="padding:8px 14px;border-radius:10px;background:#fef3c7;border:1px solid #fde68a;color:#d97706;font-weight:700">⭐ <span id="spinScore">0</span></div>
+  </div>
+  <div style="font-size:13px;color:#64748b;text-align:center;margin-bottom:12px" id="spinProgress"></div>
+  <div class="wheel-container" style="margin-bottom:18px">
+    <div class="wheel-pointer">📍</div>
+    <canvas id="wheelCanvas" width="320" height="320" style="width:100%;height:100%;border-radius:50%"></canvas>
+  </div>
+  <button id="spinBtn" onclick="doSpin()" style="display:block;margin:0 auto 18px;padding:16px 48px;border-radius:16px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 24px rgba(99,102,241,.3);font-family:inherit">🎰 QUAY!</button>
+  <div class="card" id="spinQCard" style="padding:24px 20px;display:none">
+    <div id="spinQuestion" style="font-size:18px;font-weight:700;color:#1e293b;margin-bottom:16px;line-height:1.5"></div>
+    <div id="spinOpts" class="og"></div>
+    <div id="spinFeedback" style="display:none"></div>
   </div>
 </div></div>
 
-<!-- RANKS -->
-<div class="page" id="pageRanks"><div class="wrap" style="max-width:800px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
-    <button class="gh" onclick="goPage('home')" style="width:38px;height:38px;border-radius:10px;font-size:17px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
-    <h2 style="font-size:20px;font-weight:800;color:#333">🏅 Bảng Học Vị</h2>
+<!-- ====== RESULT ====== -->
+<div class="page mid" id="pageResult">
+<div class="card result-card" style="padding:36px 28px;max-width:480px;width:100%;text-align:center">
+  <div id="resEmoji" style="font-size:60px;margin-bottom:8px"></div>
+  <h2 id="resTitle" class="gg" style="font-size:26px;font-weight:800;margin-bottom:4px"></h2>
+  <p id="resSub" style="color:#94a3b8;font-size:14px;margin-bottom:24px"></p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
+    <div style="padding:16px 8px;border-radius:14px;background:#fefce8;border:1px solid #fef08a;text-align:center"><div style="font-size:20px">⭐</div><div id="resSc" style="font-size:20px;font-weight:800;color:#d97706"></div><div style="font-size:10px;color:#94a3b8">Điểm</div></div>
+    <div style="padding:16px 8px;border-radius:14px;background:#dcfce7;border:1px solid #86efac;text-align:center"><div style="font-size:20px">✅</div><div id="resOk" style="font-size:20px;font-weight:800;color:#16a34a"></div><div style="font-size:10px;color:#94a3b8">Đúng</div></div>
+    <div style="padding:16px 8px;border-radius:14px;background:#fee2e2;border:1px solid #fca5a5;text-align:center"><div style="font-size:20px">🔥</div><div id="resCb" style="font-size:20px;font-weight:800;color:#dc2626"></div><div style="font-size:10px;color:#94a3b8">Combo</div></div>
+  </div>
+  <div style="padding:14px;border-radius:12px;background:#fef3c7;border:1px solid #fde68a;margin-bottom:22px">
+    <div style="font-size:11px;color:#92400e;margin-bottom:2px">Học vị hiện tại</div>
+    <div id="resRk" style="font-size:17px;font-weight:700;color:#d97706"></div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="go" style="flex:1" onclick="doRetry()">🔄 Chơi Lại</button>
+    <button class="gh" style="flex:1;padding:16px;font-size:15px" onclick="goPage('home')">🏠 Trang Chủ</button>
+  </div>
+</div></div>
+
+<!-- ====== RANKS ====== -->
+<div class="page" id="pageRanks"><div class="wrap" style="max-width:680px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+    <button class="gh" onclick="goPage('home')" style="width:40px;height:40px;border-radius:12px;font-size:18px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
+    <h2 style="font-size:20px;font-weight:800;color:#1e293b">🏅 Bảng Học Vị</h2>
   </div>
   <div id="ranksList"></div>
 </div></div>
 
-<!-- HISTORY -->
-<div class="page" id="pageHistory"><div class="wrap" style="max-width:800px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
-    <button class="gh" onclick="goPage('home')" style="width:38px;height:38px;border-radius:10px;font-size:17px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
-    <h2 style="font-size:20px;font-weight:800;color:#333">📊 Lịch Sử Thi Đấu</h2>
+<!-- ====== HISTORY ====== -->
+<div class="page" id="pageHistory"><div class="wrap" style="max-width:680px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+    <button class="gh" onclick="goPage('home')" style="width:40px;height:40px;border-radius:12px;font-size:18px;display:flex;align-items:center;justify-content:center;padding:0">←</button>
+    <h2 style="font-size:20px;font-weight:800;color:#1e293b">📊 Lịch Sử Thi Đấu</h2>
   </div>
   <div id="histList"></div>
 </div></div>
 
 <script>
-// ===== SOUND EFFECTS (Web Audio API) =====
-var soundEnabled = true;
-var audioCtx = null;
-
-function getAudioCtx(){
-  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){soundEnabled=false}}
-  return audioCtx;
-}
-
-function playTone(freq, duration, type, vol){
-  if(!soundEnabled)return;
-  var ctx=getAudioCtx();if(!ctx)return;
-  var osc=ctx.createOscillator();var gain=ctx.createGain();
-  osc.connect(gain);gain.connect(ctx.destination);
-  osc.type=type||'sine';osc.frequency.value=freq;
-  gain.gain.value=vol||0.15;
-  gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+duration);
-  osc.start(ctx.currentTime);osc.stop(ctx.currentTime+duration);
-}
-
-function playCorrectSound(){
-  if(!soundEnabled)return;
-  // Happy ascending C-E-G arpeggio
-  setTimeout(function(){playTone(523,0.15,'sine',0.12)},0);
-  setTimeout(function(){playTone(659,0.15,'sine',0.12)},100);
-  setTimeout(function(){playTone(784,0.25,'sine',0.15)},200);
-}
-
-function playWrongSound(){
-  if(!soundEnabled)return;
-  // Gentle descending tone
-  setTimeout(function(){playTone(350,0.2,'triangle',0.1)},0);
-  setTimeout(function(){playTone(280,0.3,'triangle',0.08)},150);
-}
-
-function playCompleteSound(){
-  if(!soundEnabled)return;
-  // Fanfare: C-E-G-C
-  setTimeout(function(){playTone(523,0.2,'sine',0.12)},0);
-  setTimeout(function(){playTone(659,0.2,'sine',0.12)},150);
-  setTimeout(function(){playTone(784,0.2,'sine',0.12)},300);
-  setTimeout(function(){playTone(1047,0.4,'sine',0.15)},450);
-}
-
-function toggleSound(){
-  soundEnabled=!soundEnabled;
-  document.getElementById('soundBtn').textContent=soundEnabled?'🔊':'🔇';
-}
-
-// ===== TEXT-TO-SPEECH (Google Translate - Giọng Việt chuẩn) =====
-var voiceEnabled = false;
-var ttsQueue = [];
-var ttsPlaying = false;
-var currentAudio = null;
-
-// Dùng Google Translate TTS - giọng nữ Việt Nam chuẩn, không cần cài đặt
-function gttsSpeak(text, lang, onEnd){
-  var maxLen = 180;
-  // Chia nhỏ text nếu quá dài
-  var chunks = [];
-  if(text.length <= maxLen){
-    chunks.push(text);
-  } else {
-    var sentences = text.split(/(?<=[.?!,;:])\s*/);
-    var buf = '';
-    for(var i=0;i<sentences.length;i++){
-      if((buf + ' ' + sentences[i]).length > maxLen && buf.length > 0){
-        chunks.push(buf.trim());
-        buf = sentences[i];
-      } else {
-        buf = buf ? buf + ' ' + sentences[i] : sentences[i];
-      }
-    }
-    if(buf.trim()) chunks.push(buf.trim());
-  }
-
-  var idx = 0;
-  function playNext(){
-    if(idx >= chunks.length){ if(onEnd) onEnd(); return; }
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='
-      + encodeURIComponent(lang) + '&q=' + encodeURIComponent(chunks[idx]);
-    var audio = new Audio(url);
-    currentAudio = audio;
-    // Tăng tốc độ phát nhẹ để giọng nghe cao hơn, trẻ hơn
-    audio.playbackRate = lang === 'vi' ? 1.08 : 1.05;
-    audio.onended = function(){ idx++; playNext(); };
-    audio.onerror = function(){
-      console.log('TTS error, trying Web Speech fallback');
-      webSpeechFallback(chunks.slice(idx).join('. '), lang, onEnd);
-    };
-    audio.play().catch(function(e){
-      console.log('Audio play blocked:', e);
-      webSpeechFallback(chunks.slice(idx).join('. '), lang, onEnd);
-    });
-  }
-  playNext();
-}
-
-// Fallback: dùng Web Speech API nếu Google TTS không được
-function webSpeechFallback(text, lang, onEnd){
-  var synth = window.speechSynthesis;
-  if(!synth){ if(onEnd) onEnd(); return; }
-  synth.cancel();
-  var utter = new SpeechSynthesisUtterance(text);
-  utter.lang = lang === 'en' ? 'en-US' : 'vi-VN';
-  utter.rate = 0.85;
-  utter.pitch = 1.5;
-  // Tìm voice phù hợp
-  var voices = synth.getVoices();
-  for(var i=0;i<voices.length;i++){
-    var vl = (voices[i].lang||'').toLowerCase().replace('_','-');
-    if(lang==='en' && vl.indexOf('en')===0){ utter.voice=voices[i]; break; }
-    if(lang==='vi' && vl.indexOf('vi')===0){ utter.voice=voices[i]; break; }
-  }
-  utter.onend = onEnd;
-  synth.speak(utter);
-}
-
-function stopSpeaking(){
-  if(currentAudio){ currentAudio.pause(); currentAudio=null; }
-  if(window.speechSynthesis) window.speechSynthesis.cancel();
-}
-
-function speakText(text, lang){
-  if(!voiceEnabled) return;
-  stopSpeaking();
-  gttsSpeak(text, lang || 'vi');
-}
-
-function getQuizLang(){ return (curSubject==='tienganh') ? 'en' : 'vi'; }
-
-function readQuestion(){
-  var q=curQuestions[curIndex], lang=getQuizLang();
-  var text='', labels=['A','B','C','D'];
-  if(lang==='en'){
-    text='Question '+(curIndex+1)+'. '+q.q;
-    for(var i=0;i<q.o.length;i++) text+='. '+labels[i]+': '+q.o[i];
-  } else {
-    text='Câu '+(curIndex+1)+'. '+q.q;
-    for(var i=0;i<q.o.length;i++) text+='. Đáp án '+labels[i]+': '+q.o[i];
-  }
-  var w=voiceEnabled; voiceEnabled=true;
-  speakText(text, lang);
-  voiceEnabled=w;
-}
-
-function toggleVoice(){
-  voiceEnabled = !voiceEnabled;
-  var btn = document.getElementById('voiceBtn');
-  btn.textContent = voiceEnabled ? '🎤 Đang đọc' : '🎤 Giọng đọc';
-  btn.style.background = voiceEnabled ? '#e3f2fd' : 'rgba(255,255,255,.8)';
-  btn.style.color = voiceEnabled ? '#1565c0' : '#666';
-  btn.style.borderColor = voiceEnabled ? '#90caf9' : 'rgba(0,0,0,.08)';
-  if(!voiceEnabled) stopSpeaking();
-  if(voiceEnabled){
-    speakText('Voice reading is on!', 'en');
-  }
-}
-// ===== NGÂN HÀNG CÂU HỎI (Đã kiểm tra nội dung phù hợp từng khối lớp) =====
 var QBANK={toan:{
 1:[
 // === DỄ: Cộng trừ trong phạm vi 10 ===
@@ -440,7 +379,16 @@ var QBANK={toan:{
 {q:"Số nào lớn hơn: 6 hay 9?",o:["6","9","Bằng nhau","Không biết"],a:1},
 {q:"Phép tính 2 + 5 + 1 bằng bao nhiêu?",o:["7","8","9","10"],a:1},
 {q:"Bạn Hoa có 4 bông hoa, bạn Mai cho thêm 3 bông. Hỏi Hoa có tất cả mấy bông hoa?",o:["5","6","7","8"],a:2},
-{q:"Trên cây có 10 con chim, bay đi 6 con. Hỏi trên cây còn mấy con chim?",o:["3","4","5","6"],a:1}
+{q:"Trên cây có 10 con chim, bay đi 6 con. Hỏi trên cây còn mấy con chim?",o:["3","4","5","6"],a:1},
+{q:"Phép tính 4 + 3 bằng bao nhiêu?",o:["5","6","7","8"],a:2},
+{q:"Phép tính 10 - 5 bằng bao nhiêu?",o:["3","4","5","6"],a:2},
+{q:"Em có 3 cái kẹo, mẹ cho thêm 4 cái. Hỏi em có tất cả mấy cái kẹo?",o:["5","6","7","8"],a:2},
+{q:"Số nào lớn hơn: 4 hay 7?",o:["4","7","Bằng nhau","Không biết"],a:1},
+{q:"Phép tính 2 + 2 + 2 bằng bao nhiêu?",o:["4","5","6","8"],a:2},
+{q:"Nhà em nuôi 5 con gà, mua thêm 3 con. Hỏi nhà em có bao nhiêu con gà?",o:["6","7","8","9"],a:2},
+{q:"Phép tính 9 - 3 bằng bao nhiêu?",o:["4","5","6","7"],a:2},
+{q:"Đếm số ngón tay trên một bàn tay có bao nhiêu ngón?",o:["3","4","5","6"],a:2},
+{q:"Phép tính 1 + 1 + 1 + 1 bằng bao nhiêu?",o:["2","3","4","5"],a:2}
 ],
 2:[
 // === DỄ: Cộng trừ, nhân trong phạm vi 100 ===
@@ -485,7 +433,16 @@ var QBANK={toan:{
 {q:"Dấu thích hợp điền vào chỗ trống: 35 + 8 ... 33 là dấu nào?",o:["Dấu lớn hơn (>)","Dấu nhỏ hơn (<)","Dấu bằng (=)","Không xác định"],a:0},
 {q:"Em có 15 chiếc kẹo, ăn hết 6 chiếc, mẹ cho thêm 4 chiếc. Hỏi em có bao nhiêu chiếc kẹo?",o:["11 chiếc","12 chiếc","13 chiếc","14 chiếc"],a:2},
 {q:"Mỗi bàn có 2 học sinh. Hỏi 5 bàn có bao nhiêu học sinh?",o:["7 học sinh","8 học sinh","10 học sinh","12 học sinh"],a:2},
-{q:"Bạn Hoa cao 1 mét 15 xăng-ti-mét. Bạn Mai cao hơn Hoa 5 xăng-ti-mét. Hỏi bạn Mai cao bao nhiêu?",o:["1 mét 18 cm","1 mét 20 cm","1 mét 10 cm","1 mét 25 cm"],a:1}
+{q:"Bạn Hoa cao 1 mét 15 xăng-ti-mét. Bạn Mai cao hơn Hoa 5 xăng-ti-mét. Hỏi bạn Mai cao bao nhiêu?",o:["1 mét 18 cm","1 mét 20 cm","1 mét 10 cm","1 mét 25 cm"],a:1},
+{q:"Phép tính 34 + 28 bằng bao nhiêu?",o:["52","62","72","42"],a:1},
+{q:"Phép tính 90 - 45 bằng bao nhiêu?",o:["35","45","55","65"],a:1},
+{q:"Phép tính 6 × 5 bằng bao nhiêu?",o:["25","30","35","40"],a:1},
+{q:"Một can chứa 35 lít nước, đổ đi 12 lít. Hỏi can còn bao nhiêu lít?",o:["13 lít","22 lít","23 lít","25 lít"],a:2},
+{q:"Phép tính 4 × 7 bằng bao nhiêu?",o:["24","27","28","32"],a:2},
+{q:"Hàng chục của số 85 là chữ số mấy?",o:["5","8","80","50"],a:1},
+{q:"Phép tính 76 - 39 bằng bao nhiêu?",o:["37","43","47","33"],a:0},
+{q:"Mỗi hộp có 5 chiếc bánh. Hỏi 4 hộp có bao nhiêu chiếc bánh?",o:["15","20","25","30"],a:1},
+{q:"Số bé nhất có hai chữ số là số nào?",o:["10","11","01","00"],a:0}
 ],
 3:[
 // === DỄ: Phép tính trong phạm vi 10000, nhân chia ===
@@ -530,7 +487,17 @@ var QBANK={toan:{
 {q:"Diện tích hình vuông có cạnh 9 cm bằng bao nhiêu?",o:["36 cm²","72 cm²","81 cm²","18 cm²"],a:2},
 {q:"Thứ Năm tuần này là ngày 25 tháng 3. Hỏi thứ Năm tuần sau là ngày bao nhiêu?",o:["Ngày 1 tháng 4","Ngày 2 tháng 4","Ngày 30 tháng 3","Ngày 31 tháng 3"],a:0},
 {q:"Ba lớp 3A, 3B, 3C quyên góp vở. Lớp 3A góp 215 quyển, lớp 3B góp 415 quyển. Biết tổng là 999 quyển. Hỏi lớp 3C góp bao nhiêu?",o:["369 quyển","389 quyển","379 quyển","359 quyển"],a:0},
-{q:"Một mảnh vườn hình chữ nhật có chiều dài 15 mét, chiều rộng 10 mét. Diện tích mảnh vườn bằng bao nhiêu?",o:["50 m²","100 m²","150 m²","25 m²"],a:2}
+{q:"Một mảnh vườn hình chữ nhật có chiều dài 15 mét, chiều rộng 10 mét. Diện tích mảnh vườn bằng bao nhiêu?",o:["50 m²","100 m²","150 m²","25 m²"],a:2},
+{q:"Phép tính 456 + 327 bằng bao nhiêu?",o:["773","783","883","683"],a:1},
+{q:"Phép tính 800 - 235 bằng bao nhiêu?",o:["565","575","665","555"],a:0},
+{q:"Phép tính 6 × 9 bằng bao nhiêu?",o:["45","54","63","56"],a:1},
+{q:"Phép tính 56 ÷ 7 bằng bao nhiêu?",o:["6","7","8","9"],a:2},
+{q:"Một hình vuông có cạnh 7 xăng-ti-mét. Diện tích bằng bao nhiêu?",o:["28 cm²","35 cm²","49 cm²","14 cm²"],a:2},
+{q:"Mẹ mua 3 kilôgam gạo, giá mỗi kilôgam là 15000 đồng. Hỏi mẹ phải trả bao nhiêu tiền?",o:["30000 đồng","35000 đồng","45000 đồng","50000 đồng"],a:2},
+{q:"Số La Mã XII có giá trị bằng bao nhiêu?",o:["7","10","12","20"],a:2},
+{q:"Một ngày có bao nhiêu giờ?",o:["12 giờ","20 giờ","24 giờ","48 giờ"],a:2},
+{q:"Phép tính 135 × 5 bằng bao nhiêu?",o:["575","625","675","725"],a:2},
+{q:"Chu vi hình chữ nhật có chiều dài 10 cm và chiều rộng 6 cm bằng bao nhiêu?",o:["16 cm","32 cm","60 cm","26 cm"],a:1}
 ],
 4:[
 // === DỄ: Phép tính, phân số cơ bản ===
@@ -575,7 +542,16 @@ var QBANK={toan:{
 {q:"Cho biểu thức a × 4 + 12. Khi a = 7 thì biểu thức có giá trị bằng bao nhiêu?",o:["36","40","44","48"],a:1},
 {q:"Lớp 4A có 36 học sinh, trong đó 1/4 số học sinh đạt học sinh giỏi. Hỏi lớp có bao nhiêu học sinh giỏi?",o:["8","9","10","12"],a:1},
 {q:"Trung bình cộng của bốn số 24, 36, 48 và 52 bằng bao nhiêu?",o:["36","38","40","42"],a:2},
-{q:"Diện tích hình chữ nhật có chiều dài 25 cm, chiều rộng 12 cm bằng bao nhiêu?",o:["74 cm²","250 cm²","300 cm²","37 cm²"],a:2}
+{q:"Diện tích hình chữ nhật có chiều dài 25 cm, chiều rộng 12 cm bằng bao nhiêu?",o:["74 cm²","250 cm²","300 cm²","37 cm²"],a:2},
+{q:"Phân số 3/4 + 1/4 bằng bao nhiêu?",o:["4/8","4/4","2/4","1"],a:3},
+{q:"Một lớp có 32 học sinh, 1/4 số học sinh được khen. Hỏi có bao nhiêu học sinh được khen?",o:["6","7","8","9"],a:2},
+{q:"Phép tính 4500 ÷ 9 bằng bao nhiêu?",o:["400","450","500","550"],a:2},
+{q:"Phân số nào dưới đây lớn hơn 1/2?",o:["1/3","2/5","3/4","1/4"],a:2},
+{q:"Trung bình cộng của 15, 25 và 35 bằng bao nhiêu?",o:["20","25","30","35"],a:1},
+{q:"Số La Mã XX có giá trị bằng bao nhiêu?",o:["10","15","20","25"],a:2},
+{q:"Diện tích hình vuông có cạnh 20 cm bằng bao nhiêu?",o:["80 cm²","200 cm²","400 cm²","40 cm²"],a:2},
+{q:"Phép tính 2500 × 4 bằng bao nhiêu?",o:["8000","9000","10000","11000"],a:2},
+{q:"Một xe chở được 50 bao gạo. Hỏi 6 xe chở được bao nhiêu bao gạo?",o:["200 bao","250 bao","300 bao","350 bao"],a:2}
 ],
 5:[
 // === DỄ: Phần trăm, số thập phân cơ bản ===
@@ -619,7 +595,17 @@ var QBANK={toan:{
 {q:"Diện tích hình chữ nhật dài 25 mét, rộng 18 mét bằng bao nhiêu?",o:["86 m²","350 m²","450 m²","43 m²"],a:2},
 {q:"Một bể nước hình hộp chữ nhật dài 2 mét, rộng 1,5 mét, cao 1 mét. Thể tích bể bằng bao nhiêu?",o:["3 m³","4,5 m³","3,5 m³","2 m³"],a:0},
 {q:"Quãng đường AB dài 180 km. Xe máy đi từ A với vận tốc 45 km/giờ. Hỏi sau bao lâu xe đến B?",o:["3 giờ","4 giờ","5 giờ","6 giờ"],a:1},
-{q:"Một hình tam giác có đáy 16 cm, chiều cao 9 cm. Diện tích bằng bao nhiêu?",o:["72 cm²","144 cm²","25 cm²","36 cm²"],a:0}
+{q:"Một hình tam giác có đáy 16 cm, chiều cao 9 cm. Diện tích bằng bao nhiêu?",o:["72 cm²","144 cm²","25 cm²","36 cm²"],a:0},
+{q:"Phép tính 15,6 - 8,4 bằng bao nhiêu?",o:["6,2","7,2","8,2","6,8"],a:1},
+{q:"50% của 360 bằng bao nhiêu?",o:["160","170","180","190"],a:2},
+{q:"Một hình hộp chữ nhật dài 8 cm, rộng 5 cm, cao 4 cm. Thể tích bằng bao nhiêu?",o:["120 cm³","140 cm³","160 cm³","180 cm³"],a:2},
+{q:"Nếu 3 × x = 45 thì x bằng bao nhiêu?",o:["12","13","14","15"],a:3},
+{q:"Phép tính 2,5 × 4 bằng bao nhiêu?",o:["8","9","10","11"],a:2},
+{q:"30% của 200 bằng bao nhiêu?",o:["40","50","60","70"],a:2},
+{q:"Diện tích hình tam giác có đáy 12 cm và chiều cao 8 cm bằng bao nhiêu?",o:["48 cm²","96 cm²","20 cm²","36 cm²"],a:0},
+{q:"Một bể cá hình hộp chữ nhật dài 60 cm, rộng 30 cm, cao 40 cm. Thể tích bể bằng bao nhiêu?",o:["36000 cm³","72000 cm³","54000 cm³","48000 cm³"],a:1},
+{q:"Phép tính 8,4 ÷ 1,2 bằng bao nhiêu?",o:["5","6","7","8"],a:2},
+{q:"Một ô tô đi 150 km trong 3 giờ. Hỏi vận tốc của ô tô bằng bao nhiêu?",o:["40 km/giờ","45 km/giờ","50 km/giờ","55 km/giờ"],a:2}
 ]},
 tiengviet:{
 1:[
@@ -662,7 +648,16 @@ tiengviet:{
 {q:"Từ nào dưới đây chỉ đồ dùng học tập?",o:["Quả cam","Thước kẻ","Con gà","Bông hoa"],a:1},
 {q:"Câu 'Con mèo kêu meo meo' có mấy từ?",o:["3","4","5","6"],a:2},
 {q:"Từ nào dưới đây viết đúng chính tả?",o:["con chó","con jó","con chú","con giú"],a:0},
-{q:"Tháng 1 trong năm còn gọi là tháng gì?",o:["Tháng Giêng","Tháng Chạp","Tháng Hai","Tháng Ba"],a:0}
+{q:"Tháng 1 trong năm còn gọi là tháng gì?",o:["Tháng Giêng","Tháng Chạp","Tháng Hai","Tháng Ba"],a:0},
+{q:"Từ nào dưới đây chỉ đồ chơi?",o:["Bàn","Búp bê","Sách","Bút"],a:1},
+{q:"Từ 'nhà' có vần gì?",o:["a","ă","â","ia"],a:0},
+{q:"Từ nào dưới đây chỉ phương tiện giao thông?",o:["Bàn","Xe đạp","Cây","Mèo"],a:1},
+{q:"Câu nào viết đúng?",o:["hà nội","Hà nội","Hà Nội","hà Nội"],a:2},
+{q:"Từ 'cá' có vần gì?",o:["a","ă","â","ia"],a:0},
+{q:"Từ nào dưới đây chỉ trái cây?",o:["Gà","Cam","Hoa","Lá"],a:1},
+{q:"Từ 'bà' mang dấu thanh gì?",o:["Dấu sắc","Dấu huyền","Dấu hỏi","Dấu nặng"],a:1},
+{q:"Chữ cái cuối cùng trong bảng chữ cái tiếng Việt là chữ gì?",o:["Z","Y","X","V"],a:1},
+{q:"Từ nào dưới đây chỉ bộ phận cơ thể?",o:["Bàn","Mắt","Cây","Sách"],a:1}
 ],
 2:[
 {q:"Từ nào dưới đây là từ láy?",o:["Xinh đẹp","Lung linh","Hoa lá","Sách vở"],a:1},
@@ -704,7 +699,16 @@ tiengviet:{
 {q:"Điền từ để hoàn thành thành ngữ: 'Đi một ngày đàng, học một sàng ...'",o:["chữ","khôn","vàng","sách"],a:1},
 {q:"Từ nào chỉ nghề nghiệp?",o:["Cao lớn","Bác sĩ","Ngôi nhà","Vui vẻ"],a:1},
 {q:"Câu nào dưới đây là câu hỏi?",o:["Mẹ đi chợ.","Hôm nay trời đẹp quá!","Bạn tên là gì?","Em ngoan lắm."],a:2},
-{q:"Từ 'lung linh' là từ gì?",o:["Từ ghép","Từ láy","Từ đơn","Từ phức"],a:1}
+{q:"Từ 'lung linh' là từ gì?",o:["Từ ghép","Từ láy","Từ đơn","Từ phức"],a:1},
+{q:"Điền từ thích hợp: 'Hiền như ...'",o:["Cọp","Bụt","Sói","Rắn"],a:1},
+{q:"Từ nào trái nghĩa với từ 'giàu'?",o:["Sang","Nghèo","Đẹp","Khỏe"],a:1},
+{q:"Từ nào dưới đây là từ chỉ sự vật?",o:["Chạy","Đẹp","Sông","Nhanh"],a:2},
+{q:"Câu 'Con chó trung thành với chủ' có mấy từ?",o:["4","5","6","7"],a:2},
+{q:"Từ nào đồng nghĩa với từ 'lớn'?",o:["Bé","To","Nhỏ","Thấp"],a:1},
+{q:"Tên riêng nào viết đúng chính tả?",o:["hà nội","Hà nội","hà Nội","Hà Nội"],a:3},
+{q:"Từ nào dưới đây chỉ hoạt động?",o:["Xinh đẹp","Ngôi nhà","Học bài","Hoa hồng"],a:2},
+{q:"Điền từ thích hợp: 'Khỏe như ...'",o:["Mèo","Voi","Thỏ","Sên"],a:1},
+{q:"Câu nào dưới đây là câu kể?",o:["Em đi đâu?","Mẹ em là giáo viên.","Ôi, đẹp quá!","Hãy đi ngay!"],a:1}
 ],
 3:[
 {q:"Chủ ngữ trong câu 'Con mèo ngủ trên ghế' là gì?",o:["Con","Mèo","Con mèo","Ngủ"],a:2},
@@ -746,7 +750,16 @@ tiengviet:{
 {q:"Từ nào dưới đây không phải là từ chỉ tính cách?",o:["Dũng cảm","Chăm chỉ","Cao lớn","Nhân hậu"],a:2},
 {q:"Cặp từ nào dưới đây có nghĩa giống nhau?",o:["Khoan dung - Độ lượng","Nhanh nhẹn - Chậm chạp","Chắt chiu - Phung phí","Minh mẫn - Lú lẫn"],a:0},
 {q:"Điền từ thích hợp: 'Nhà sạch thì mát, bát sạch ... ngon cơm'",o:["thì","là","nên","mà"],a:0},
-{q:"Từ nào dưới đây viết đúng chính tả?",o:["ngôi xao","xinh sắn","sâu sắc","san xẻ"],a:2}
+{q:"Từ nào dưới đây viết đúng chính tả?",o:["ngôi xao","xinh sắn","sâu sắc","san xẻ"],a:2},
+{q:"Câu nào dưới đây sử dụng biện pháp so sánh?",o:["Mặt trời đỏ như quả cầu lửa","Gió thổi mạnh lắm","Trời hôm nay đẹp","Em đi học về"],a:0},
+{q:"Từ 'chăm chỉ' thuộc loại từ nào?",o:["Danh từ","Động từ","Tính từ","Đại từ"],a:2},
+{q:"Điền từ thích hợp: 'Ăn quả nhớ kẻ ... cây'",o:["trồng","hái","tưới","chặt"],a:0},
+{q:"Bộ phận nào trong câu 'Em đi học' trả lời câu hỏi 'Ai?'",o:["Em","Đi","Học","Đi học"],a:0},
+{q:"Từ nào trái nghĩa với từ 'khó'?",o:["Nặng","Dễ","Xa","Cao"],a:1},
+{q:"Câu nào dưới đây là câu hỏi?",o:["Mẹ đi chợ.","Trời đẹp quá!","Bạn có khỏe không?","Em rất vui."],a:2},
+{q:"Từ 'vui vẻ' là từ gì?",o:["Từ đơn","Từ láy","Từ ghép","Từ phức không phân loại"],a:2},
+{q:"Điền từ thích hợp: 'Đẹp như ... trong tranh'",o:["hoa","bức","người","cô"],a:0},
+{q:"Từ nào dưới đây là danh từ?",o:["Chạy","Học sinh","Đẹp","Nhanh"],a:1}
 ],
 4:[
 {q:"Trạng ngữ trong câu 'Sáng nay, em đi học' là bộ phận nào?",o:["Em","Đi học","Sáng nay","Em đi"],a:2},
@@ -788,7 +801,16 @@ tiengviet:{
 {q:"Câu nào dưới đây dùng dấu hai chấm đúng?",o:["Mẹ bảo: con đi học đi","Mẹ bảo: 'Con đi học đi!'","Mẹ bảo con: đi học đi","Mẹ: bảo con đi học đi"],a:1},
 {q:"Từ Hán Việt 'thiên nhiên' có nghĩa là gì?",o:["Bầu trời","Tự nhiên","Nghìn năm","Ngày xanh"],a:1},
 {q:"Chủ ngữ trong câu 'Những chú chim đang hót líu lo trên cành' là gì?",o:["Những chú chim","Đang hót","Líu lo","Trên cành"],a:0},
-{q:"Câu ghép nào dưới đây dùng cặp quan hệ từ biểu thị quan hệ điều kiện?",o:["Vì trời mưa nên em ở nhà","Nếu chăm học thì em sẽ giỏi","Tuy khó nhưng em vẫn làm","Em vừa học vừa chơi"],a:1}
+{q:"Câu ghép nào dưới đây dùng cặp quan hệ từ biểu thị quan hệ điều kiện?",o:["Vì trời mưa nên em ở nhà","Nếu chăm học thì em sẽ giỏi","Tuy khó nhưng em vẫn làm","Em vừa học vừa chơi"],a:1},
+{q:"Từ Hán Việt 'hữu nghị' có nghĩa là gì?",o:["Chiến tranh","Tình bạn","Dũng cảm","Học tập"],a:1},
+{q:"Tính từ trong câu 'Bầu trời xanh ngắt' là từ nào?",o:["Bầu","Trời","Xanh ngắt","Bầu trời"],a:2},
+{q:"Câu nào dưới đây là câu cầu khiến?",o:["Em đang học bài.","Trời đẹp quá!","Hãy giữ gìn vệ sinh!","Bạn có khỏe không?"],a:2},
+{q:"Trạng ngữ trong câu 'Vào mùa xuân, hoa đào nở rộ' chỉ gì?",o:["Nơi chốn","Thời gian","Nguyên nhân","Mục đích"],a:1},
+{q:"Từ nào dưới đây là từ láy?",o:["Học sinh","Xanh xao","Xe đạp","Nhà cửa"],a:1},
+{q:"Từ Hán Việt 'anh hùng' có nghĩa là gì?",o:["Người giỏi giang, dũng cảm","Người thông minh","Người hiền lành","Người chăm chỉ"],a:0},
+{q:"Chủ ngữ trong câu 'Những bông hoa nở rực rỡ trong vườn' là gì?",o:["Những bông hoa","Nở rực rỡ","Trong vườn","Rực rỡ"],a:0},
+{q:"Câu 'Mặt trời tỏa ánh nắng ấm áp' có mấy từ?",o:["5","6","7","8"],a:2},
+{q:"Từ nào trái nghĩa với từ 'hòa bình'?",o:["Yên ổn","Chiến tranh","Bình yên","Thanh bình"],a:1}
 ],
 5:[
 {q:"Câu 'Dù trời mưa to, em vẫn đi học' sử dụng cặp quan hệ từ nào?",o:["Vì ... nên","Dù ... vẫn","Nếu ... thì","Tuy ... nhưng"],a:1},
@@ -830,7 +852,16 @@ tiengviet:{
 {q:"Từ 'tay' trong 'tay ghế' mang nghĩa gì?",o:["Nghĩa gốc","Nghĩa chuyển","Đồng âm","Không có nghĩa"],a:1},
 {q:"Từ nào dưới đây là từ Hán Việt?",o:["Nhà cửa","Quê hương","Tổ quốc","Cha mẹ"],a:2},
 {q:"Câu 'Bạn ấy học giỏi mà lại khiêm tốn' sử dụng quan hệ từ biểu thị quan hệ gì?",o:["Nguyên nhân","Tương phản","Bổ sung","Điều kiện"],a:1},
-{q:"Tục ngữ 'Lá lành đùm lá rách' khuyên chúng ta điều gì?",o:["Phải biết tiết kiệm","Phải biết giúp đỡ người khó khăn","Phải biết bảo vệ cây xanh","Phải biết giữ gìn đồ dùng"],a:1}
+{q:"Tục ngữ 'Lá lành đùm lá rách' khuyên chúng ta điều gì?",o:["Phải biết tiết kiệm","Phải biết giúp đỡ người khó khăn","Phải biết bảo vệ cây xanh","Phải biết giữ gìn đồ dùng"],a:1},
+{q:"Câu thơ 'Bác ơi, tim Bác mênh mông thế' sử dụng biện pháp nào?",o:["So sánh","Nhân hóa","Nói quá","Ẩn dụ"],a:2},
+{q:"Từ 'chân' trong 'chân núi' mang nghĩa gì?",o:["Nghĩa gốc","Nghĩa chuyển","Đồng âm","Trái nghĩa"],a:1},
+{q:"Câu 'Tuy nhà xa nhưng bạn Hoa không bao giờ đi học muộn' sử dụng cặp quan hệ từ biểu thị quan hệ gì?",o:["Nguyên nhân","Tương phản","Điều kiện","Bổ sung"],a:1},
+{q:"Từ nào dưới đây là đại từ xưng hô?",o:["Nhà","Chúng tôi","Đẹp","Chạy"],a:1},
+{q:"Câu nào dưới đây có trạng ngữ chỉ thời gian?",o:["Sáng sớm, mẹ đã ra đồng","Ở công viên, các bạn vui chơi","Để giỏi toán, em chăm luyện tập","Bằng sự cố gắng, em đã thành công"],a:0},
+{q:"Từ 'mũi' trong 'mũi thuyền' mang nghĩa gì?",o:["Nghĩa gốc","Nghĩa chuyển","Đồng âm","Trái nghĩa"],a:1},
+{q:"Bài thơ 'Hạt gạo làng ta' do nhà thơ nào sáng tác?",o:["Trần Đăng Khoa","Tố Hữu","Xuân Quỳnh","Phạm Tiến Duật"],a:0},
+{q:"Câu 'Dòng sông quê em hiền hòa chảy' sử dụng biện pháp nào?",o:["So sánh","Nhân hóa","Ẩn dụ","Điệp ngữ"],a:1},
+{q:"Từ nào dưới đây không phải từ Hán Việt?",o:["Tổ quốc","Nhân dân","Cha mẹ","Thiên nhiên"],a:2}
 ]},
 tienganh:{
 1:[
@@ -873,7 +904,16 @@ tienganh:{
 {q:"Từ 'teacher' trong tiếng Anh nghĩa là gì?",o:["Học sinh","Bác sĩ","Giáo viên","Nông dân"],a:2},
 {q:"Four + Six = ?",o:["Eight","Nine","Ten","Eleven"],a:2},
 {q:"Từ 'milk' trong tiếng Anh nghĩa là gì?",o:["Nước","Sữa","Trà","Cà phê"],a:1},
-{q:"Chọn lời chào đúng: Good ___! (buổi chiều)",o:["morning","afternoon","evening","night"],a:1}
+{q:"Chọn lời chào đúng: Good ___! (buổi chiều)",o:["morning","afternoon","evening","night"],a:1},
+{q:"Từ 'table' trong tiếng Anh nghĩa là gì?",o:["Ghế","Bàn","Giường","Tủ"],a:1},
+{q:"What color is a banana?",o:["Red","Blue","Yellow","Green"],a:2},
+{q:"Từ 'flower' trong tiếng Anh nghĩa là gì?",o:["Cây","Lá","Hoa","Quả"],a:2},
+{q:"Chọn từ đúng: I ___ a girl.",o:["is","am","are","be"],a:1},
+{q:"Từ 'star' trong tiếng Anh nghĩa là gì?",o:["Mặt trời","Mặt trăng","Ngôi sao","Đám mây"],a:2},
+{q:"Three + Four = ?",o:["Five","Six","Seven","Eight"],a:2},
+{q:"Từ 'house' trong tiếng Anh nghĩa là gì?",o:["Trường","Nhà","Chợ","Cầu"],a:1},
+{q:"Từ 'sorry' trong tiếng Anh nghĩa là gì?",o:["Cảm ơn","Xin chào","Xin lỗi","Tạm biệt"],a:2},
+{q:"What is this? It is ___ apple.",o:["a","an","the","is"],a:1}
 ],
 2:[
 {q:"Chọn từ đúng: She ___ a teacher.",o:["am","is","are","be"],a:1},
@@ -915,7 +955,16 @@ tienganh:{
 {q:"Từ 'homework' trong tiếng Anh nghĩa là gì?",o:["Bài tập về nhà","Công việc nhà","Sách giáo khoa","Bài kiểm tra"],a:0},
 {q:"Chọn từ đúng: I like ___ to music.",o:["listen","listening","listens","listened"],a:1},
 {q:"Từ 'playground' trong tiếng Anh nghĩa là gì?",o:["Phòng học","Thư viện","Sân chơi","Nhà ăn"],a:2},
-{q:"Chọn từ đúng: ___ do you go to school? - By bus.",o:["What","Where","How","When"],a:2}
+{q:"Chọn từ đúng: ___ do you go to school? - By bus.",o:["What","Where","How","When"],a:2},
+{q:"Từ 'kitchen' trong tiếng Anh nghĩa là gì?",o:["Phòng ngủ","Nhà bếp","Phòng khách","Nhà tắm"],a:1},
+{q:"Chọn từ đúng: My sister ___ 8 years old.",o:["am","is","are","be"],a:1},
+{q:"What is the opposite of 'happy'?",o:["Angry","Sad","Tired","Hungry"],a:1},
+{q:"Chọn từ đúng: ___ is your teacher? - Miss Lan.",o:["What","Where","Who","How"],a:2},
+{q:"Từ 'weather' trong tiếng Anh nghĩa là gì?",o:["Nước","Thời tiết","Gió","Mưa"],a:1},
+{q:"Chọn từ đúng: I ___ go to school on Sunday.",o:["doesn't","don't","isn't","aren't"],a:1},
+{q:"How many days are there in a week?",o:["5","6","7","8"],a:2},
+{q:"Từ 'friend' trong tiếng Anh nghĩa là gì?",o:["Anh em","Bạn bè","Cha mẹ","Thầy cô"],a:1},
+{q:"Chọn từ đúng: They ___ students.",o:["am","is","are","be"],a:2}
 ],
 3:[
 {q:"Chọn từ đúng: She ___ playing the piano right now.",o:["is","am","are","was"],a:0},
@@ -957,7 +1006,16 @@ tienganh:{
 {q:"Từ 'season' trong tiếng Anh nghĩa là gì?",o:["Thời gian","Mùa","Năm","Tháng"],a:1},
 {q:"Chọn từ đúng: I ___ born in Nghe An province.",o:["am","was","were","is"],a:1},
 {q:"Chọn từ đúng: How ___ is this ruler? - It is 20 centimeters.",o:["tall","long","high","big"],a:1},
-{q:"Chọn từ đúng: My school is ___ the park and the hospital.",o:["in","on","between","under"],a:2}
+{q:"Chọn từ đúng: My school is ___ the park and the hospital.",o:["in","on","between","under"],a:2},
+{q:"What day comes after Friday?",o:["Thursday","Saturday","Sunday","Monday"],a:1},
+{q:"Chọn từ đúng: She ___ not like vegetables.",o:["do","does","is","are"],a:1},
+{q:"Từ 'beautiful' trong tiếng Anh nghĩa là gì?",o:["Xấu","Đẹp","Cao","Thấp"],a:1},
+{q:"Chọn từ đúng: ___ is the weather like today?",o:["How","What","Who","Where"],a:1},
+{q:"Chọn từ đúng: There ___ a book on the table.",o:["am","is","are","be"],a:1},
+{q:"What month comes after March?",o:["February","April","May","June"],a:1},
+{q:"Chọn từ đúng: My brother ___ homework every evening.",o:["do","does","doing","did"],a:1},
+{q:"Từ 'library' trong tiếng Anh nghĩa là gì?",o:["Phòng học","Sân trường","Thư viện","Nhà ăn"],a:2},
+{q:"Chọn từ đúng: I usually get up ___ 6 o'clock.",o:["in","on","at","to"],a:2}
 ],
 4:[
 {q:"Chọn từ đúng: If it rains, I ___ stay at home.",o:["will","would","am","was"],a:0},
@@ -999,7 +1057,16 @@ tienganh:{
 {q:"Chọn từ đúng: He is good ___ playing the guitar.",o:["in","on","at","for"],a:2},
 {q:"Chọn từ đúng: You ___ eat more vegetables to be healthy.",o:["should","can","may","will"],a:0},
 {q:"Chọn từ đúng: This dress is ___ expensive than that one.",o:["much","more","most","very"],a:1},
-{q:"Chọn từ đúng: We have ___ been to Da Nang before.",o:["ever","never","yet","already"],a:1}
+{q:"Chọn từ đúng: We have ___ been to Da Nang before.",o:["ever","never","yet","already"],a:1},
+{q:"Chọn từ đúng: She ___ English very well.",o:["speak","speaks","speaking","spoke"],a:1},
+{q:"What is the opposite of 'difficult'?",o:["Hard","Easy","Boring","Interesting"],a:1},
+{q:"Chọn từ đúng: We ___ to the cinema last night.",o:["go","goes","went","going"],a:2},
+{q:"Chọn từ đúng: This book is ___ than that one.",o:["interesting","more interesting","most interesting","interestingly"],a:1},
+{q:"Chọn từ đúng: You ___ brush your teeth every day.",o:["should","can","may","might"],a:0},
+{q:"Từ 'homework' trong tiếng Anh nghĩa là gì?",o:["Công việc nhà","Bài tập về nhà","Sách giáo khoa","Bài kiểm tra"],a:1},
+{q:"Chọn từ đúng: I ___ playing football when it started to rain.",o:["am","is","was","were"],a:2},
+{q:"Chọn từ đúng: She is the ___ student in our class.",o:["good","better","best","most good"],a:2},
+{q:"Chọn từ đúng: We ___ plant more trees to protect the environment.",o:["should","can","may","might"],a:0}
 ],
 5:[
 {q:"Chọn từ đúng: Neither Tom ___ Jerry came to the party.",o:["or","and","nor","but"],a:2},
@@ -1040,16 +1107,46 @@ tienganh:{
 {q:"Chọn từ đúng: We have lived here ___ five years.",o:["for","since","from","during"],a:0},
 {q:"Chọn từ đúng: She asked me ___ I wanted to eat.",o:["that","what","who","which"],a:1},
 {q:"Chọn từ đúng: If she ___ hard, she will pass the exam.",o:["study","studies","studied","studying"],a:1},
-{q:"Chọn từ đúng: The Mekong River is one of the ___ rivers in the world.",o:["long","longer","longest","most long"],a:2}
-]}};
-var SUBS=[{id:"toan",n:"Toán học",ic:"🔢",cl:"#FF6B35",gd:"linear-gradient(135deg,#FF6B35,#F7931E)"},{id:"tiengviet",n:"Tiếng Việt",ic:"📖",cl:"#E91E63",gd:"linear-gradient(135deg,#E91E63,#FF5252)"},{id:"tienganh",n:"Tiếng Anh",ic:"🌍",cl:"#2196F3",gd:"linear-gradient(135deg,#2196F3,#00BCD4)"}];
-var RANKS=[{n:"Sĩ Tử",m:0,i:"📜",c:"#8D6E63"},{n:"Tú Tài",m:500,i:"🎓",c:"#7B1FA2"},{n:"Cử Nhân",m:1500,i:"⭐",c:"#1565C0"},{n:"Tiến Sĩ",m:3000,i:"🏅",c:"#2E7D32"},{n:"Hoàng Giáp",m:5000,i:"👑",c:"#E65100"},{n:"Thám Hoa",m:8000,i:"🌸",c:"#D81B60"},{n:"Bảng Nhãn",m:12000,i:"🏆",c:"#F57F17"},{n:"Trạng Nguyên",m:20000,i:"🐉",c:"#B71C1C"}];
-var YAYS=["Tuyệt vời! 🎉","Giỏi lắm! ⭐","Xuất sắc! 🏆","Chính xác! ✅","Đúng rồi! 🎯","Siêu giỏi! 💪","Thông minh quá! 🧠"];
-var NAYS=["Cố gắng lên nhé! 💪","Sai rồi, thử lại nào! 🔄","Đừng nản nhé! ⭐","Lần sau sẽ đúng! 🌟","Suy nghĩ kỹ hơn nhé! 🤔"];
+{q:"Chọn từ đúng: The Mekong River is one of the ___ rivers in the world.",o:["long","longer","longest","most long"],a:2},
+{q:"Chọn từ đúng: She has been learning English ___ 3 years.",o:["for","since","from","during"],a:0},
+{q:"Chọn từ đúng: If we ___ trees, we can help the environment.",o:["plant","plants","planted","planting"],a:0},
+{q:"Chọn từ đúng: This movie is ___ boring than I expected.",o:["much","more","most","very"],a:1},
+{q:"Chọn từ đúng: They ___ their homework before they went out.",o:["finish","finishes","finished","have finished"],a:2},
+{q:"Chọn từ đúng: My sister enjoys ___ books in her free time.",o:["read","reads","reading","to read"],a:2},
+{q:"Chọn từ đúng: He asked me ___ I could help him.",o:["that","if","what","which"],a:1},
+{q:"Chọn từ đúng: We should ___ water to protect the environment.",o:["save","saving","saved","saves"],a:0},
+{q:"Chọn từ đúng: Ha Noi is the ___ of Viet Nam.",o:["city","country","capital","town"],a:2},
+{q:"Chọn từ đúng: She ___ a letter to her friend yesterday.",o:["write","writes","wrote","written"],a:2},
+{q:"Chọn từ đúng: My father is ___ than my mother.",o:["tall","taller","tallest","more tall"],a:1}
+]}};// ===== SOUND =====
+var soundEnabled=true,audioCtx=null;
+function getAudioCtx(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}return audioCtx}
+function playTone(f,d,t,v){if(!soundEnabled)return;var c=getAudioCtx();if(!c)return;var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t||'sine';o.frequency.value=f;g.gain.value=v||.12;g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start(c.currentTime);o.stop(c.currentTime+d)}
+function playCorrectSound(){if(!soundEnabled)return;setTimeout(function(){playTone(523,.15,'sine',.1)},0);setTimeout(function(){playTone(659,.15,'sine',.1)},100);setTimeout(function(){playTone(784,.25,'sine',.12)},200)}
+function playWrongSound(){if(!soundEnabled)return;setTimeout(function(){playTone(350,.2,'triangle',.08)},0);setTimeout(function(){playTone(280,.3,'triangle',.06)},150)}
+function playCompleteSound(){if(!soundEnabled)return;setTimeout(function(){playTone(523,.2,'sine',.1)},0);setTimeout(function(){playTone(659,.2,'sine',.1)},150);setTimeout(function(){playTone(784,.2,'sine',.1)},300);setTimeout(function(){playTone(1047,.4,'sine',.12)},450)}
+function toggleSound(){soundEnabled=!soundEnabled;document.getElementById('soundBtn').textContent=soundEnabled?'🔊':'🔇'}
 
+// ===== TTS (English only) =====
+var voiceEnabled=false,currentAudio=null;
+function gttsSpeak(t,l,cb){var mx=180,ch=[];if(t.length<=mx)ch.push(t);else{var sn=t.split(/(?<=[.?!,;:])\s*/),bf='';for(var i=0;i<sn.length;i++){if((bf+' '+sn[i]).length>mx&&bf.length>0){ch.push(bf.trim());bf=sn[i]}else bf=bf?bf+' '+sn[i]:sn[i]}if(bf.trim())ch.push(bf.trim())}var ix=0;function nx(){if(ix>=ch.length){if(cb)cb();return}var u='https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='+encodeURIComponent(l)+'&q='+encodeURIComponent(ch[ix]);var a=new Audio(u);currentAudio=a;a.playbackRate=l==='vi'?1.08:1.05;a.onended=function(){ix++;nx()};a.onerror=function(){if(cb)cb()};a.play().catch(function(){if(cb)cb()})}nx()}
+function stopSpeaking(){if(currentAudio){currentAudio.pause();currentAudio=null}if(window.speechSynthesis)window.speechSynthesis.cancel()}
+function speakText(t,l){if(!voiceEnabled)return;stopSpeaking();gttsSpeak(t,l||'en')}
+function getQuizLang(){return curSubject==='tienganh'?'en':'vi'}
+function readQuestion(){var q=curQuestions[curIndex],l=getQuizLang(),t='',lb=['A','B','C','D'];if(l==='en'){t='Question '+(curIndex+1)+'. '+q.q;for(var i=0;i<q.o.length;i++)t+='. '+lb[i]+': '+q.o[i]}else{t='Câu '+(curIndex+1)+'. '+q.q;for(var i=0;i<q.o.length;i++)t+='. Đáp án '+lb[i]+': '+q.o[i]}var w=voiceEnabled;voiceEnabled=true;speakText(t,l);voiceEnabled=w}
+function toggleVoice(){voiceEnabled=!voiceEnabled;var b=document.getElementById('voiceBtn');b.textContent=voiceEnabled?'🎤 Đang đọc':'🎤 Giọng đọc';b.style.background=voiceEnabled?'rgba(99,102,241,.1)':'rgba(30,41,59,.8)';b.style.borderColor=voiceEnabled?'rgba(99,102,241,.2)':'rgba(255,255,255,.1)';b.style.color=voiceEnabled?'#38bdf8':'color:#64748b';if(!voiceEnabled)stopSpeaking();else speakText('Voice reading is on!','en')}
+
+// ===== CONFIG =====
+var SUBS=[{id:"toan",n:"Toán học",ic:"🔢",cl:"#f97316",gd:"linear-gradient(135deg,#f97316,#ea580c)"},{id:"tiengviet",n:"Tiếng Việt",ic:"📖",cl:"#ec4899",gd:"linear-gradient(135deg,#ec4899,#db2777)"},{id:"tienganh",n:"Tiếng Anh",ic:"🌍",cl:"#3b82f6",gd:"linear-gradient(135deg,#3b82f6,#2563eb)"}];
+var RANKS=[{n:"Sĩ Tử",m:0,i:"📜",c:"#a8a29e"},{n:"Tú Tài",m:500,i:"🎓",c:"#a78bfa"},{n:"Cử Nhân",m:1500,i:"⭐",c:"#38bdf8"},{n:"Tiến Sĩ",m:3000,i:"🏅",c:"#16a34a"},{n:"Hoàng Giáp",m:5000,i:"👑",c:"#fb923c"},{n:"Thám Hoa",m:8000,i:"🌸",c:"#f472b6"},{n:"Bảng Nhãn",m:12000,i:"🏆",c:"#d97706"},{n:"Trạng Nguyên",m:20000,i:"🐉",c:"#ef4444"}];
+var YAYS=["Tuyệt vời! 🎉","Giỏi lắm! ⭐","Xuất sắc! 🏆","Chính xác! ✅","Đúng rồi! 🎯","Siêu giỏi! 💪"];
+var NAYS=["Cố gắng nhé! 💪","Sai rồi! 🔄","Đừng nản! ⭐","Lần sau đúng! 🌟"];
+
+// ===== STATE =====
 var playerName="",playerGrade=1,playerClass="",totalScore=0,historyList=[],gradeInput=1;
-var curQuestions=[],curIndex=0,curScore=0,curSelected=-1,curTimeLeft=0,curCombo=0,curMaxCombo=0,curCorrect=0,curSubject="",timerId=0;
+var curQuestions=[],curIndex=0,curScore=0,curSelected=-1,curTimeLeft=0,curCombo=0,curMaxCombo=0,curCorrect=0,curSubject="",curGameMode="",timerId=0;
 
+// ===== UTILS =====
 function getRank(s){var r=RANKS[0];for(var i=0;i<RANKS.length;i++)if(s>=RANKS[i].m)r=RANKS[i];return r}
 function getNext(s){for(var i=0;i<RANKS.length;i++)if(RANKS[i].m>s)return RANKS[i];return RANKS[RANKS.length-1]}
 function getSub(id){for(var i=0;i<SUBS.length;i++)if(SUBS[i].id===id)return SUBS[i];return null}
@@ -1057,72 +1154,70 @@ function fmtTime(s){return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60)}
 function pickRandom(a){return a[Math.floor(Math.random()*a.length)]}
 function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 
+// ===== NAVIGATION =====
 function goPage(name){
   var p=document.getElementsByClassName('page');for(var i=0;i<p.length;i++)p[i].className='page';
-  var t={login:'pageLogin',home:'pageHome',quiz:'pageQuiz',result:'pageResult',ranks:'pageRanks',history:'pageHistory'};
+  var t={login:'pageLogin',home:'pageHome',gameselect:'pageGameSelect',quiz:'pageQuiz',result:'pageResult',ranks:'pageRanks',history:'pageHistory',balloon:'pageBalloon',tf:'pageTF',match:'pageMatch',spin:'pageSpin'};
+  if(!t[name])return;
   document.getElementById(t[name]).className=(name==='login'||name==='result')?'page show mid':'page show';
   if(name==='home')buildHome();if(name==='ranks')buildRanks();if(name==='history')buildHistory();
-  // Ẩn nút giọng đọc khi không ở trang quiz
-  if(name!=='quiz'){
-    document.getElementById('voiceBtn').style.display='none';
-    voiceEnabled=false; stopSpeaking();
-  }
+  if(name!=='quiz'){document.getElementById('voiceBtn').style.display='none';voiceEnabled=false;stopSpeaking()}
   window.scrollTo(0,0);
 }
 
-function buildGrades(){
-  var c=document.getElementById('gradeArea');c.innerHTML='';
-  for(var g=1;g<=5;g++){var b=document.createElement('button');b.className='gb'+(gradeInput===g?' on':'');b.textContent=g;b.setAttribute('data-g',g);
-    b.onclick=function(){gradeInput=parseInt(this.getAttribute('data-g'));buildGrades()};c.appendChild(b)}
-}
-
-function doLogin(){
-  var n=document.getElementById('txtName').value.trim();
-  if(!n){alert('Vui lòng nhập tên của con!');return}
-  var c=document.getElementById('txtClass').value.trim().toUpperCase();
-  playerName=n;playerGrade=gradeInput;playerClass=c;goPage('home');
-}
+// ===== LOGIN =====
+function buildGrades(){var c=document.getElementById('gradeArea');c.innerHTML='';for(var g=1;g<=5;g++){var b=document.createElement('button');b.className='gb'+(gradeInput===g?' on':'');b.textContent=g;b.setAttribute('data-g',g);b.onclick=function(){gradeInput=parseInt(this.getAttribute('data-g'));buildGrades()};c.appendChild(b)}}
+function doLogin(){var n=document.getElementById('txtName').value.trim();if(!n){alert('Vui lòng nhập tên!');return}playerName=n;playerGrade=gradeInput;playerClass=document.getElementById('txtClass').value.trim().toUpperCase();goPage('home')}
 function doLogout(){playerName='';playerClass='';totalScore=0;historyList=[];document.getElementById('txtName').value='';document.getElementById('txtClass').value='';goPage('login');buildGrades()}
 
+// ===== HOME =====
 function buildHome(){
   var r=getRank(totalScore),n=getNext(totalScore),p=n.m>r.m?((totalScore-r.m)/(n.m-r.m))*100:100;
   document.getElementById('homeIcon').textContent=r.i;document.getElementById('homeName').textContent=playerName;
-  document.getElementById('homeGrade').textContent='Lớp '+playerGrade+(playerClass?' • Lớp '+playerClass:'');
+  document.getElementById('homeGrade').textContent='Lớp '+playerGrade+(playerClass?' • '+playerClass:'');
   var rk=document.getElementById('homeRank');rk.textContent=r.i+' '+r.n;rk.style.background=r.c+'20';rk.style.color=r.c;
   document.getElementById('homeScore').textContent=totalScore.toLocaleString();
   document.getElementById('homeCurRk').textContent=r.i+' '+r.n;document.getElementById('homeNxtRk').textContent=n.i+' '+n.n;
   document.getElementById('homeBar').style.width=Math.min(p,100)+'%';
-  document.getElementById('homeNeed').textContent='Còn '+(n.m-totalScore).toLocaleString()+' điểm nữa để lên cấp';
-  var sl=document.getElementById('homeSubjects');sl.innerHTML='';
-  for(var i=0;i<SUBS.length;i++){var s=SUBS[i];var b=document.createElement('button');b.className='sc-btn';
-    b.setAttribute('data-sub',s.id);var qc=QBANK[s.id][playerGrade].length;
-    b.innerHTML='<div class="si" style="background:'+s.gd+'">'+s.ic+'</div><div style="flex:1"><div style="font-size:17px;font-weight:700;margin-bottom:3px;color:#333">'+s.n+'</div><div style="font-size:13px;color:#999">Lớp '+playerGrade+' • Ngân hàng '+qc+' câu hỏi • Mỗi lượt thi 15 câu</div></div><div style="font-size:22px;color:'+s.cl+';font-weight:800">→</div>';
-    b.onclick=function(){startQuiz(this.getAttribute('data-sub'))};sl.appendChild(b)}
-  var rh=document.getElementById('homeRecent');
-  if(!historyList.length){rh.innerHTML='';return}
-  var h='<div style="font-size:12px;color:#999;font-weight:700;letter-spacing:2px;margin-bottom:10px">📋 KẾT QUẢ GẦN ĐÂY</div>';
+  document.getElementById('homeNeed').textContent='Còn '+(n.m-totalScore).toLocaleString()+' điểm';
+  // Island counts
+  for(var si=0;si<SUBS.length;si++){var s=SUBS[si],cnt=QBANK[s.id][playerGrade].length;
+    var el=document.getElementById(s.id==='toan'?'islandToanCount':s.id==='tiengviet'?'islandTVCount':'islandTACount');
+    if(el)el.textContent=cnt+' câu hỏi'}
+  // Recent
+  var rh=document.getElementById('homeRecent');if(!historyList.length){rh.innerHTML='';return}
+  var h='<div style="font-size:11px;color:#94a3b8;font-weight:700;letter-spacing:2px;margin-bottom:8px">📋 GẦN ĐÂY</div>';
   for(var j=0;j<Math.min(3,historyList.length);j++){var x=historyList[j],s2=getSub(x.sub);
-    h+='<div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.05);margin-bottom:8px"><span style="font-size:20px">'+(s2?s2.ic:'')+'</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#333">'+(s2?s2.n:'')+' • Lớp '+x.gr+'</div><div style="font-size:11px;color:#999">'+x.ok+'/'+x.tot+' đúng • Combo x'+x.mc+' • '+x.dt+'</div></div><div style="font-size:16px;font-weight:800;color:#FF9800">+'+x.sc+'</div></div>'}
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);margin-bottom:6px"><span style="font-size:16px">'+(s2?s2.ic:'')+'</span><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#475569">'+(x.gm||'Quiz')+' • '+(s2?s2.n:'')+'</div><div style="font-size:10px;color:#94a3b8">'+x.ok+'/'+x.tot+' • '+x.dt+'</div></div><div style="font-size:14px;font-weight:800;color:#d97706">+'+x.sc+'</div></div>'}
   rh.innerHTML=h
 }
 
+// ===== ISLAND → GAME SELECT =====
+function selectIsland(subId){
+  curSubject=subId;var s=getSub(subId);
+  document.getElementById('gsTitle').innerHTML=s.ic+' '+s.n;
+  document.getElementById('gsSub').textContent='Lớp '+playerGrade+' • '+QBANK[subId][playerGrade].length+' câu hỏi';
+  goPage('gameselect');
+}
+function startGame(mode){
+  curGameMode=mode;
+  if(mode==='quiz')startQuiz(curSubject);
+  else if(mode==='balloon')startBalloonGame();
+  else if(mode==='tf')startTFGame();
+  else if(mode==='match')startMatchGame();
+  else if(mode==='spin')startSpinGame();
+}
+
+// ===== QUIZ (Trạng Nguyên) =====
 function startQuiz(subId){
   curSubject=subId;curQuestions=shuffle(QBANK[subId][playerGrade]).slice(0,15);
   curIndex=0;curScore=0;curSelected=-1;curTimeLeft=450;curCombo=0;curMaxCombo=0;curCorrect=0;
-  // Chỉ hiện nút giọng đọc khi thi môn Tiếng Anh
-  var vb=document.getElementById('voiceBtn');
-  if(subId==='tienganh'){
-    vb.style.display='inline-block';
-  } else {
-    vb.style.display='none';
-    voiceEnabled=false; stopSpeaking();
-  }
+  if(subId==='tienganh')document.getElementById('voiceBtn').style.display='inline-block';
   goPage('quiz');showQuestion();clearInterval(timerId);
   timerId=setInterval(function(){curTimeLeft--;var el=document.getElementById('qTimer');el.textContent='⏱️ '+fmtTime(curTimeLeft);
-    el.className='tm '+(curTimeLeft<60?'dg':'nm');if(curTimeLeft<=0){clearInterval(timerId);finishQuiz()}},1000)
+    el.style.color=curTimeLeft<60?'#ef4444':'#d97706';if(curTimeLeft<=0){clearInterval(timerId);finishQuiz()}},1000)
 }
-function doRetry(){startQuiz(curSubject)}
-
+function doRetry(){startGame(curGameMode)}
 function showQuestion(){
   var s=getSub(curSubject),q=curQuestions[curIndex],L=['A','B','C','D'];
   document.getElementById('qScore').textContent=curScore;document.getElementById('qSubLabel').textContent=s.ic+' '+s.n;
@@ -1130,50 +1225,22 @@ function showQuestion(){
   document.getElementById('qBar').style.width=((curIndex+1)/curQuestions.length*100)+'%';
   document.getElementById('qNum').textContent=curIndex+1;document.getElementById('qNum').style.background=s.gd;
   document.getElementById('qText').textContent=q.q;
-  document.getElementById('qCombo').innerHTML=curCombo>=2?'<span style="display:inline-block;padding:5px 18px;border-radius:18px;background:linear-gradient(135deg,#FF9800,#F44336);font-size:13px;font-weight:700;color:#fff">🔥 COMBO x'+curCombo+'!</span>':'';
+  document.getElementById('qCombo').innerHTML=curCombo>=2?'<span style="display:inline-block;padding:4px 16px;border-radius:14px;background:linear-gradient(135deg,#f97316,#ef4444);font-size:12px;font-weight:700;color:#1e293b">🔥 COMBO x'+curCombo+'</span>':'';
   var g=document.getElementById('qOpts');g.innerHTML='';
   for(var i=0;i<q.o.length;i++){var b=document.createElement('button');b.className='ob';b.setAttribute('data-idx',i);
     b.innerHTML='<span class="ol">'+L[i]+'</span><span style="flex:1">'+q.o[i]+'</span>';
     b.onclick=function(){pickAnswer(parseInt(this.getAttribute('data-idx')))};g.appendChild(b)}
   document.getElementById('qFeedback').style.display='none';
   document.getElementById('qReadBtn').style.display=voiceEnabled?'inline-block':'none';
-  // Auto-read question when voice is enabled
-  if(voiceEnabled){
-    var lang = getQuizLang();
-    var readText = '';
-    var lbls = ['A','B','C','D'];
-    if(lang === 'en'){
-      readText = 'Question '+(curIndex+1)+'. '+q.q;
-      for(var k=0;k<q.o.length;k++) readText += '. '+lbls[k]+': '+q.o[k];
-    } else {
-      readText = 'Câu '+(curIndex+1)+'. '+q.q;
-      for(var k=0;k<q.o.length;k++) readText += '. Đáp án '+lbls[k]+': '+q.o[k];
-    }
-    setTimeout(function(){speakText(readText, lang)},300);
-  }
-  window.scrollTo(0,0);
+  if(voiceEnabled){var ll=getQuizLang(),rt='';var lb=['A','B','C','D'];if(ll==='en'){rt='Question '+(curIndex+1)+'. '+q.q;for(var k=0;k<q.o.length;k++)rt+='. '+lb[k]+': '+q.o[k]}else{rt='Câu '+(curIndex+1)+'. '+q.q;for(var k=0;k<q.o.length;k++)rt+='. '+lb[k]+': '+q.o[k]}setTimeout(function(){speakText(rt,ll)},300)}
+  window.scrollTo(0,0)
 }
-
 function pickAnswer(idx){
-  if(curSelected>=0)return;curSelected=idx;
-  var q=curQuestions[curIndex],ok=(q.a===idx),pts=0;
-  if(ok){
-    curCombo++;curCorrect++;pts=(10+Math.floor(curTimeLeft/30))*Math.min(curCombo,5);curScore+=pts;
-    if(curCombo>curMaxCombo)curMaxCombo=curCombo;
-    playCorrectSound();
-    if(voiceEnabled){
-      var fl = getQuizLang();
-      setTimeout(function(){speakText(fl==='en'?'Correct! Well done!':'Đúng rồi! Giỏi lắm!', fl)},200);
-    }
-  }else{
-    curCombo=0;
-    playWrongSound();
-    if(voiceEnabled){
-      var fl2 = getQuizLang();
-      var correctAns = q.o[q.a];
-      setTimeout(function(){speakText(fl2==='en'?'Wrong! The correct answer is '+correctAns:'Sai rồi! Đáp án đúng là '+correctAns, fl2)},200);
-    }
-  }
+  if(curSelected>=0)return;curSelected=idx;var q=curQuestions[curIndex],ok=(q.a===idx),pts=0;
+  if(ok){curCombo++;curCorrect++;pts=(10+Math.floor(curTimeLeft/30))*Math.min(curCombo,5);curScore+=pts;if(curCombo>curMaxCombo)curMaxCombo=curCombo;playCorrectSound();
+    if(voiceEnabled){var fl=getQuizLang();setTimeout(function(){speakText(fl==='en'?'Correct!':'Đúng rồi!',fl)},200)}
+  }else{curCombo=0;playWrongSound();
+    if(voiceEnabled){var fl2=getQuizLang(),ca=q.o[q.a];setTimeout(function(){speakText(fl2==='en'?'Wrong! Answer: '+ca:'Sai! Đáp án: '+ca,fl2)},200)}}
   document.getElementById('qScore').textContent=curScore;
   var bs=document.getElementById('qOpts').children;
   for(var i=0;i<bs.length;i++){bs[i].style.cursor='default';bs[i].onclick=null;
@@ -1181,40 +1248,244 @@ function pickAnswer(idx){
     else if(i===idx&&!ok){bs[i].className='ob dn no';bs[i].children[0].textContent='✕'}
     else bs[i].className='ob dn'}
   var fb=document.getElementById('qFeedback');fb.style.display='block';fb.className='fb '+(ok?'fok':'fno');
-  fb.innerHTML='<span style="font-size:15px;font-weight:700;color:'+(ok?'#2e7d32':'#c62828')+'">'+pickRandom(ok?YAYS:NAYS)+(pts>0?' (+'+pts+' điểm)':'')+'</span>';
+  fb.innerHTML='<span style="font-size:14px;font-weight:700;color:'+(ok?'#16a34a':'#dc2626')+'">'+pickRandom(ok?YAYS:NAYS)+(pts>0?' (+'+pts+')':'')+'</span>';
   setTimeout(function(){curSelected=-1;stopSpeaking();if(curIndex<curQuestions.length-1){curIndex++;showQuestion()}else finishQuiz()},voiceEnabled?2500:1500)
 }
-
 function forceEnd(){clearInterval(timerId);stopSpeaking();finishQuiz()}
 function finishQuiz(){
-  clearInterval(timerId);totalScore+=curScore;
-  playCompleteSound();
-  historyList.unshift({sub:curSubject,gr:playerGrade,sc:curScore,ok:curCorrect,tot:curQuestions.length,mc:curMaxCombo,dt:new Date().toLocaleDateString('vi-VN')});
+  clearInterval(timerId);totalScore+=curScore;playCompleteSound();
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:curScore,ok:curCorrect,tot:curQuestions.length,mc:curMaxCombo,dt:new Date().toLocaleDateString('vi-VN'),gm:'Trạng Nguyên'});
   if(historyList.length>20)historyList.length=20;
   var r=getRank(totalScore),s=getSub(curSubject);
   document.getElementById('resEmoji').textContent=curCorrect>=12?'🏆':curCorrect>=8?'⭐':'💪';
-  document.getElementById('resTitle').textContent=curCorrect>=12?'Xuất sắc!':curCorrect>=8?'Tốt lắm!':'Cố gắng hơn nhé!';
-  document.getElementById('resSub').textContent=(s?s.n:'')+' • Lớp '+playerGrade+(playerClass?' '+playerClass:'');
+  document.getElementById('resTitle').textContent=curCorrect>=12?'Xuất sắc!':curCorrect>=8?'Tốt lắm!':'Cố gắng nhé!';
+  document.getElementById('resSub').textContent=s.n+' • Lớp '+playerGrade;
   document.getElementById('resSc').textContent=curScore;document.getElementById('resOk').textContent=curCorrect+'/'+curQuestions.length;
   document.getElementById('resCb').textContent='x'+curMaxCombo;
-  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';
-  if(voiceEnabled && curSubject==='tienganh') setTimeout(function(){speakText('Result: You got '+curCorrect+' out of '+curQuestions.length+' correct! Score: '+curScore+' points.', 'en')},500);
-  goPage('result')
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';goPage('result')
 }
 
-function buildRanks(){
-  var cur=getRank(totalScore),el=document.getElementById('ranksList');el.innerHTML='';
+// ===== BALLOON POP =====
+var blnQuestions=[],blnIndex=0,blnScore=0,blnLives=3,blnAnimId=0,blnTimerId=0,blnPicked=false;
+function startBalloonGame(){
+  blnQuestions=shuffle(QBANK[curSubject][playerGrade]).slice(0,15);blnIndex=0;blnScore=0;blnLives=3;blnPicked=false;
+  goPage('balloon');showBalloonQ()
+}
+function showBalloonQ(){
+  clearTimeout(blnTimerId);blnPicked=false;
+  if(blnIndex>=blnQuestions.length||blnLives<=0){endBalloonGame();return}
+  var q=blnQuestions[blnIndex];
+  document.getElementById('blnQuestion').textContent=q.q;document.getElementById('blnScore').textContent=blnScore;
+  document.getElementById('blnProgress').textContent='Câu '+(blnIndex+1)+'/'+blnQuestions.length;
+  document.getElementById('blnLives').textContent='❤️'.repeat(blnLives)+'🖤'.repeat(3-blnLives);
+  document.getElementById('blnFeedback').style.display='none';
+  var area=document.getElementById('blnBalloons');area.innerHTML='';
+  var colors=[
+    ['#ef4444','#dc2626'],['#22c55e','#16a34a'],['#3b82f6','#2563eb'],['#f59e0b','#d97706']
+  ];
+  var lb=['A','B','C','D'];
+  var aW=area.parentElement.offsetWidth||300;
+  var bw=Math.min(110,(aW-60)/4);
+  var bh=bw*1.2;
+  for(var i=0;i<q.o.length;i++){
+    var bl=document.createElement('div');
+    var left=10+i*((aW-bw-20)/3);
+    var c=colors[i];
+    // Balloon shape: round body + tie + string
+    bl.style.cssText='position:absolute;width:'+bw+'px;height:'+bh+'px;cursor:pointer;left:'+left+'px;bottom:20px;user-select:none;display:flex;flex-direction:column;align-items:center';
+    bl.innerHTML=
+      '<div style="width:100%;height:'+(bh-20)+'px;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.45) 0%,'+c[0]+' 40%,'+c[1]+' 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.15),inset 0 -4px 8px rgba(0,0,0,.1);position:relative">'
+      +'<div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.75)">'+lb[i]+'</div>'
+      +'<div style="font-size:12px;font-weight:700;color:#fff;text-align:center;padding:2px 6px;line-height:1.2;word-break:break-word;text-shadow:0 1px 2px rgba(0,0,0,.3)">'+q.o[i]+'</div>'
+      +'</div>'
+      +'<div style="width:10px;height:10px;background:'+c[1]+';clip-path:polygon(50% 0%,0% 100%,100% 100%)"></div>'
+      +'<div style="width:1px;height:24px;background:linear-gradient(to bottom,'+c[1]+',#94a3b8)"></div>';
+    bl.setAttribute('data-idx',i);
+    bl.onclick=function(){blnPick(parseInt(this.getAttribute('data-idx')))};
+    area.appendChild(bl);
+  }
+  // Animate: balloons float up and BOUNCE (never leave screen)
+  cancelAnimationFrame(blnAnimId);
+  var startTime=Date.now();
+  var areaH=380;
+  var speeds=[0.6,0.7,0.55,0.65]; // different speeds for each
+  var phases=[0,1.2,2.5,0.8]; // different start phases
+  function animBounce(){
+    if(blnPicked)return;
+    var t=(Date.now()-startTime)/1000;
+    var bs=area.children;
+    for(var j=0;j<bs.length;j++){
+      // Sine wave bounce: goes up then bounces back down, range 10 to areaH-bh-10
+      var range=areaH-bh-30;
+      var y=15+range*0.5+range*0.45*Math.sin(t*speeds[j%4]+phases[j%4]);
+      var wobble=Math.sin(t*1.5+j*2)*10;
+      bs[j].style.bottom=y+'px';
+      bs[j].style.transform='translateX('+wobble+'px)';
+    }
+    blnAnimId=requestAnimationFrame(animBounce);
+  }
+  animBounce();
+  // Auto-advance after 12 seconds if not picked
+  blnTimerId=setTimeout(function(){
+    if(!blnPicked){
+      blnPicked=true;cancelAnimationFrame(blnAnimId);
+      blnLives--;
+      var fb=document.getElementById('blnFeedback');fb.style.display='block';
+      fb.className='fb fno';fb.innerHTML='<span style="font-size:14px;font-weight:700;color:#dc2626">⏰ Hết giờ! Đáp án: '+q.o[q.a]+'</span>';
+      document.getElementById('blnLives').textContent='❤️'.repeat(blnLives)+'🖤'.repeat(3-blnLives);
+      playWrongSound();
+      setTimeout(function(){blnIndex++;showBalloonQ()},1400);
+    }
+  },12000);
+}
+function blnPick(idx){
+  if(blnPicked)return;blnPicked=true;
+  clearTimeout(blnTimerId);cancelAnimationFrame(blnAnimId);
+  var q=blnQuestions[blnIndex],ok=(q.a===idx);
+  var fb=document.getElementById('blnFeedback');fb.style.display='block';
+  // Pop effect on picked balloon
+  var bs=document.getElementById('blnBalloons').children;
+  for(var i=0;i<bs.length;i++){
+    if(i===idx&&ok){bs[i].style.transform='scale(1.3)';bs[i].style.transition='transform .3s'}
+    else if(i!==idx){bs[i].style.opacity='.3';bs[i].style.transition='opacity .3s'}
+  }
+  if(ok){blnScore+=10;playCorrectSound();fb.className='fb fok';fb.innerHTML='<span style="font-size:15px;font-weight:700;color:#16a34a">🎉 Đúng rồi! +10 điểm</span>'}
+  else{blnLives--;playWrongSound();fb.className='fb fno';fb.innerHTML='<span style="font-size:15px;font-weight:700;color:#dc2626">💥 Sai rồi! Đáp án đúng: '+q.o[q.a]+'</span>'}
+  document.getElementById('blnLives').textContent='❤️'.repeat(blnLives)+'🖤'.repeat(3-blnLives);document.getElementById('blnScore').textContent=blnScore;
+  setTimeout(function(){blnIndex++;showBalloonQ()},1500)
+}
+function endBalloonGame(){cancelAnimationFrame(blnAnimId);clearTimeout(blnTimerId);totalScore+=blnScore;
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:blnScore,ok:blnIndex,tot:blnQuestions.length,mc:0,dt:new Date().toLocaleDateString('vi-VN'),gm:'Bắn Bóng Bay'});
+  var r=getRank(totalScore);document.getElementById('resEmoji').textContent='🎈';document.getElementById('resTitle').textContent='Bắn Bóng Bay';
+  document.getElementById('resSub').textContent=getSub(curSubject).n;document.getElementById('resSc').textContent=blnScore;
+  document.getElementById('resOk').textContent=blnIndex+'/'+blnQuestions.length;document.getElementById('resCb').textContent='❤️'+blnLives;
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';playCompleteSound();goPage('result')}
+
+// ===== TRUE/FALSE =====
+var tfStatements=[],tfIndex=0,tfScore=0,tfTimeLeft=6,tfTimerId=0,tfAnswered=false;
+function generateTF(subId){var qs=shuffle(QBANK[subId][playerGrade]).slice(0,20),st=[];
+  for(var i=0;i<qs.length;i++){var q=qs[i],isT=Math.random()>.4;
+    if(isT)st.push({text:q.q.replace('?','')+' → '+q.o[q.a],correct:true});
+    else{var wi=q.a;while(wi===q.a)wi=Math.floor(Math.random()*q.o.length);st.push({text:q.q.replace('?','')+' → '+q.o[wi],correct:false})}}return st}
+function startTFGame(){tfStatements=generateTF(curSubject);tfIndex=0;tfScore=0;tfAnswered=false;goPage('tf');showTF()}
+function showTF(){if(tfIndex>=tfStatements.length){endTFGame();return}var s=tfStatements[tfIndex];
+  document.getElementById('tfStatement').textContent=s.text;document.getElementById('tfScore').textContent=tfScore;
+  document.getElementById('tfProgress').textContent='Câu '+(tfIndex+1)+'/'+tfStatements.length;
+  document.getElementById('tfFeedback').style.display='none';
+  document.getElementById('tfBtnTrue').style.opacity='1';document.getElementById('tfBtnFalse').style.opacity='1';tfAnswered=false;
+  tfTimeLeft=6;clearInterval(tfTimerId);tfTimerId=setInterval(function(){tfTimeLeft-=.1;var pc=(tfTimeLeft/6)*100;
+    document.getElementById('tfTimeBar').style.width=pc+'%';document.getElementById('tfTimeBar').style.background=pc>50?'linear-gradient(90deg,#22c55e,#16a34a)':pc>25?'linear-gradient(90deg,#f59e0b,#d97706)':'linear-gradient(90deg,#ef4444,#f97316)';
+    document.getElementById('tfTimer').textContent='⏱️ '+Math.ceil(tfTimeLeft);if(tfTimeLeft<=0){clearInterval(tfTimerId);if(!tfAnswered)tfAnswer(null)}},100)}
+function tfAnswer(ans){if(tfAnswered)return;tfAnswered=true;clearInterval(tfTimerId);var s=tfStatements[tfIndex],ok=(ans===s.correct);
+  var fb=document.getElementById('tfFeedback');fb.style.display='block';
+  if(ans===null){fb.className='fb fno';fb.innerHTML='<span style="color:#dc2626;font-weight:700">⏰ Hết giờ!</span>';playWrongSound()}
+  else if(ok){var bn=Math.round(tfTimeLeft*2);tfScore+=10+bn;fb.className='fb fok';fb.innerHTML='<span style="color:#16a34a;font-weight:700">✅ Đúng! +'+(10+bn)+'</span>';playCorrectSound()}
+  else{fb.className='fb fno';fb.innerHTML='<span style="color:#dc2626;font-weight:700">❌ Sai! Đáp án: '+(s.correct?'ĐÚNG':'SAI')+'</span>';playWrongSound()}
+  document.getElementById('tfScore').textContent=tfScore;
+  document.getElementById('tfBtnTrue').style.opacity=s.correct?'1':'.4';document.getElementById('tfBtnFalse').style.opacity=s.correct?'.4':'1';
+  setTimeout(function(){tfIndex++;showTF()},1200)}
+function endTFGame(){clearInterval(tfTimerId);totalScore+=tfScore;
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:tfScore,ok:tfIndex,tot:tfStatements.length,mc:0,dt:new Date().toLocaleDateString('vi-VN'),gm:'Nhanh Như Chớp'});
+  var r=getRank(totalScore);document.getElementById('resEmoji').textContent='⚡';document.getElementById('resTitle').textContent='Nhanh Như Chớp';
+  document.getElementById('resSub').textContent=getSub(curSubject).n;document.getElementById('resSc').textContent=tfScore;
+  document.getElementById('resOk').textContent=tfIndex+'/'+tfStatements.length;document.getElementById('resCb').textContent='—';
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';playCompleteSound();goPage('result')}
+
+// ===== MATCH GAME =====
+var matchCards=[],matchFlipped=[],matchMatched=0,matchMoves=0,matchPairs=6,matchTimer=0,matchTimerId=0,matchLocked=false;
+function startMatchGame(){
+  var qs=shuffle(QBANK[curSubject][playerGrade]).slice(0,matchPairs);matchCards=[];
+  for(var i=0;i<qs.length;i++){var q=qs[i],short=q.q.length>40?q.q.substring(0,38)+'...':q.q;
+    matchCards.push({id:i,type:'q',text:short,pair:i});matchCards.push({id:i,type:'a',text:q.o[q.a],pair:i})}
+  matchCards=shuffle(matchCards);matchFlipped=[];matchMatched=0;matchMoves=0;matchLocked=false;
+  matchTimer=0;clearInterval(matchTimerId);matchTimerId=setInterval(function(){matchTimer++;document.getElementById('matchTimer').textContent='⏱️ '+fmtTime(matchTimer)},1000);
+  goPage('match');renderMatchGrid()
+}
+function renderMatchGrid(){var g=document.getElementById('matchGrid');g.innerHTML='';
+  document.getElementById('matchMoves').textContent=matchMoves;document.getElementById('matchPairs').textContent='Đã ghép: '+matchMatched+'/'+matchPairs;
+  for(var i=0;i<matchCards.length;i++){var c=document.createElement('div');var card=matchCards[i];
+    var isFlipped=matchFlipped.indexOf(i)>=0,isMatched=card.matched;
+    c.className='match-card '+(isMatched?'matched':isFlipped?'face-up':'face-down');
+    if(isFlipped||isMatched)c.textContent=card.text;
+    c.setAttribute('data-idx',i);if(!isMatched)c.onclick=function(){flipCard(parseInt(this.getAttribute('data-idx')))};g.appendChild(c)}}
+function flipCard(idx){
+  if(matchLocked||matchFlipped.indexOf(idx)>=0||matchCards[idx].matched)return;
+  matchFlipped.push(idx);renderMatchGrid();
+  if(matchFlipped.length===2){matchLocked=true;matchMoves++;
+    var c1=matchCards[matchFlipped[0]],c2=matchCards[matchFlipped[1]];
+    if(c1.pair===c2.pair&&c1.type!==c2.type){
+      setTimeout(function(){c1.matched=true;c2.matched=true;matchMatched++;matchFlipped=[];matchLocked=false;playCorrectSound();renderMatchGrid();
+        if(matchMatched>=matchPairs)endMatchGame()},500)
+    }else{setTimeout(function(){matchFlipped=[];matchLocked=false;playWrongSound();renderMatchGrid()},800)}}
+}
+function endMatchGame(){clearInterval(matchTimerId);var sc=Math.max(10,100-matchMoves*2-matchTimer);totalScore+=sc;playCompleteSound();
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:sc,ok:matchMatched,tot:matchPairs,mc:0,dt:new Date().toLocaleDateString('vi-VN'),gm:'Ghép Đôi'});
+  var r=getRank(totalScore);document.getElementById('resEmoji').textContent='🧩';document.getElementById('resTitle').textContent='Ghép Đôi Hoàn Thành!';
+  document.getElementById('resSub').textContent=getSub(curSubject).n+' • '+matchMoves+' lượt • '+fmtTime(matchTimer);
+  document.getElementById('resSc').textContent=sc;document.getElementById('resOk').textContent=matchMatched+'/'+matchPairs;document.getElementById('resCb').textContent='—';
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';goPage('result')}
+
+// ===== SPIN WHEEL =====
+var spinQuestions=[],spinIndex=0,spinScore=0,spinAngle=0,spinSpinning=false;
+var spinColors=['#ef4444','#f59e0b','#22c55e','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316'];
+function startSpinGame(){spinQuestions=shuffle(QBANK[curSubject][playerGrade]).slice(0,10);spinIndex=0;spinScore=0;spinAngle=0;spinSpinning=false;goPage('spin');drawWheel();updateSpinUI()}
+function drawWheel(){
+  var canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
+  var cx=160,cy=160,r=150,n=8;ctx.clearRect(0,0,320,320);
+  for(var i=0;i<n;i++){var a1=(i*2*Math.PI/n)-Math.PI/2+(spinAngle*Math.PI/180),a2=((i+1)*2*Math.PI/n)-Math.PI/2+(spinAngle*Math.PI/180);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a1,a2);ctx.closePath();ctx.fillStyle=spinColors[i%spinColors.length];ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.15)';ctx.lineWidth=2;ctx.stroke();
+    var ma=(a1+a2)/2;ctx.save();ctx.translate(cx+Math.cos(ma)*(r*.65),cy+Math.sin(ma)*(r*.65));ctx.rotate(ma+Math.PI/2);
+    ctx.fillStyle='#fff';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('⭐',0,0);ctx.restore()}
+}
+function updateSpinUI(){document.getElementById('spinScore').textContent=spinScore;document.getElementById('spinProgress').textContent='Câu '+(spinIndex+1)+'/'+spinQuestions.length;
+  document.getElementById('spinBtn').style.display=spinIndex<spinQuestions.length?'block':'none';
+  document.getElementById('spinQCard').style.display='none'}
+function doSpin(){
+  if(spinSpinning||spinIndex>=spinQuestions.length)return;spinSpinning=true;
+  document.getElementById('spinBtn').style.display='none';
+  var target=1440+Math.random()*1080,start=spinAngle,dur=3000,st=Date.now();
+  function animSpin(){var el=Math.min((Date.now()-st)/dur,1),ease=1-Math.pow(1-el,3);
+    spinAngle=start+target*ease;drawWheel();
+    if(el<1)requestAnimationFrame(animSpin);
+    else{spinSpinning=false;showSpinQuestion()}}animSpin()
+}
+function showSpinQuestion(){
+  if(spinIndex>=spinQuestions.length){endSpinGame();return}
+  var q=spinQuestions[spinIndex],L=['A','B','C','D'];
+  document.getElementById('spinQCard').style.display='block';document.getElementById('spinQuestion').textContent=q.q;
+  document.getElementById('spinFeedback').style.display='none';
+  var g=document.getElementById('spinOpts');g.innerHTML='';
+  for(var i=0;i<q.o.length;i++){var b=document.createElement('button');b.className='ob';b.setAttribute('data-idx',i);
+    b.innerHTML='<span class="ol">'+L[i]+'</span><span style="flex:1">'+q.o[i]+'</span>';
+    b.onclick=function(){spinAnswer(parseInt(this.getAttribute('data-idx')))};g.appendChild(b)}
+}
+function spinAnswer(idx){
+  var q=spinQuestions[spinIndex],ok=(q.a===idx),pts=ok?15:0;if(ok){spinScore+=pts;playCorrectSound()}else playWrongSound();
+  var bs=document.getElementById('spinOpts').children;
+  for(var i=0;i<bs.length;i++){bs[i].onclick=null;bs[i].style.cursor='default';
+    if(i===q.a)bs[i].className='ob dn ok';else if(i===idx&&!ok)bs[i].className='ob dn no';else bs[i].className='ob dn'}
+  var fb=document.getElementById('spinFeedback');fb.style.display='block';fb.className='fb '+(ok?'fok':'fno');
+  fb.innerHTML='<span style="font-weight:700;color:'+(ok?'#16a34a':'#dc2626')+'">'+(ok?'✅ Đúng! +15':'❌ Sai! Đáp án: '+q.o[q.a])+'</span>';
+  document.getElementById('spinScore').textContent=spinScore;
+  setTimeout(function(){spinIndex++;updateSpinUI();if(spinIndex>=spinQuestions.length)endSpinGame()},1500)
+}
+function endSpinGame(){totalScore+=spinScore;playCompleteSound();
+  historyList.unshift({sub:curSubject,gr:playerGrade,sc:spinScore,ok:spinIndex,tot:spinQuestions.length,mc:0,dt:new Date().toLocaleDateString('vi-VN'),gm:'Vòng Quay'});
+  var r=getRank(totalScore);document.getElementById('resEmoji').textContent='🎯';document.getElementById('resTitle').textContent='Vòng Quay Kết Thúc!';
+  document.getElementById('resSub').textContent=getSub(curSubject).n;document.getElementById('resSc').textContent=spinScore;
+  document.getElementById('resOk').textContent=spinIndex+'/'+spinQuestions.length;document.getElementById('resCb').textContent='—';
+  document.getElementById('resRk').textContent=r.i+' '+r.n+' — '+totalScore.toLocaleString()+' điểm';goPage('result')}
+
+// ===== RANKS & HISTORY =====
+function buildRanks(){var cur=getRank(totalScore),el=document.getElementById('ranksList');el.innerHTML='';
   for(var i=0;i<RANKS.length;i++){var r=RANKS[i],ic=(r.n===cur.n),gt=(totalScore>=r.m);
-    el.innerHTML+='<div style="display:flex;align-items:center;gap:14px;padding:18px;border-radius:14px;border:'+(ic?'2px solid '+r.c:'1px solid rgba(0,0,0,.06)')+';background:'+(ic?r.c+'15':'rgba(255,255,255,.6)')+';margin-bottom:10px;opacity:'+(gt?'1':'.4')+';box-shadow:0 2px 8px rgba(0,0,0,.04)"><div style="width:48px;height:48px;border-radius:12px;background:'+(gt?r.c+'20':'#f5f5f5')+';display:flex;align-items:center;justify-content:center;font-size:26px">'+(gt?r.i:'🔒')+'</div><div style="flex:1"><div style="font-size:16px;font-weight:700;color:'+(gt?'#333':'#999')+'">'+r.n+(ic?' <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:'+r.c+';color:#fff;font-weight:700">HIỆN TẠI</span>':'')+'</div><div style="font-size:12px;color:#999;margin-top:2px">Cần '+r.m.toLocaleString()+' điểm</div></div>'+(gt?'<span style="font-size:18px;color:#4CAF50">✓</span>':'')+'</div>'}
-}
+    el.innerHTML+='<div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;border:'+(ic?'2px solid '+r.c:'1px solid rgba(0,0,0,.06)')+';background:'+(ic?r.c+'15':'rgba(255,255,255,.03)')+';margin-bottom:8px;opacity:'+(gt?'1':'.4')+'"><div style="width:42px;height:42px;border-radius:11px;background:'+(gt?r.c+'20':'rgba(255,255,255,.05)')+';display:flex;align-items:center;justify-content:center;font-size:22px">'+(gt?r.i:'🔒')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:700;color:'+(gt?'#fff':'#94a3b8')+'">'+r.n+(ic?' <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:'+r.c+';color:#1e293b;font-weight:700">HIỆN TẠI</span>':'')+'</div><div style="font-size:11px;color:#94a3b8">'+r.m.toLocaleString()+' điểm</div></div>'+(gt?'<span style="color:#16a34a">✓</span>':'')+'</div>'}}
+function buildHistory(){var el=document.getElementById('histList');
+  if(!historyList.length){el.innerHTML='<div style="text-align:center;padding:50px 20px;color:#94a3b8"><div style="font-size:40px;margin-bottom:10px">📝</div><p>Chưa có lịch sử.</p></div>';return}
+  el.innerHTML='';for(var i=0;i<historyList.length;i++){var h=historyList[i],s=getSub(h.sub),pc=Math.round(h.ok/h.tot*100);
+    el.innerHTML+='<div style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);margin-bottom:6px"><div style="width:38px;height:38px;border-radius:10px;background:'+(s?s.gd:'#333')+';display:flex;align-items:center;justify-content:center;font-size:16px">'+(s?s.ic:'')+'</div><div style="flex:1"><div style="font-size:12px;font-weight:600;color:#475569">'+(h.gm||'Quiz')+' • '+(s?s.n:'')+'</div><div style="font-size:10px;color:#94a3b8">'+h.ok+'/'+h.tot+' • '+h.dt+'</div></div><div style="font-size:14px;font-weight:800;color:'+(pc>=80?'#16a34a':pc>=50?'#d97706':'#ef4444')+'">+'+h.sc+'</div></div>'}}
 
-function buildHistory(){
-  var el=document.getElementById('histList');
-  if(!historyList.length){el.innerHTML='<div style="text-align:center;padding:60px 20px;color:#999"><div style="font-size:44px;margin-bottom:14px">📝</div><p style="font-size:15px">Chưa có lịch sử thi đấu nào.</p><p style="font-size:13px;margin-top:6px">Hãy bắt đầu thi đấu ngay!</p></div>';return}
-  el.innerHTML='';
-  for(var i=0;i<historyList.length;i++){var h=historyList[i],s=getSub(h.sub),pc=Math.round(h.ok/h.tot*100);
-    el.innerHTML+='<div style="display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.05);margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.03)"><div style="width:44px;height:44px;border-radius:11px;background:'+(s?s.gd:'#eee')+';display:flex;align-items:center;justify-content:center;font-size:20px">'+(s?s.ic:'')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#333">'+(s?s.n:'')+' • Lớp '+h.gr+'</div><div style="font-size:11px;color:#999;margin-top:2px">'+h.ok+'/'+h.tot+' đúng ('+pc+'%) • 🔥 Combo x'+h.mc+' • '+h.dt+'</div></div><div style="font-size:16px;font-weight:800;color:'+(pc>=80?'#4CAF50':pc>=50?'#FF9800':'#f44336')+'">+'+h.sc+'</div></div>'}
-}
 
 buildGrades();
 </script>
