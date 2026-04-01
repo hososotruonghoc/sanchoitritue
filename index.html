@@ -173,7 +173,7 @@ background:linear-gradient(135deg,#e0f2fe 0%,#c7d2fe 40%,#fce7f3 100%);transitio
     <input id="txtClass" class="inp" placeholder="Nhập tên lớp..." style="text-transform:uppercase">
   </div>
   <button class="go" onclick="doLogin()">🚀 Bắt Đầu Hành Trình</button>
-  <div style="margin-top:20px;font-size:11px;color:#cbd5e1">© 2026 EduPlay. Thiết kế - Chung Trần</div>
+  <div style="margin-top:16px;font-size:11px;color:#cbd5e1">© 2026 EduPlay. Thiết kế - Chung Trần</div>
 </div></div>
 
 <!-- ====== HOME ====== -->
@@ -1196,63 +1196,126 @@ tienganh:{
 {q:"Chọn từ đúng: Ha Noi is the ___ of Viet Nam.",o:["city","country","capital","town"],a:2},
 {q:"Chọn từ đúng: She ___ a letter to her friend yesterday.",o:["write","writes","wrote","written"],a:2},
 {q:"Chọn từ đúng: My father is ___ than my mother.",o:["tall","taller","tallest","more tall"],a:1}
-]}};// ===== SOUND =====
-var soundEnabled=true,audioCtx=null;
-function getAudioCtx(){
-  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}
-  return audioCtx;
+]}};// ===== SOUND (HTML5 Audio - hoạt động cả khi iPhone im lặng) =====
+var soundEnabled=true;
+
+// Tạo file WAV từ dữ liệu âm thanh → phát bằng HTML5 Audio (giống YouTube)
+function generateWav(samples,sampleRate){
+  var n=samples.length;
+  var buffer=new ArrayBuffer(44+n*2);
+  var view=new DataView(buffer);
+  function writeStr(o,s){for(var i=0;i<s.length;i++)view.setUint8(o+i,s.charCodeAt(i))}
+  writeStr(0,'RIFF');view.setUint32(4,36+n*2,true);writeStr(8,'WAVE');
+  writeStr(12,'fmt ');view.setUint32(16,16,true);view.setUint16(20,1,true);
+  view.setUint16(22,1,true);view.setUint32(24,sampleRate,true);
+  view.setUint32(28,sampleRate*2,true);view.setUint16(32,2,true);view.setUint16(34,16,true);
+  writeStr(36,'data');view.setUint32(40,n*2,true);
+  for(var i=0;i<n;i++){var s=Math.max(-1,Math.min(1,samples[i]));
+    view.setInt16(44+i*2,s<0?s*0x8000:s*0x7FFF,true)}
+  return new Blob([buffer],{type:'audio/wav'});
 }
-function playTone(freq,duration,type,vol){
-  if(!soundEnabled)return;
-  var ctx=getAudioCtx();if(!ctx)return;
-  if(ctx.state==='suspended')ctx.resume();
-  var osc=ctx.createOscillator();var gain=ctx.createGain();
-  osc.connect(gain);gain.connect(ctx.destination);
-  osc.type=type||'sine';osc.frequency.value=freq;
-  gain.gain.value=vol||0.15;
-  gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+duration);
-  osc.start(ctx.currentTime);osc.stop(ctx.currentTime+duration);
+
+// Tạo âm thanh tone đơn
+function makeTone(freq,dur,vol,type){
+  var sr=22050,n=Math.floor(sr*dur),samples=new Float32Array(n);
+  for(var i=0;i<n;i++){
+    var t=i/sr,env=Math.max(0,1-t/dur);
+    var wave;
+    if(type==='triangle') wave=2*Math.abs(2*(t*freq%1)-1)-1;
+    else wave=Math.sin(2*Math.PI*freq*t);
+    samples[i]=wave*vol*env;
+  }
+  return samples;
 }
-function playCorrectSound(){
-  if(!soundEnabled)return;
-  setTimeout(function(){playTone(523,0.15,'sine',0.12)},0);
-  setTimeout(function(){playTone(659,0.15,'sine',0.12)},100);
-  setTimeout(function(){playTone(784,0.25,'sine',0.15)},200);
+
+// Ghép nhiều tone thành 1 file WAV
+function makeChord(tones,totalDur){
+  var sr=22050,n=Math.floor(sr*totalDur),samples=new Float32Array(n);
+  for(var ti=0;ti<tones.length;ti++){
+    var tone=tones[ti],startSample=Math.floor(sr*tone.start);
+    var ts=makeTone(tone.freq,tone.dur,tone.vol||0.15,tone.type||'sine');
+    for(var j=0;j<ts.length;j++){
+      var idx=startSample+j;
+      if(idx<n) samples[idx]+=ts[j];
+    }
+  }
+  // Clamp
+  for(var k=0;k<n;k++) samples[k]=Math.max(-0.9,Math.min(0.9,samples[k]));
+  return samples;
 }
-function playWrongSound(){
-  if(!soundEnabled)return;
-  setTimeout(function(){playTone(350,0.2,'triangle',0.1)},0);
-  setTimeout(function(){playTone(280,0.3,'triangle',0.08)},150);
+
+// Pre-generate các âm thanh thường dùng
+var sndCorrect=null,sndWrong=null,sndComplete=null,sndSpinStop=null;
+function preloadSounds(){
+  try{
+    // Đúng: C-E-G ascending
+    var cSamples=makeChord([
+      {freq:523,dur:0.15,start:0,vol:0.15},
+      {freq:659,dur:0.15,start:0.1,vol:0.15},
+      {freq:784,dur:0.25,start:0.2,vol:0.18}
+    ],0.5);
+    sndCorrect=URL.createObjectURL(generateWav(cSamples,22050));
+
+    // Sai: descending
+    var wSamples=makeChord([
+      {freq:350,dur:0.2,start:0,vol:0.12,type:'triangle'},
+      {freq:280,dur:0.3,start:0.15,vol:0.1,type:'triangle'}
+    ],0.5);
+    sndWrong=URL.createObjectURL(generateWav(wSamples,22050));
+
+    // Hoàn thành: fanfare C-E-G-C
+    var fSamples=makeChord([
+      {freq:523,dur:0.2,start:0,vol:0.14},
+      {freq:659,dur:0.2,start:0.15,vol:0.14},
+      {freq:784,dur:0.2,start:0.3,vol:0.14},
+      {freq:1047,dur:0.4,start:0.45,vol:0.18}
+    ],0.9);
+    sndComplete=URL.createObjectURL(generateWav(fSamples,22050));
+
+    // Vòng quay dừng
+    var sSamples=makeChord([
+      {freq:880,dur:0.15,start:0,vol:0.14},
+      {freq:1100,dur:0.25,start:0.15,vol:0.18}
+    ],0.45);
+    sndSpinStop=URL.createObjectURL(generateWav(sSamples,22050));
+  }catch(e){}
 }
-function playCompleteSound(){
-  if(!soundEnabled)return;
-  setTimeout(function(){playTone(523,0.2,'sine',0.12)},0);
-  setTimeout(function(){playTone(659,0.2,'sine',0.12)},150);
-  setTimeout(function(){playTone(784,0.2,'sine',0.12)},300);
-  setTimeout(function(){playTone(1047,0.4,'sine',0.15)},450);
+preloadSounds();
+
+function playSound(url){
+  if(!soundEnabled||!url)return;
+  try{var a=new Audio(url);a.volume=1;a.play().catch(function(){})}catch(e){}
 }
-// Âm thanh vòng quay - tick tick tick tăng dần
+
+function playCorrectSound(){playSound(sndCorrect)}
+function playWrongSound(){playSound(sndWrong)}
+function playCompleteSound(){playSound(sndComplete)}
+function playSpinStopSound(){playSound(sndSpinStop)}
+
+// Vòng quay: tick tick tick
 function playSpinSound(duration){
   if(!soundEnabled)return;
-  var count=Math.floor(duration/1000*12);
+  var count=Math.floor(duration/1000*10);
   for(var i=0;i<count;i++){
-    (function(idx){
+    (function(idx,total){
       setTimeout(function(){
-        var freq=300+idx*15;
-        playTone(freq,0.06,'sine',0.08);
-      },idx*(duration/count));
-    })(i);
+        if(!soundEnabled)return;
+        var freq=400+idx*20;
+        var samples=makeTone(freq,0.04,0.1,'sine');
+        try{var a=new Audio(URL.createObjectURL(generateWav(samples,22050)));a.play().catch(function(){})}catch(e){}
+      },idx*(duration/total));
+    })(i,count);
   }
 }
-// Âm thanh vòng quay dừng
-function playSpinStopSound(){
-  if(!soundEnabled)return;
-  setTimeout(function(){playTone(880,0.15,'sine',0.12)},0);
-  setTimeout(function(){playTone(1100,0.2,'sine',0.15)},150);
-}
+
 function toggleSound(){
   soundEnabled=!soundEnabled;
   document.getElementById('soundBtn').textContent=soundEnabled?'🔊':'🔇';
+}
+
+function initAudioOnGesture(){
+  // Preload lại nếu chưa có
+  if(!sndCorrect)preloadSounds();
 }
 
 // ===== TTS (English only) =====
@@ -1295,7 +1358,16 @@ function goPage(name){
 
 // ===== LOGIN =====
 function buildGrades(){var c=document.getElementById('gradeArea');c.innerHTML='';for(var g=1;g<=5;g++){var b=document.createElement('button');b.className='gb'+(gradeInput===g?' on':'');b.textContent=g;b.setAttribute('data-g',g);b.onclick=function(){gradeInput=parseInt(this.getAttribute('data-g'));buildGrades()};c.appendChild(b)}}
-function doLogin(){var n=document.getElementById('txtName').value.trim();if(!n){alert('Vui lòng nhập tên!');return}playerName=n;playerGrade=gradeInput;playerClass=document.getElementById('txtClass').value.trim().toUpperCase();goPage('home')}
+function doLogin(){
+  var n=document.getElementById('txtName').value.trim();
+  if(!n){alert('Vui lòng nhập tên!');return}
+  playerName=n;playerGrade=gradeInput;
+  playerClass=document.getElementById('txtClass').value.trim().toUpperCase();
+  // Khởi tạo âm thanh ngay trong sự kiện chạm/click (bắt buộc cho iOS)
+  initAudioOnGesture();
+  goPage('home');
+}
+
 function doLogout(){playerName='';playerClass='';totalScore=0;historyList=[];document.getElementById('txtName').value='';document.getElementById('txtClass').value='';goPage('login');buildGrades()}
 
 // ===== HOME =====
@@ -1323,12 +1395,14 @@ function buildHome(){
 // ===== ISLAND → GAME SELECT =====
 function selectIsland(subId){
   curSubject=subId;var s=getSub(subId);
+  initAudioOnGesture(); // Mở khóa âm thanh trên iOS
   document.getElementById('gsTitle').innerHTML=s.ic+' '+s.n;
   document.getElementById('gsSub').textContent='Lớp '+playerGrade+' • '+QBANK[subId][playerGrade].length+' câu hỏi';
   goPage('gameselect');
 }
 function startGame(mode){
   curGameMode=mode;
+  initAudioOnGesture(); // Mở khóa âm thanh trên iOS
   if(mode==='quiz')startQuiz(curSubject);
   else if(mode==='balloon')startBalloonGame();
   else if(mode==='tf')startTFGame();
@@ -1642,6 +1716,7 @@ function showTiltStartBtn(){
 }
 
 function tiltStartNow(){
+  initAudioOnGesture(); // Mở khóa âm thanh trên iOS
   // Nút này là user gesture → xin quyền nghiêng máy (iOS) ngay trong đây
   if(typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function'){
     DeviceOrientationEvent.requestPermission().then(function(state){
